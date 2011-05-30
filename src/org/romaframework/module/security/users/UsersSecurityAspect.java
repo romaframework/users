@@ -23,14 +23,11 @@ import java.util.regex.Pattern;
 
 import org.romaframework.aspect.authentication.AuthenticationAspect;
 import org.romaframework.aspect.security.Secure;
-import org.romaframework.aspect.security.SecurityAspect;
 import org.romaframework.aspect.security.SecurityAspectAbstract;
 import org.romaframework.aspect.security.exception.SecurityException;
 import org.romaframework.aspect.security.feature.SecurityActionFeatures;
 import org.romaframework.aspect.security.feature.SecurityClassFeatures;
 import org.romaframework.aspect.security.feature.SecurityFieldFeatures;
-import org.romaframework.aspect.session.SessionInfo;
-import org.romaframework.aspect.view.ViewAspect;
 import org.romaframework.aspect.view.feature.ViewFieldFeatures;
 import org.romaframework.core.Roma;
 import org.romaframework.core.schema.SchemaAction;
@@ -87,25 +84,25 @@ public class UsersSecurityAspect extends SecurityAspectAbstract {
 	}
 
 	public boolean canRead(Object obj, SchemaField iSchemaField, AbstractAccount account) {
-		String[] readRules = (String[]) iSchemaField.getFeature(SecurityAspect.ASPECT_NAME, SecurityFieldFeatures.READ_ROLES);
+		String[] readRules = iSchemaField.getFeature(SecurityFieldFeatures.READ_ROLES);
 		if (readRules == null || readRules.equals("")) {
-			readRules = (String[]) iSchemaField.getEntity().getFeature(SecurityAspect.ASPECT_NAME, SecurityClassFeatures.READ_ROLES);
+			readRules = iSchemaField.getEntity().getFeature(SecurityClassFeatures.READ_ROLES);
 		}
 		return matchesRule(iSchemaField.toString(), account, readRules);
 	}
 
 	public boolean canWrite(Object obj, SchemaField iSchemaField, AbstractAccount account) {
-		String[] readRules = (String[]) iSchemaField.getFeature(SecurityAspect.ASPECT_NAME, SecurityFieldFeatures.WRITE_ROLES);
+		String[] readRules = iSchemaField.getFeature(SecurityFieldFeatures.WRITE_ROLES);
 		if (readRules == null || readRules.equals("")) {
-			readRules = (String[]) iSchemaField.getEntity().getFeature(SecurityAspect.ASPECT_NAME, SecurityClassFeatures.WRITE_ROLES);
+			readRules = iSchemaField.getEntity().getFeature(SecurityClassFeatures.WRITE_ROLES);
 		}
 		return matchesRule(iSchemaField.toString(), account, readRules);
 	}
 
 	public boolean canExecute(Object obj, SchemaClassElement iSchemaAction, AbstractAccount account) {
-		String[] readRules = (String[]) iSchemaAction.getFeature(SecurityAspect.ASPECT_NAME, SecurityActionFeatures.ROLES);
+		String[] readRules = iSchemaAction.getFeature(SecurityActionFeatures.ROLES);
 		if (readRules == null || readRules.equals("")) {
-			readRules = (String[]) iSchemaAction.getEntity().getFeature(SecurityAspect.ASPECT_NAME, SecurityClassFeatures.EXECUTE_ROLES);
+			readRules = iSchemaAction.getEntity().getFeature(SecurityClassFeatures.EXECUTE_ROLES);
 		}
 		return matchesRule(iSchemaAction.toString(), account, readRules);
 	}
@@ -114,8 +111,7 @@ public class UsersSecurityAspect extends SecurityAspectAbstract {
 		if (readRules == null || readRules.length == 0)
 			return true;// no rules exist on this element
 		if (account == null) {
-			throw new SecurityException("The resource requested '" + iResource
-					+ "' is protected and need an authenticated account to access in");
+			throw new SecurityException("The resource requested '" + iResource + "' is protected and need an authenticated account to access in");
 		}
 
 		for (String readRule : readRules) {
@@ -161,13 +157,6 @@ public class UsersSecurityAspect extends SecurityAspectAbstract {
 		throw new UnsupportedOperationException();
 	}
 
-	public int getPriority() {
-		return 0;
-	}
-
-	public void onAfterActionExecution(Object iContent, SchemaClassElement iAction, Object returnedValue) {
-	}
-
 	public Object onAfterFieldRead(Object iContent, SchemaField iField, Object iCurrentValue) {
 		if (iCurrentValue instanceof Collection<?>) {
 			Iterator<?> iter = ((Collection<?>) iCurrentValue).iterator();
@@ -203,26 +192,33 @@ public class UsersSecurityAspect extends SecurityAspectAbstract {
 		return iCurrentValue;
 	}
 
-	public boolean onBeforeActionExecution(Object iContent, SchemaClassElement iAction) {
+	public void onAfterAction(Object iContent, SchemaAction iAction, Object returnedValue) {
+	}
+
+	public boolean onBeforeAction(Object iContent, SchemaAction iAction) {
 		if (canExecute(iContent, iAction)) {
 			return true;
 		}
 		throw new SecurityException("Current account can't execute the action '" + iAction + "' because has no privileges");
 	}
 
+	public void onExceptionAction(Object iContent, SchemaAction iAction, Exception exception) {
+
+	}
+
 	public Object onBeforeFieldRead(Object iContent, SchemaField iField, Object iCurrentValue) {
 		if (canRead(iContent, iField)) {
 			if (!canWrite(iContent, iField)) {
-				Boolean enabled = (Boolean) iField.getFeature(ViewAspect.ASPECT_NAME, ViewFieldFeatures.ENABLED);
+				Boolean enabled = (Boolean) iField.getFeature(ViewFieldFeatures.ENABLED);
 				if (enabled == null || enabled) {
-					Roma.setFieldFeature(iContent, ViewAspect.ASPECT_NAME, iField.getName(), ViewFieldFeatures.ENABLED, false);
+					Roma.setFeature(iContent, iField.getName(), ViewFieldFeatures.ENABLED, false);
 				}
 			}
 			return IGNORED;
 		}
-		Boolean enabled = (Boolean) iField.getFeature(ViewAspect.ASPECT_NAME, ViewFieldFeatures.ENABLED);
+		Boolean enabled = (Boolean) iField.getFeature(ViewFieldFeatures.ENABLED);
 		if (enabled == null || enabled) {
-			Roma.setFieldFeature(iContent, ViewAspect.ASPECT_NAME, iField.getName(), ViewFieldFeatures.ENABLED, false);
+			Roma.setFeature(iContent, iField.getName(), ViewFieldFeatures.ENABLED, false);
 		}
 		return null;
 	}
@@ -232,27 +228,20 @@ public class UsersSecurityAspect extends SecurityAspectAbstract {
 			return iCurrentValue;
 		}
 		Object result = iField.getValue(iContent);
-		Boolean enabled = (Boolean) iField.getFeature(ViewAspect.ASPECT_NAME, ViewFieldFeatures.ENABLED);
+		Boolean enabled = (Boolean) iField.getFeature(ViewFieldFeatures.ENABLED);
 		if (enabled == null || enabled) {
-			Roma.setFieldFeature(iContent, ViewAspect.ASPECT_NAME, iField.getName(), ViewFieldFeatures.ENABLED, false);
+			Roma.setFeature(iContent, iField.getName(), ViewFieldFeatures.ENABLED, false);
 		}
 		return result;
-	}
-
-	public Object onException(Object iContent, SchemaClassElement iElement, Throwable iThrowed) {
-		return true;
-	}
-
-	public void onFieldRefresh(SessionInfo iSession, Object iContent, SchemaField iField) {
 	}
 
 	public boolean allowAction(SchemaAction iAction) {
 		if (iAction == null)
 			return true;
 
-		String[] rule = (String[]) iAction.getFeature(SecurityAspect.ASPECT_NAME, SecurityActionFeatures.ROLES);
+		String[] rule = iAction.getFeature(SecurityActionFeatures.ROLES);
 		if (rule == null) {
-			rule = (String[]) iAction.getEntity().getFeature(SecurityAspect.ASPECT_NAME, SecurityClassFeatures.EXECUTE_ROLES);
+			rule = iAction.getEntity().getFeature(SecurityClassFeatures.EXECUTE_ROLES);
 		}
 		if (rule == null)
 			return true;
@@ -263,7 +252,7 @@ public class UsersSecurityAspect extends SecurityAspectAbstract {
 		if (iClass == null)
 			return true;
 
-		String rule[] = (String[]) iClass.getFeature(SecurityAspect.ASPECT_NAME, SecurityClassFeatures.READ_ROLES);
+		String rule[] = iClass.getFeature(SecurityClassFeatures.READ_ROLES);
 		if (rule == null)
 			return true;
 		return matchesRule(iClass.toString(), getAccount(), rule);
@@ -273,9 +262,9 @@ public class UsersSecurityAspect extends SecurityAspectAbstract {
 		if (iEvent == null)
 			return true;
 
-		String[] rule = (String[]) iEvent.getFeature(SecurityAspect.ASPECT_NAME, SecurityActionFeatures.ROLES);
+		String[] rule = iEvent.getFeature(SecurityActionFeatures.ROLES);
 		if (rule == null) {
-			rule = (String[]) iEvent.getEntity().getFeature(SecurityAspect.ASPECT_NAME, SecurityClassFeatures.EXECUTE_ROLES);
+			rule = iEvent.getEntity().getFeature(SecurityClassFeatures.EXECUTE_ROLES);
 		}
 		if (rule == null)
 			return true;
@@ -286,9 +275,9 @@ public class UsersSecurityAspect extends SecurityAspectAbstract {
 		if (iField == null)
 			return true;
 
-		String[] rule = (String[]) iField.getFeature(SecurityAspect.ASPECT_NAME, SecurityFieldFeatures.READ_ROLES);
+		String[] rule = iField.getFeature(SecurityFieldFeatures.READ_ROLES);
 		if (rule == null) {
-			rule = (String[]) iField.getEntity().getFeature(SecurityAspect.ASPECT_NAME, SecurityClassFeatures.READ_ROLES);
+			rule = iField.getEntity().getFeature(SecurityClassFeatures.READ_ROLES);
 		}
 		if (rule == null)
 			return true;

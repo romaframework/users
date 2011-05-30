@@ -25,7 +25,6 @@ import org.romaframework.aspect.persistence.PersistenceAspect;
 import org.romaframework.aspect.view.ViewConstants;
 import org.romaframework.aspect.view.annotation.ViewField;
 import org.romaframework.core.Roma;
-import org.romaframework.core.flow.ObjectContext;
 import org.romaframework.frontend.RomaFrontend;
 import org.romaframework.frontend.domain.message.MessageOk;
 import org.romaframework.frontend.domain.message.MessageResponseListener;
@@ -98,13 +97,13 @@ public class ChangePassword extends Page {
 		account.setPassword(password);
 		account.setChangePasswordNextLogin(false);
 		account.setLastModified(new Date());
-		account.setLastModifiedPassword(new Date());
+		account.setLastPasswordUpdate(new Date());
 		account = Roma.component(BaseAccountRepository.class).update(account, PersistenceAspect.STRATEGY_DETACHING);
 		Roma.session().getActiveSessionInfo().setAccount(account);
 
 		String mess = "$ChangePassword.message.feature";
-		Integer passwordPeriod = ObjectContext.getInstance().getComponent(UsersModule.class).getPasswordPeriod();
-		Integer accountPeriod = ObjectContext.getInstance().getComponent(UsersModule.class).getAccountPeriod();
+		Integer passwordPeriod = Roma.component(UsersModule.class).getPasswordPeriod();
+		Integer accountPeriod = Roma.component(UsersModule.class).getAccountPeriod();
 		if (passwordPeriod != null) {
 			mess += Roma.i18n().resolveString(ChangePassword.class, "message.password", passwordPeriod);
 		}

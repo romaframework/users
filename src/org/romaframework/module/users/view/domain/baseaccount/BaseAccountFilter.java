@@ -26,20 +26,18 @@ import org.romaframework.aspect.core.annotation.CoreClass;
 import org.romaframework.aspect.persistence.PersistenceAspect;
 import org.romaframework.aspect.persistence.QueryByFilter;
 import org.romaframework.aspect.persistence.QueryByFilterItemGroup;
-import org.romaframework.aspect.view.ViewAspect;
 import org.romaframework.aspect.view.ViewCallback;
 import org.romaframework.aspect.view.ViewConstants;
 import org.romaframework.aspect.view.annotation.ViewClass;
 import org.romaframework.aspect.view.annotation.ViewField;
-import org.romaframework.aspect.view.feature.ViewElementFeatures;
+import org.romaframework.aspect.view.feature.ViewFieldFeatures;
 import org.romaframework.core.Roma;
-import org.romaframework.core.flow.ObjectContext;
 import org.romaframework.frontend.domain.crud.CRUDFilter;
 import org.romaframework.frontend.domain.wrapper.SelectWrapper;
-import org.romaframework.module.admin.RealmHelper;
-import org.romaframework.module.admin.domain.Realm;
+import org.romaframework.module.users.RealmHelper;
 import org.romaframework.module.users.domain.BaseAccount;
 import org.romaframework.module.users.domain.BaseGroup;
+import org.romaframework.module.users.domain.Realm;
 
 @CoreClass(entity = BaseAccount.class)
 @ViewClass(label = "")
@@ -85,8 +83,7 @@ public class BaseAccountFilter extends CRUDFilter<BaseAccount> implements ViewCa
 	}
 
 	public void onShow() {
-		ObjectContext.getInstance().setFieldFeature(this, ViewAspect.ASPECT_NAME, "realm", ViewElementFeatures.VISIBLE,
-				selectedRealm == null);
+		Roma.setFeature(this, "realm", ViewFieldFeatures.VISIBLE, selectedRealm == null);
 	}
 
 	/**
@@ -140,9 +137,11 @@ public class BaseAccountFilter extends CRUDFilter<BaseAccount> implements ViewCa
 		if (getSelectedGroup() != null) {
 			query.addItem("groups", QueryByFilter.FIELD_CONTAINS, getSelectedGroup());
 		} else {
-			Set<BaseGroup> userGroups = Roma.context().persistence().loadObject(
-					(BaseAccount) Roma.component(AuthenticationAspect.class).getCurrentAccount(), PersistenceAspect.FULL_MODE_LOADING,
-					PersistenceAspect.STRATEGY_DETACHING).getGroups();
+			Set<BaseGroup> userGroups = Roma
+					.context()
+					.persistence()
+					.loadObject((BaseAccount) Roma.component(AuthenticationAspect.class).getCurrentAccount(), PersistenceAspect.FULL_MODE_LOADING,
+							PersistenceAspect.STRATEGY_DETACHING).getGroups();
 			if (userGroups != null && userGroups.size() > 0) {
 				QueryByFilterItemGroup groupFilter = new QueryByFilterItemGroup(QueryByFilter.PREDICATE_OR);
 				for (BaseGroup g : userGroups) {

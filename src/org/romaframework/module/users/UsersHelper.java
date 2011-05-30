@@ -22,12 +22,10 @@ import java.util.List;
 import org.romaframework.aspect.persistence.PersistenceAspect;
 import org.romaframework.aspect.persistence.QueryByFilter;
 import org.romaframework.core.Roma;
-import org.romaframework.module.admin.InfoHelper;
-import org.romaframework.module.admin.RealmHelper;
-import org.romaframework.module.admin.domain.Info;
-import org.romaframework.module.admin.domain.Realm;
 import org.romaframework.module.users.domain.BaseAccount;
+import org.romaframework.module.users.domain.BaseAccountStatus;
 import org.romaframework.module.users.domain.BaseProfile;
+import org.romaframework.module.users.domain.Realm;
 import org.romaframework.module.users.install.UsersApplicationInstaller;
 
 /**
@@ -160,15 +158,16 @@ public class UsersHelper {
 		return setAccount(iProfile, iName, iPassword, null);
 	}
 
-	public BaseAccount setAccount(Realm iRealm, String iProfileName, String iName, String iPassword, Info iStatus)
-			throws NoSuchAlgorithmException {
+	public BaseAccount setAccount(Realm iRealm, String iProfileName, String iName, String iPassword, BaseAccountStatus iStatus) throws NoSuchAlgorithmException {
 		return setAccount(getProfile(iProfileName, iRealm), iName, iPassword, iStatus);
 	}
 
-	public BaseAccount setAccount(BaseProfile iProfile, String iName, String iPassword, Info iStatus) throws NoSuchAlgorithmException {
-		if (iStatus == null)
-			iStatus = InfoHelper.getInstance().getInfo(RealmHelper.getCurrentRealm(), UsersInfoConstants.ACCOUNT_CATEGORY_NAME,
-					UsersInfoConstants.STATUS_ACTIVE);
+	public BaseAccount setAccount(BaseProfile iProfile, String iName, String iPassword, BaseAccountStatus iStatus) throws NoSuchAlgorithmException {
+		if (iStatus == null) {
+			QueryByFilter byFilterAct = new QueryByFilter(BaseAccountStatus.class);
+			byFilterAct.addItem("name", QueryByFilter.FIELD_EQUALS, UsersInfoConstants.STATUS_ACTIVE);
+			iStatus = Roma.context().persistence().queryOne(byFilterAct);
+		}
 		BaseAccount iAccount = new BaseAccount(iProfile.getRealm());
 		iAccount.setName(iName);
 		iAccount.setPassword(iPassword);
@@ -195,8 +194,8 @@ public class UsersHelper {
 
 	public Realm createRealm(String iName, String homePage) throws NoSuchAlgorithmException {
 		Realm realm = new Realm(iName);
-		BaseProfile adminProfile = UsersHelper.getInstance().setProfile(realm, UsersApplicationInstaller.PROFILE_ADMINISTRATOR,
-				BaseProfile.MODE_ALLOW_ALL_BUT, homePage);
+		BaseProfile adminProfile = UsersHelper.getInstance().setProfile(realm, UsersApplicationInstaller.PROFILE_ADMINISTRATOR, BaseProfile.MODE_ALLOW_ALL_BUT,
+				homePage);
 		BaseAccount adminAccount = UsersHelper.getInstance().setAccount(adminProfile, UsersApplicationInstaller.ACCOUNT_ADMIN,
 				UsersApplicationInstaller.ACCOUNT_ADMIN);
 		Roma.context().persistence().createObject(adminAccount);

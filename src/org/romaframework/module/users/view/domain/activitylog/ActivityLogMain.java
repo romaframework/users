@@ -24,8 +24,8 @@ import org.romaframework.aspect.core.annotation.AnnotationConstants;
 import org.romaframework.aspect.core.annotation.CoreField;
 import org.romaframework.aspect.persistence.QueryByFilter;
 import org.romaframework.frontend.domain.crud.CRUDMain;
-import org.romaframework.module.admin.domain.Realm;
 import org.romaframework.module.users.domain.ActivityLog;
+import org.romaframework.module.users.domain.Realm;
 
 public class ActivityLogMain extends CRUDMain<ActivityLogListable> {
 

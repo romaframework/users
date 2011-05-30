@@ -3,8 +3,6 @@ package org.romaframework.module.users.domain;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.romaframework.module.users.domain.BaseAccount;
-
 public class CustomProfiling {
 
 	private BaseAccount									account;

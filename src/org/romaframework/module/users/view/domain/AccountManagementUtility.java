@@ -1,14 +1,10 @@
 package org.romaframework.module.users.view.domain;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
-import org.romaframework.core.flow.ObjectContext;
-import org.romaframework.module.admin.domain.CustomizableEntry;
+import org.romaframework.core.Roma;
 import org.romaframework.module.users.UsersModule;
 import org.romaframework.module.users.domain.BaseAccount;
 
@@ -21,8 +17,7 @@ import org.romaframework.module.users.domain.BaseAccount;
  */
 public class AccountManagementUtility {
 
-	public static final String	NAME_KEY					= "oldPw.";
-	public static final long		DAY_MILLISECONDS	= 86400000;					// 1000 * 60 * 60 * 24
+	public static final long	DAY_MILLISECONDS	= 86400000; // 1000 * 60 * 60 * 24
 
 	/**
 	 * Check if the password period has gone off
@@ -30,10 +25,10 @@ public class AccountManagementUtility {
 	 * @return
 	 */
 	public static boolean isPasswordExpired(BaseAccount account) {
-		Integer period = ObjectContext.getInstance().getComponent(UsersModule.class).getPasswordPeriod();
+		Integer period = Roma.component(UsersModule.class).getPasswordPeriod();
 		if (period != null) {
 			// current Date minus dateSignedOn in day
-			if (Math.round(((new Date()).getTime() - account.getLastModifiedPassword().getTime()) / DAY_MILLISECONDS) > period)
+			if (Math.round(((new Date()).getTime() - account.getLastPasswordUpdate().getTime()) / DAY_MILLISECONDS) > period)
 				return true;
 		}
 		return false;
@@ -46,7 +41,7 @@ public class AccountManagementUtility {
 	 * @return
 	 */
 	public static boolean isAccountExpired(BaseAccount account) {
-		Integer period = ObjectContext.getInstance().getComponent(UsersModule.class).getAccountPeriod();
+		Integer period = Roma.component(UsersModule.class).getAccountPeriod();
 		if (period != null && account.getSignedOn() != null) {
 			// current Date minus dateSignedOn in day
 			if (Math.round(((new Date()).getTime() - account.getSignedOn().getTime()) / DAY_MILLISECONDS) > period)
@@ -63,7 +58,7 @@ public class AccountManagementUtility {
 	 * @return
 	 */
 	public static boolean isPasswordMathedRegExpression(String password) {
-		List<String> regExpression = ObjectContext.getInstance().getComponent(UsersModule.class).getPasswordMatches();
+		List<String> regExpression = Roma.component(UsersModule.class).getPasswordMatches();
 		if (regExpression != null) {
 			for (String curReg : regExpression)
 				if (!curReg.equals("")) {
@@ -82,47 +77,20 @@ public class AccountManagementUtility {
 	 * @return
 	 */
 	public static boolean isPasswordUnused(BaseAccount account, String password) {
-		Integer passwordMaxNumber = ObjectContext.getInstance().getComponent(UsersModule.class).getPasswordMaxNumber();
+
+		Integer passwordMaxNumber = Roma.component(UsersModule.class).getPasswordMaxNumber();
 
 		if (passwordMaxNumber != null) {
-			List<CustomizableEntry> entries = new ArrayList<CustomizableEntry>();
-			Set<String> keyConfiguration = account.getConfiguration().keySet();
-			for (String string : keyConfiguration) {
-				if (string.startsWith(AccountManagementUtility.NAME_KEY)) {
-					CustomizableEntry entry = account.getConfiguration().get(string);
-					entries.add(entry);
-				}
+			List<String> oldPwd = account.getOldPasswords();
+			if (oldPwd == null) {
+				oldPwd = new ArrayList<String>();
+				account.setOldPasswords(oldPwd);
 			}
-			Collections.sort(entries, new Comparator<CustomizableEntry>() {
-				@Override
-				public int compare(CustomizableEntry o1, CustomizableEntry o2) {
-					return o1.getDescription().compareTo(o2.getDescription());
-				}
-			});
-			if (entries.size() > 0) {
-				for (CustomizableEntry entry : entries) {
-					if (entry.getValue().equals(password)) {
-						return false;
-					}
-				}
-				CustomizableEntry entry = new CustomizableEntry(AccountManagementUtility.NAME_KEY + password, password);
-				entry.setDescription("0");
-				account.getConfiguration().put(AccountManagementUtility.NAME_KEY + password, entry);
-				for (CustomizableEntry curEntry : entries) {
-					Integer curPos = new Integer(curEntry.getDescription());
-					curPos++;
-					if (curPos < passwordMaxNumber) {
-						curEntry.setDescription(curPos.toString());
-					} else {
-						account.getConfiguration().remove(curEntry.getKey());
-					}
-				}
-			} else {
-				CustomizableEntry entry = new CustomizableEntry(AccountManagementUtility.NAME_KEY + password, password);
-				entry.setDescription("0");
-				account.getConfiguration().put(AccountManagementUtility.NAME_KEY + password, entry);
-				return true;
-			}
+			if (oldPwd.contains(password))
+				return false;
+			oldPwd.add(password);
+			if (oldPwd.size() > passwordMaxNumber)
+				oldPwd.remove(0);
 		}
 		return true;
 	}

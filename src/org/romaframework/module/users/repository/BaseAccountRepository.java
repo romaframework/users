@@ -9,14 +9,13 @@ import org.romaframework.aspect.session.SessionInfo;
 import org.romaframework.core.Roma;
 import org.romaframework.core.repository.PersistenceAspectRepository;
 import org.romaframework.frontend.RomaFrontend;
-import org.romaframework.module.admin.InfoHelper;
-import org.romaframework.module.admin.RealmHelper;
-import org.romaframework.module.admin.domain.Info;
-import org.romaframework.module.admin.domain.Realm;
+import org.romaframework.module.users.RealmHelper;
 import org.romaframework.module.users.UsersInfoConstants;
 import org.romaframework.module.users.domain.ActivityLog;
 import org.romaframework.module.users.domain.BaseAccount;
+import org.romaframework.module.users.domain.BaseAccountStatus;
 import org.romaframework.module.users.domain.BaseGroup;
+import org.romaframework.module.users.domain.Realm;
 
 /**
  * Repository class for BaseGroup entity. By default it extends the PersistenceAspectRepository class that delegates the execution
@@ -35,7 +34,7 @@ public class BaseAccountRepository extends PersistenceAspectRepository<BaseAccou
 	public BaseAccount findByName(String iName) {
 		return findByName(Roma.context().persistence(), iName);
 	}
-	
+
 	public BaseAccount findByName(PersistenceAspect db, String iName) {
 		QueryByFilter query = new QueryByFilter(BaseAccount.class);
 		query.addItem("name", QueryByFilter.FIELD_EQUALS, iName);
@@ -64,8 +63,10 @@ public class BaseAccountRepository extends PersistenceAspectRepository<BaseAccou
 	}
 
 	private List<BaseAccount> filterActiveAccounts(List<BaseAccount> queryResult) {
-		Info active = InfoHelper.getInstance().getInfo(RealmHelper.getCurrentRealm(), UsersInfoConstants.ACCOUNT_CATEGORY_NAME,
-				"Active");
+		QueryByFilter acc = new QueryByFilter(BaseAccountStatus.class);
+		acc.addItem("name", QueryByFilter.FIELD_EQUALS, UsersInfoConstants.ACCOUNT_CATEGORY_NAME);
+		acc.setStrategy(PersistenceAspect.STRATEGY_DETACHING);
+		BaseAccountStatus active = Roma.context().persistence().queryOne(acc);
 
 		List<BaseAccount> result = new ArrayList<BaseAccount>();
 		for (BaseAccount a : queryResult)

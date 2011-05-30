@@ -2,9 +2,8 @@ package org.romaframework.module.users.view.domain;
 
 import org.romaframework.aspect.core.annotation.CoreClass;
 import org.romaframework.aspect.flow.FlowAspect;
-import org.romaframework.aspect.view.ViewAspect;
 import org.romaframework.aspect.view.ViewCallback;
-import org.romaframework.aspect.view.feature.ViewElementFeatures;
+import org.romaframework.aspect.view.feature.ViewActionFeatures;
 import org.romaframework.core.Roma;
 import org.romaframework.core.flow.ObjectContext;
 import org.romaframework.module.users.domain.BaseAccount;
@@ -66,8 +65,7 @@ public class UserInfo implements ViewCallback {
 	public void onShow() {
 		PortalPreferences preferences = PortalPreferencesHelper.getUserPreferences(account);
 		if (preferences == null) {
-			ObjectContext.getInstance().setActionFeature(this, ViewAspect.ASPECT_NAME, "changePreferences", ViewElementFeatures.ENABLED,
-					Boolean.FALSE);
+			Roma.setFeature(this, "changePreferences", ViewActionFeatures.ENABLED, Boolean.FALSE);
 		}
 	}
 }

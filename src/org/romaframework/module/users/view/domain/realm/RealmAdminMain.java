@@ -2,9 +2,9 @@ package org.romaframework.module.users.view.domain.realm;
 
 import java.security.NoSuchAlgorithmException;
 
-import org.romaframework.module.admin.domain.Realm;
 import org.romaframework.module.admin.view.domain.realm.RealmListable;
 import org.romaframework.module.admin.view.domain.realm.RealmMain;
+import org.romaframework.module.users.domain.Realm;
 import org.romaframework.module.users.install.UsersApplicationInstaller;
 
 public class RealmAdminMain extends RealmMain {

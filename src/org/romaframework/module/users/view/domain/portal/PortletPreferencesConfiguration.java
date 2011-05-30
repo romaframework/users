@@ -28,15 +28,14 @@ import org.romaframework.aspect.flow.FlowAspect;
 import org.romaframework.aspect.persistence.PersistenceAspect;
 import org.romaframework.aspect.persistence.PersistenceConstants;
 import org.romaframework.aspect.persistence.annotation.Persistence;
-import org.romaframework.aspect.view.ViewAspect;
 import org.romaframework.aspect.view.ViewCallback;
 import org.romaframework.aspect.view.ViewConstants;
 import org.romaframework.aspect.view.annotation.ViewField;
-import org.romaframework.aspect.view.feature.ViewElementFeatures;
+import org.romaframework.aspect.view.feature.ViewActionFeatures;
+import org.romaframework.aspect.view.feature.ViewFieldFeatures;
 import org.romaframework.aspect.view.portal.PortalPage;
 import org.romaframework.aspect.view.portal.PortalPageContainer;
 import org.romaframework.core.Roma;
-import org.romaframework.core.flow.ObjectContext;
 import org.romaframework.core.schema.SchemaClassResolver;
 import org.romaframework.frontend.domain.entity.ComposedEntityInstance;
 import org.romaframework.frontend.domain.message.MessageOk;
@@ -101,21 +100,16 @@ public class PortletPreferencesConfiguration extends ComposedEntityInstance<Port
 		if (containerSelected != null && containerSelected.equals(iContainerSelected))
 			return;
 		if (iContainerSelected == null || iContainerSelected.equals("")) {
-			ObjectContext.getInstance().setFieldFeature(this, ViewAspect.ASPECT_NAME, "availablePortlets", ViewElementFeatures.VISIBLE,
-					Boolean.FALSE);
-			ObjectContext.getInstance().setFieldFeature(this, ViewAspect.ASPECT_NAME, "selectedPortlets", ViewElementFeatures.VISIBLE,
-					Boolean.FALSE);
+			Roma.setFeature(this, "availablePortlets", ViewFieldFeatures.VISIBLE, Boolean.FALSE);
+			Roma.setFeature(this, "selectedPortlets", ViewFieldFeatures.VISIBLE, Boolean.FALSE);
 		}
 		containerSelected = iContainerSelected;
-		ObjectContext.getInstance().setFieldFeature(this, ViewAspect.ASPECT_NAME, "availablePortlets", ViewElementFeatures.VISIBLE,
-				Boolean.TRUE);
-		ObjectContext.getInstance().setFieldFeature(this, ViewAspect.ASPECT_NAME, "selectedPortlets", ViewElementFeatures.VISIBLE,
-				Boolean.TRUE);
-		ObjectContext.getInstance().setActionFeature(this, ViewAspect.ASPECT_NAME, "add", ViewElementFeatures.VISIBLE, Boolean.TRUE);
-		ObjectContext.getInstance().setActionFeature(this, ViewAspect.ASPECT_NAME, "remove", ViewElementFeatures.VISIBLE, Boolean.TRUE);
-		ObjectContext.getInstance().setActionFeature(this, ViewAspect.ASPECT_NAME, "addAll", ViewElementFeatures.VISIBLE, Boolean.TRUE);
-		ObjectContext.getInstance().setActionFeature(this, ViewAspect.ASPECT_NAME, "removeAll", ViewElementFeatures.VISIBLE,
-				Boolean.TRUE);
+		Roma.setFeature(this, "availablePortlets", ViewFieldFeatures.VISIBLE, Boolean.TRUE);
+		Roma.setFeature(this, "selectedPortlets", ViewFieldFeatures.VISIBLE, Boolean.TRUE);
+		Roma.setFeature(this, "add", ViewActionFeatures.VISIBLE, Boolean.TRUE);
+		Roma.setFeature(this, "remove", ViewActionFeatures.VISIBLE, Boolean.TRUE);
+		Roma.setFeature(this, "addAll", ViewActionFeatures.VISIBLE, Boolean.TRUE);
+		Roma.setFeature(this, "removeAll", ViewActionFeatures.VISIBLE, Boolean.TRUE);
 		availablePortlets.clear();
 		selectedPortlets.clear();
 		availablePortletSelected = null;
@@ -136,29 +130,24 @@ public class PortletPreferencesConfiguration extends ComposedEntityInstance<Port
 				availablePortlets.add(classLabel);
 		}
 		if (selectedPortlets.size() <= 0 || selectedPortlets.isEmpty()) {
-			ObjectContext.getInstance().setActionFeature(this, ViewAspect.ASPECT_NAME, "removeAll", ViewElementFeatures.VISIBLE,
-					Boolean.FALSE);
-			ObjectContext.getInstance().setActionFeature(this, ViewAspect.ASPECT_NAME, "addAll", ViewElementFeatures.VISIBLE,
-					Boolean.TRUE);
+			Roma.setFeature(this, "removeAll", ViewActionFeatures.VISIBLE, Boolean.FALSE);
+			Roma.setFeature(this, "addAll", ViewActionFeatures.VISIBLE, Boolean.TRUE);
 		}
 		if (availablePortlets.size() <= 0 || availablePortlets.isEmpty()) {
-			ObjectContext.getInstance().setActionFeature(this, ViewAspect.ASPECT_NAME, "addAll", ViewElementFeatures.VISIBLE,
-					Boolean.FALSE);
-			ObjectContext.getInstance().setActionFeature(this, ViewAspect.ASPECT_NAME, "removeAll", ViewElementFeatures.VISIBLE,
-					Boolean.TRUE);
+			Roma.setFeature(this, "addAll", ViewActionFeatures.VISIBLE, Boolean.FALSE);
+			Roma.setFeature(this, "removeAll", ViewActionFeatures.VISIBLE, Boolean.TRUE);
 		}
-		ObjectContext.getInstance().fieldChanged(this, "availablePortlets");
-		ObjectContext.getInstance().fieldChanged(this, "selectedPortlets");
+		Roma.fieldChanged(this, "availablePortlets");
+		Roma.fieldChanged(this, "selectedPortlets");
 	}
 
 	public void setSelectedPortletSelected(String portletSelected) {
 		if (portletSelected != null) {
 			selectedPortletSelected = portletSelected;
 			setAvailablePortletSelected(null);
-			ObjectContext.getInstance().setActionFeature(this, ViewAspect.ASPECT_NAME, "add", ViewElementFeatures.VISIBLE, Boolean.FALSE);
-			ObjectContext.getInstance().setActionFeature(this, ViewAspect.ASPECT_NAME, "remove", ViewElementFeatures.VISIBLE,
-					Boolean.TRUE);
-			ObjectContext.getInstance().fieldChanged(this, "availablePortlets");
+			Roma.setFeature(this, "add", ViewActionFeatures.VISIBLE, Boolean.FALSE);
+			Roma.setFeature(this, "remove", ViewActionFeatures.VISIBLE, Boolean.TRUE);
+			Roma.fieldChanged(this, "availablePortlets");
 		}
 	}
 
@@ -170,10 +159,9 @@ public class PortletPreferencesConfiguration extends ComposedEntityInstance<Port
 		if (availablePortletSelected != null) {
 			this.availablePortletSelected = availablePortletSelected;
 			setSelectedPortletSelected(null);
-			ObjectContext.getInstance().setActionFeature(this, ViewAspect.ASPECT_NAME, "add", ViewElementFeatures.VISIBLE, Boolean.TRUE);
-			ObjectContext.getInstance().setActionFeature(this, ViewAspect.ASPECT_NAME, "remove", ViewElementFeatures.VISIBLE,
-					Boolean.FALSE);
-			ObjectContext.getInstance().fieldChanged(this, "selectedPortlets");
+			Roma.setFeature(this, "add", ViewActionFeatures.VISIBLE, Boolean.TRUE);
+			Roma.setFeature(this, "remove", ViewActionFeatures.VISIBLE, Boolean.FALSE);
+			Roma.fieldChanged(this, "selectedPortlets");
 		}
 	}
 
@@ -183,8 +171,7 @@ public class PortletPreferencesConfiguration extends ComposedEntityInstance<Port
 	public void onShow() {
 		availablePortlets.clear();
 		containers.clear();
-		List<Class<?>> containerSchemas = Roma.component(SchemaClassResolver.class).getLanguageClassByInheritance(
-				PortalPageContainer.class);
+		List<Class<?>> containerSchemas = Roma.component(SchemaClassResolver.class).getLanguageClassByInheritance(PortalPageContainer.class);
 		for (Class<?> schema : containerSchemas) {
 			String containerName = Roma.i18n().getString(schema.getSimpleName() + ".label");
 			if (containerName == null || containerName.equals(""))
@@ -193,19 +180,14 @@ public class PortletPreferencesConfiguration extends ComposedEntityInstance<Port
 			containers.add(containerName);
 		}
 		if (containerSelected == null || containerSelected.equals("")) {
-			ObjectContext.getInstance().setFieldFeature(this, ViewAspect.ASPECT_NAME, "availablePortlets", ViewElementFeatures.VISIBLE,
-					Boolean.FALSE);
-			ObjectContext.getInstance().setFieldFeature(this, ViewAspect.ASPECT_NAME, "selectedPortlets", ViewElementFeatures.VISIBLE,
-					Boolean.FALSE);
-			ObjectContext.getInstance().setActionFeature(this, ViewAspect.ASPECT_NAME, "add", ViewElementFeatures.VISIBLE, Boolean.FALSE);
-			ObjectContext.getInstance().setActionFeature(this, ViewAspect.ASPECT_NAME, "remove", ViewElementFeatures.VISIBLE,
-					Boolean.FALSE);
-			ObjectContext.getInstance().setActionFeature(this, ViewAspect.ASPECT_NAME, "addAll", ViewElementFeatures.VISIBLE,
-					Boolean.FALSE);
-			ObjectContext.getInstance().setActionFeature(this, ViewAspect.ASPECT_NAME, "removeAll", ViewElementFeatures.VISIBLE,
-					Boolean.FALSE);
+			Roma.setFeature(this, "availablePortlets", ViewFieldFeatures.VISIBLE, Boolean.FALSE);
+			Roma.setFeature(this, "selectedPortlets", ViewFieldFeatures.VISIBLE, Boolean.FALSE);
+			Roma.setFeature(this, "add", ViewActionFeatures.VISIBLE, Boolean.FALSE);
+			Roma.setFeature(this, "remove", ViewActionFeatures.VISIBLE, Boolean.FALSE);
+			Roma.setFeature(this, "addAll", ViewActionFeatures.VISIBLE, Boolean.FALSE);
+			Roma.setFeature(this, "removeAll", ViewActionFeatures.VISIBLE, Boolean.FALSE);
 		}
-		ObjectContext.getInstance().fieldChanged(this, "containers");
+		Roma.fieldChanged(this, "containers");
 	}
 
 	public void addAll() {
@@ -236,25 +218,20 @@ public class PortletPreferencesConfiguration extends ComposedEntityInstance<Port
 					portletList.setPortlets(portlets);
 					entity.getPortletsInfos().put(classNamesMapper.get(containerSelected), portletList);
 				} else {
-					if (!entity.getPortletsInfos().get(classNamesMapper.get(containerSelected)).getPortlets().contains(
-							classNamesMapper.get(availablePortletSelected)))
-						entity.getPortletsInfos().get(classNamesMapper.get(containerSelected)).getPortlets().add(
-								classNamesMapper.get(availablePortletSelected));
+					if (!entity.getPortletsInfos().get(classNamesMapper.get(containerSelected)).getPortlets().contains(classNamesMapper.get(availablePortletSelected)))
+						entity.getPortletsInfos().get(classNamesMapper.get(containerSelected)).getPortlets().add(classNamesMapper.get(availablePortletSelected));
 				}
 				selectedPortlets.add(availablePortletSelected);
 				availablePortlets.remove(availablePortletSelected);
 				availablePortletSelected = null;
 				selectedPortletSelected = null;
 				if (availablePortlets.size() <= 0 || availablePortlets.isEmpty()) {
-					ObjectContext.getInstance().setActionFeature(this, ViewAspect.ASPECT_NAME, "add", ViewElementFeatures.VISIBLE,
-							Boolean.FALSE);
-					ObjectContext.getInstance().setActionFeature(this, ViewAspect.ASPECT_NAME, "addAll", ViewElementFeatures.VISIBLE,
-							Boolean.FALSE);
-					ObjectContext.getInstance().setActionFeature(this, ViewAspect.ASPECT_NAME, "removeAll", ViewElementFeatures.VISIBLE,
-							Boolean.TRUE);
+					Roma.setFeature(this, "add", ViewActionFeatures.VISIBLE, Boolean.FALSE);
+					Roma.setFeature(this, "addAll", ViewActionFeatures.VISIBLE, Boolean.FALSE);
+					Roma.setFeature(this, "removeAll", ViewActionFeatures.VISIBLE, Boolean.TRUE);
 				}
-				ObjectContext.getInstance().fieldChanged(this, "availablePortlets");
-				ObjectContext.getInstance().fieldChanged(this, "selectedPortlets");
+				Roma.fieldChanged(this, "availablePortlets");
+				Roma.fieldChanged(this, "selectedPortlets");
 			} else {
 				showNoPortletSelectedMessage();
 			}
@@ -266,25 +243,20 @@ public class PortletPreferencesConfiguration extends ComposedEntityInstance<Port
 	public void remove() {
 		if (containerSelected != null) {
 			if (selectedPortletSelected != null && !selectedPortletSelected.equals("")) {
-				while (entity.getPortletsInfos().get(classNamesMapper.get(containerSelected)).getPortlets().contains(
-						classNamesMapper.get(selectedPortletSelected))) {
-					entity.getPortletsInfos().get(classNamesMapper.get(containerSelected)).getPortlets().remove(
-							classNamesMapper.get(selectedPortletSelected));
+				while (entity.getPortletsInfos().get(classNamesMapper.get(containerSelected)).getPortlets().contains(classNamesMapper.get(selectedPortletSelected))) {
+					entity.getPortletsInfos().get(classNamesMapper.get(containerSelected)).getPortlets().remove(classNamesMapper.get(selectedPortletSelected));
 				}
 				selectedPortlets.remove(selectedPortletSelected);
 				availablePortlets.add(selectedPortletSelected);
 				availablePortletSelected = null;
 				selectedPortletSelected = null;
 				if (selectedPortlets.size() <= 0 || selectedPortlets.isEmpty()) {
-					ObjectContext.getInstance().setActionFeature(this, ViewAspect.ASPECT_NAME, "remove", ViewElementFeatures.VISIBLE,
-							Boolean.FALSE);
-					ObjectContext.getInstance().setActionFeature(this, ViewAspect.ASPECT_NAME, "removeAll", ViewElementFeatures.VISIBLE,
-							Boolean.FALSE);
-					ObjectContext.getInstance().setActionFeature(this, ViewAspect.ASPECT_NAME, "addAll", ViewElementFeatures.VISIBLE,
-							Boolean.TRUE);
+					Roma.setFeature(this, "remove", ViewActionFeatures.VISIBLE, Boolean.FALSE);
+					Roma.setFeature(this, "removeAll", ViewActionFeatures.VISIBLE, Boolean.FALSE);
+					Roma.setFeature(this, "addAll", ViewActionFeatures.VISIBLE, Boolean.TRUE);
 				}
-				ObjectContext.getInstance().fieldChanged(this, "availablePortlets");
-				ObjectContext.getInstance().fieldChanged(this, "selectedPortlets");
+				Roma.fieldChanged(this, "availablePortlets");
+				Roma.fieldChanged(this, "selectedPortlets");
 			} else {
 				showNoPortletSelectedMessage();
 			}
@@ -298,8 +270,7 @@ public class PortletPreferencesConfiguration extends ComposedEntityInstance<Port
 		PersistenceAspect db = getPersistenceAspect();
 		Set<String> keys = entity.getPortletsInfos().keySet();
 		for (String string : keys) {
-			while (entity.getPortletsInfos().get(string).getPortlets() != null
-					&& entity.getPortletsInfos().get(string).getPortlets().contains(null)) {
+			while (entity.getPortletsInfos().get(string).getPortlets() != null && entity.getPortletsInfos().get(string).getPortlets().contains(null)) {
 				entity.getPortletsInfos().get(string).getPortlets().remove(null);
 			}
 		}
@@ -317,14 +288,12 @@ public class PortletPreferencesConfiguration extends ComposedEntityInstance<Port
 
 	private void showNoContainerSelectedMessage() {
 		Roma.aspect(FlowAspect.class).forward(
-				new MessageOk("trackingModifyError", "Errore di selezione", null,
-						"$PortletPreferencesConfiguration.noContainerSelected.error"), "screen:popup");
+				new MessageOk("trackingModifyError", "Errore di selezione", null, "$PortletPreferencesConfiguration.noContainerSelected.error"), "screen:popup");
 	}
 
 	private void showNoPortletSelectedMessage() {
 		Roma.aspect(FlowAspect.class).forward(
-				new MessageOk("trackingModifyError", "Errore di selezione", null,
-						"$PortletPreferencesConfiguration.noPortletSelected.error"), "screen:popup");
+				new MessageOk("trackingModifyError", "Errore di selezione", null, "$PortletPreferencesConfiguration.noPortletSelected.error"), "screen:popup");
 	}
 
 	public List<String> getSelectedPortlets() {

@@ -22,147 +22,136 @@ import java.util.HashMap;
 
 import org.romaframework.aspect.persistence.PersistenceAspect;
 import org.romaframework.core.Roma;
-import org.romaframework.module.admin.InfoHelper;
-import org.romaframework.module.admin.domain.Info;
-import org.romaframework.module.admin.domain.InfoCategory;
-import org.romaframework.module.admin.domain.Realm;
-import org.romaframework.module.admin.install.AdminApplicationInstaller;
+import org.romaframework.core.install.ApplicationInstaller;
 import org.romaframework.module.users.ActivityLogCategories;
 import org.romaframework.module.users.UsersAuthentication;
 import org.romaframework.module.users.UsersHelper;
 import org.romaframework.module.users.UsersInfoConstants;
-import org.romaframework.module.users.domain.ActivityLog;
+import org.romaframework.module.users.domain.ActivityLogCategory;
 import org.romaframework.module.users.domain.BaseAccount;
+import org.romaframework.module.users.domain.BaseAccountStatus;
 import org.romaframework.module.users.domain.BaseFunction;
 import org.romaframework.module.users.domain.BaseProfile;
+import org.romaframework.module.users.domain.Realm;
 
-public class UsersApplicationInstaller extends AdminApplicationInstaller {
+public class UsersApplicationInstaller extends ApplicationInstaller {
 
-  public static final String PROFILE_ADMINISTRATOR = "Administrator";
-  public static final String PROFILE_BASIC = "Basic";
-  public static final String ACCOUNT_ADMIN         = "admin";
-  public static final String ACCOUNT_USER         = "user";
-  public static final String ACCOUNT_SEPARATOR     = ".";
+	public static final String	PROFILE_ADMINISTRATOR	= "Administrator";
+	public static final String	PROFILE_BASIC					= "Basic";
+	public static final String	ACCOUNT_ADMIN					= "admin";
+	public static final String	ACCOUNT_USER					= "user";
+	public static final String	ACCOUNT_SEPARATOR			= ".";
 
-  protected Realm            realm;
-  protected BaseProfile      pAnonymous;
-  protected BaseProfile      pAdmin;
-  protected BaseProfile      pBasic;
-  protected Info             defStatus;
+	protected Realm							realm;
+	protected BaseProfile				pAnonymous;
+	protected BaseProfile				pAdmin;
+	protected BaseProfile				pBasic;
+	protected BaseAccountStatus	defStatus;
 
-  @Override
-  public synchronized boolean install() {
-    if (!super.install())
-      return false;
+	@Override
+	public synchronized boolean install() {
 
-    PersistenceAspect db = Roma.context().persistence();
+		PersistenceAspect db = Roma.context().persistence();
 
-    InfoCategory accountCategory = InfoHelper.getInstance().getInfoCategory(realm, UsersInfoConstants.ACCOUNT_CATEGORY_NAME);
+		createInfos(db);
+		createProfiles();
+		try {
+			createAccounts();
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
 
-    if (accountCategory != null)
-      return false;
+		return true;
+	}
 
-    createInfos(db);
-    createProfiles();
-    try {
-      createAccounts();
-    } catch (NoSuchAlgorithmException e) {
-      e.printStackTrace();
-    }
+	@Override
+	public synchronized boolean install(Object obj) {
+		realm = (Realm) obj;
+		return install();
+	}
 
-    return true;
-  }
+	protected void createInfos(PersistenceAspect db) {
 
-  @Override
-  public synchronized boolean install(Object obj) {
-    realm = (Realm) obj;
-    return install();
-  }
+		defStatus = db.createObject(new BaseAccountStatus(UsersInfoConstants.STATUS_ACTIVE), PersistenceAspect.STRATEGY_DETACHING);
+		db.createObject(new BaseAccountStatus(UsersInfoConstants.STATUS_UNACTIVE));
+		db.createObject(new BaseAccountStatus(UsersInfoConstants.STATUS_SUSPENDED));
+		db.createObject(new ActivityLogCategory(ActivityLogCategories.CATEGORY_SYSTEM));
+		db.createObject(new ActivityLogCategory(ActivityLogCategories.CATEGORY_LOGIN));
+		db.createObject(new ActivityLogCategory(ActivityLogCategories.CATEGORY_ADMIN));
+	}
 
-  protected void createInfos(PersistenceAspect db) {
-    InfoCategory cat = InfoHelper.getInstance().setInfoCategory(realm, UsersInfoConstants.ACCOUNT_CATEGORY_NAME);
-    defStatus = InfoHelper.getInstance().setInfo(cat, UsersInfoConstants.STATUS_ACTIVE);
-    InfoHelper.getInstance().setInfo(cat, UsersInfoConstants.STATUS_UNACTIVE);
-    InfoHelper.getInstance().setInfo(cat, UsersInfoConstants.STATUS_SUSPENDED);
+	protected void createAccounts() throws NoSuchAlgorithmException {
+		BaseAccount aAdmin = new BaseAccount(realm);
+		if (realm == null) {
+			aAdmin.setName(ACCOUNT_ADMIN);
+			aAdmin.setPassword(ACCOUNT_ADMIN);
+		} else {
+			aAdmin.setName(ACCOUNT_ADMIN + ACCOUNT_SEPARATOR + realm);
+			aAdmin.setPassword(ACCOUNT_ADMIN + ACCOUNT_SEPARATOR + realm);
+		}
+		aAdmin.setSignedOn(new Date());
+		aAdmin.setStatus(defStatus);
+		aAdmin.setLastModified(aAdmin.getSignedOn());
+		aAdmin.setProfile(pAdmin);
 
-    InfoHelper.getInstance().setInfoCategory(realm, ActivityLog.LOG_CATEGORY_NAME);
-    InfoHelper.getInstance().setInfo(realm, ActivityLog.LOG_CATEGORY_NAME, ActivityLogCategories.CATEGORY_SYSTEM);
-    InfoHelper.getInstance().setInfo(realm, ActivityLog.LOG_CATEGORY_NAME, ActivityLogCategories.CATEGORY_LOGIN);
-    InfoHelper.getInstance().setInfo(realm, ActivityLog.LOG_CATEGORY_NAME, ActivityLogCategories.CATEGORY_ADMIN);
-  }
+		UsersHelper.getInstance().setAccount(aAdmin);
+		BaseAccount uUser = new BaseAccount(realm);
+		if (realm == null) {
+			uUser.setName(ACCOUNT_USER);
+			uUser.setPassword(ACCOUNT_USER);
+		} else {
+			uUser.setName(ACCOUNT_USER + ACCOUNT_SEPARATOR + realm);
+			uUser.setPassword(ACCOUNT_USER + ACCOUNT_SEPARATOR + realm);
+		}
+		uUser.setSignedOn(new Date());
+		uUser.setStatus(defStatus);
+		uUser.setLastModified(uUser.getSignedOn());
+		uUser.setProfile(pBasic);
 
-  protected void createAccounts() throws NoSuchAlgorithmException {
-    BaseAccount aAdmin = new BaseAccount(realm);
-    if (realm == null) {
-      aAdmin.setName(ACCOUNT_ADMIN);
-      aAdmin.setPassword(ACCOUNT_ADMIN);
-    } else {
-      aAdmin.setName(ACCOUNT_ADMIN + ACCOUNT_SEPARATOR + realm);
-      aAdmin.setPassword(ACCOUNT_ADMIN + ACCOUNT_SEPARATOR + realm);
-    }
-    aAdmin.setSignedOn(new Date());
-    aAdmin.setStatus(defStatus);
-    aAdmin.setLastModified(aAdmin.getSignedOn());
-    aAdmin.setProfile(pAdmin);
+		UsersHelper.getInstance().setAccount(uUser);
+	}
 
-    UsersHelper.getInstance().setAccount(aAdmin);
-    BaseAccount uUser = new BaseAccount(realm);
-    if (realm == null) {
-      uUser.setName(ACCOUNT_USER);
-      uUser.setPassword(ACCOUNT_USER);
-    } else {
-      uUser.setName(ACCOUNT_USER + ACCOUNT_SEPARATOR + realm);
-      uUser.setPassword(ACCOUNT_USER + ACCOUNT_SEPARATOR + realm);
-    }
-    uUser.setSignedOn(new Date());
-    uUser.setStatus(defStatus);
-    uUser.setLastModified(uUser.getSignedOn());
-    uUser.setProfile(pBasic);
+	protected void createProfiles() {
+		pAnonymous = new BaseProfile(realm);
+		pAnonymous.setName(UsersAuthentication.ANONYMOUS_PROFILE_NAME);
+		pAnonymous.setHomePage("HomePage");
+		pAnonymous.setFunctions(new HashMap<String, BaseFunction>());
+		pAnonymous.setMode(BaseProfile.MODE_ALLOW_ALL_BUT);
+		UsersHelper.getInstance().setProfile(pAnonymous);
 
-    UsersHelper.getInstance().setAccount(uUser);
-  }
+		pAdmin = new BaseProfile();
+		if (realm == null) {
+			pAdmin.setName(PROFILE_ADMINISTRATOR);
+		} else {
+			pAdmin.setName(PROFILE_ADMINISTRATOR + ACCOUNT_SEPARATOR + realm);
+		}
+		pAdmin.setHomePage("HomePageAdmin");
+		pAdmin.setMode(BaseProfile.MODE_ALLOW_ALL_BUT);
+		UsersHelper.getInstance().setProfile(pAdmin);
 
-  protected void createProfiles() {
-    pAnonymous = new BaseProfile(realm);
-    pAnonymous.setName(UsersAuthentication.ANONYMOUS_PROFILE_NAME);
-    pAnonymous.setHomePage("HomePage");
-    pAnonymous.setFunctions(new HashMap<String, BaseFunction>());
-    pAnonymous.setMode(BaseProfile.MODE_ALLOW_ALL_BUT);
-    UsersHelper.getInstance().setProfile(pAnonymous);
+		pBasic = new BaseProfile();
+		if (realm == null) {
+			pBasic.setName(PROFILE_BASIC);
+		} else {
+			pBasic.setName(PROFILE_BASIC + ACCOUNT_SEPARATOR + realm);
+		}
+		pBasic.setHomePage("HomePage");
+		pBasic.setMode(BaseProfile.MODE_ALLOW_ALL_BUT);
+		UsersHelper.getInstance().setProfile(pBasic);
+	}
 
-    pAdmin = new BaseProfile();
-    if (realm == null) {
-      pAdmin.setName(PROFILE_ADMINISTRATOR);
-    } else {
-      pAdmin.setName(PROFILE_ADMINISTRATOR + ACCOUNT_SEPARATOR + realm);
-    }
-    pAdmin.setHomePage("HomePageAdmin");
-    pAdmin.setMode(BaseProfile.MODE_ALLOW_ALL_BUT);
-    UsersHelper.getInstance().setProfile(pAdmin);
-    
-    pBasic = new BaseProfile();
-    if (realm == null) {
-    	pBasic.setName(PROFILE_BASIC);
-    } else {
-    	pBasic.setName(PROFILE_BASIC + ACCOUNT_SEPARATOR + realm);
-    }
-    pBasic.setHomePage("HomePage");
-    pBasic.setMode(BaseProfile.MODE_ALLOW_ALL_BUT);
-    UsersHelper.getInstance().setProfile(pBasic);
-  }
+	/**
+	 * @return the realm
+	 */
+	public Realm getRealm() {
+		return realm;
+	}
 
-  /**
-   * @return the realm
-   */
-  public Realm getRealm() {
-    return realm;
-  }
-
-  /**
-   * @param realm
-   *          the realm to set
-   */
-  public void setRealm(Realm realm) {
-    this.realm = realm;
-  }
+	/**
+	 * @param realm
+	 *          the realm to set
+	 */
+	public void setRealm(Realm realm) {
+		this.realm = realm;
+	}
 }

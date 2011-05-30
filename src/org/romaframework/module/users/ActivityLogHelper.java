@@ -16,17 +16,11 @@
 
 package org.romaframework.module.users;
 
-import java.util.HashMap;
-import java.util.List;
-
 import org.romaframework.aspect.logging.LoggingAspect;
 import org.romaframework.aspect.logging.LoggingConstants;
 import org.romaframework.aspect.persistence.PersistenceAspect;
 import org.romaframework.aspect.persistence.QueryByFilter;
 import org.romaframework.core.Roma;
-import org.romaframework.module.admin.InfoHelper;
-import org.romaframework.module.admin.RealmHelper;
-import org.romaframework.module.admin.domain.Info;
 import org.romaframework.module.users.domain.ActivityLog;
 import org.romaframework.module.users.domain.BaseAccount;
 
@@ -37,17 +31,9 @@ import org.romaframework.module.users.domain.BaseAccount;
  */
 public class ActivityLogHelper {
 
-	private HashMap<String, Info>			categories;
 	private static ActivityLogHelper	instance	= new ActivityLogHelper();
 
 	protected ActivityLogHelper() {
-		// FILL CATEGORIES FROM DATABaSE
-		categories = new HashMap<String, Info>();
-
-		List<Info> result = InfoHelper.getInstance().getInfoList(RealmHelper.getCurrentRealm(), ActivityLog.LOG_CATEGORY_NAME);
-		for (Info current : result) {
-			categories.put(current.getText(), current);
-		}
 	}
 
 	/**

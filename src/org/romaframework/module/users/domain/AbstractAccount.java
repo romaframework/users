@@ -21,8 +21,6 @@ import java.security.Principal;
 import org.romaframework.aspect.core.annotation.AnnotationConstants;
 import org.romaframework.aspect.view.annotation.ViewField;
 import org.romaframework.core.domain.type.RealmAware;
-import org.romaframework.module.admin.domain.Customizable;
-import org.romaframework.module.admin.domain.Realm;
 
 /**
  * Base abstract class representing an account in the system. Current direct implementations are BaseAccount and BaseGroup. This
@@ -31,7 +29,7 @@ import org.romaframework.module.admin.domain.Realm;
  * @author Giordano Maestro (giordano.maestro--at--assetdata.it)
  * 
  */
-public abstract class AbstractAccount extends Customizable implements Principal, RealmAware {
+public abstract class AbstractAccount implements Principal, RealmAware {
 
 	@ViewField(visible = AnnotationConstants.FALSE)
 	protected Realm		realm;

@@ -20,64 +20,62 @@ import java.util.List;
 
 import org.romaframework.aspect.core.annotation.AnnotationConstants;
 import org.romaframework.aspect.core.annotation.CoreClass;
-import org.romaframework.aspect.view.ViewAspect;
 import org.romaframework.aspect.view.ViewCallback;
 import org.romaframework.aspect.view.ViewConstants;
 import org.romaframework.aspect.view.annotation.ViewClass;
 import org.romaframework.aspect.view.annotation.ViewField;
-import org.romaframework.aspect.view.feature.ViewElementFeatures;
-import org.romaframework.core.flow.ObjectContext;
+import org.romaframework.aspect.view.feature.ViewFieldFeatures;
+import org.romaframework.core.Roma;
 import org.romaframework.frontend.domain.entity.ComposedEntityInstance;
-import org.romaframework.module.admin.RealmHelper;
-import org.romaframework.module.admin.domain.Realm;
+import org.romaframework.module.users.RealmHelper;
 import org.romaframework.module.users.domain.BaseGroup;
+import org.romaframework.module.users.domain.Realm;
 
 @CoreClass(entity = BaseGroup.class)
 @ViewClass(label = "")
 public class BaseGroupFilter extends ComposedEntityInstance<BaseGroup> implements ViewCallback {
 
-  @ViewField(render = ViewConstants.RENDER_SELECT, selectionField = "selectedRealm")
-  private List<Realm> realm = RealmHelper.getRealms();
+	@ViewField(render = ViewConstants.RENDER_SELECT, selectionField = "selectedRealm")
+	private List<Realm>	realm	= RealmHelper.getRealms();
 
-  @ViewField(visible = AnnotationConstants.FALSE)
-  private Realm       selectedRealm;
+	@ViewField(visible = AnnotationConstants.FALSE)
+	private Realm				selectedRealm;
 
-  public BaseGroupFilter() {
-    this(new BaseGroup(RealmHelper.getCurrentRealm()));
-  }
+	public BaseGroupFilter() {
+		this(new BaseGroup(RealmHelper.getCurrentRealm()));
+	}
 
-  public BaseGroupFilter(BaseGroup iBaseGroup) {
-    super(iBaseGroup);
-    selectedRealm = entity.getRealm();
-  }
+	public BaseGroupFilter(BaseGroup iBaseGroup) {
+		super(iBaseGroup);
+		selectedRealm = entity.getRealm();
+	}
 
-  public void onShow() {
-    ObjectContext.getInstance().setFieldFeature(this, ViewAspect.ASPECT_NAME, "realm", ViewElementFeatures.ENABLED,
-        selectedRealm == null);
-  }
+	public void onShow() {
+		Roma.setFeature(this, "realm", ViewFieldFeatures.ENABLED, selectedRealm == null);
+	}
 
-  /**
-   * @return the realm
-   */
-  public List<Realm> getRealm() {
-    return realm;
-  }
+	/**
+	 * @return the realm
+	 */
+	public List<Realm> getRealm() {
+		return realm;
+	}
 
-  /**
-   * @return the selected
-   */
-  public Realm getSelectedRealm() {
-    return selectedRealm;
-  }
+	/**
+	 * @return the selected
+	 */
+	public Realm getSelectedRealm() {
+		return selectedRealm;
+	}
 
-  /**
-   * @param selected
-   *          the selected to set
-   */
-  public void setSelectedRealm(Realm selected) {
-    selectedRealm = selected;
-  }
+	/**
+	 * @param selected
+	 *          the selected to set
+	 */
+	public void setSelectedRealm(Realm selected) {
+		selectedRealm = selected;
+	}
 
-  public void onDispose() {
-  }
+	public void onDispose() {
+	}
 }

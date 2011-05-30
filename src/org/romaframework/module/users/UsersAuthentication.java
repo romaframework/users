@@ -32,23 +32,20 @@ import org.romaframework.aspect.session.SessionInfo;
 import org.romaframework.aspect.session.SessionListener;
 import org.romaframework.core.Roma;
 import org.romaframework.core.flow.Controller;
-import org.romaframework.core.flow.UserObjectEventListener;
+import org.romaframework.core.flow.SchemaFieldListener;
 import org.romaframework.core.schema.SchemaAction;
 import org.romaframework.core.schema.SchemaClass;
-import org.romaframework.core.schema.SchemaClassElement;
 import org.romaframework.core.schema.SchemaEvent;
 import org.romaframework.core.schema.SchemaField;
-import org.romaframework.module.admin.InfoHelper;
-import org.romaframework.module.admin.view.domain.activesession.ActiveSessionHelper;
 import org.romaframework.module.users.domain.AbstractAccount;
 import org.romaframework.module.users.domain.BaseAccount;
+import org.romaframework.module.users.domain.BaseAccountStatus;
 import org.romaframework.module.users.domain.BaseFunction;
 import org.romaframework.module.users.domain.BaseProfile;
 import org.romaframework.module.users.repository.BaseAccountRepository;
 import org.romaframework.module.users.view.domain.AccountManagementUtility;
 
-public class UsersAuthentication extends AuthenticationAspectAbstract implements UserObjectPermissionListener, SessionListener,
-		UserObjectEventListener {
+public class UsersAuthentication extends AuthenticationAspectAbstract implements UserObjectPermissionListener, SessionListener, SchemaFieldListener {
 
 	public static final String		ANONYMOUS_PROFILE_NAME	= "anonymous";
 
@@ -63,8 +60,14 @@ public class UsersAuthentication extends AuthenticationAspectAbstract implements
 
 	private boolean								singleSessionPerUser		= false;
 
-	public Object authenticate(final Object iContext, final String iUserName, final String iUserPasswd,
-			final Map<String, String> iParameters) throws AuthenticationException {
+	public UsersAuthentication() {
+		Controller.getInstance().registerListener(SessionListener.class, this);
+		Controller.getInstance().registerListener(SchemaFieldListener.class, this);
+		Controller.getInstance().registerListener(UserObjectPermissionListener.class, this);
+	}
+
+	public Object authenticate(final Object iContext, final String iUserName, final String iUserPasswd, final Map<String, String> iParameters)
+			throws AuthenticationException {
 		BaseAccountRepository repository = Roma.repository(BaseAccount.class);
 
 		QueryByFilter filter = new QueryByFilter(BaseAccount.class);
@@ -95,15 +98,19 @@ public class UsersAuthentication extends AuthenticationAspectAbstract implements
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
+
+		QueryByFilter byFilter = new QueryByFilter(BaseAccountStatus.class);
+		byFilter.addItem("name", QueryByFilter.FIELD_EQUALS, UsersInfoConstants.STATUS_UNACTIVE);
+		BaseAccountStatus accountStatusInactive = Roma.context().persistence().queryOne(byFilter);
 		if (AccountManagementUtility.isAccountExpired(account)) {
-			account.setStatus(InfoHelper.getInstance().getInfo(UsersInfoConstants.ACCOUNT_CATEGORY_NAME,
-					UsersInfoConstants.STATUS_UNACTIVE));
+			account.setStatus(accountStatusInactive);
 			account.setSignedOn(null);
 			account = repository.update(account, PersistenceAspect.STRATEGY_DETACHING);
 		}
-		if (account.getStatus() == null
-				|| !account.getStatus().equals(
-						InfoHelper.getInstance().getInfo(null, UsersInfoConstants.ACCOUNT_CATEGORY_NAME, UsersInfoConstants.STATUS_ACTIVE))) {
+		QueryByFilter byFilterAct = new QueryByFilter(BaseAccountStatus.class);
+		byFilterAct.addItem("name", QueryByFilter.FIELD_EQUALS, UsersInfoConstants.STATUS_ACTIVE);
+		BaseAccountStatus accountStatus = Roma.context().persistence().queryOne(byFilterAct);
+		if (account.getStatus() == null || !account.getStatus().equals(accountStatus)) {
 			String iMessage = Roma.i18n().resolveString("$UsersAuthentication.accountDisabled.label", iUserName);
 
 			// TODO:REMOVE THIS STATEMENT EXIST ONLY FOR BACKWARD COMPATIBILITY
@@ -125,11 +132,10 @@ public class UsersAuthentication extends AuthenticationAspectAbstract implements
 	}
 
 	protected void dropExistingSessions(BaseAccount account) {
-		for (SessionInfo session : ActiveSessionHelper.getActiveSessions()) {
-			if (account.equals(session.getAccount())) {
-				Roma.session().destroyCurrentSession(session.getSystemSession());
-			}
-		}
+		/*
+		 * for (SessionInfo session : ActiveSessionHelper.getActiveSessions()) { if (account.equals(session.getAccount())) {
+		 * Roma.session().destroyCurrentSession(session.getSystemSession()); } }
+		 */
 	}
 
 	public boolean checkPassword(String iPassword, String iPasswordToCheck) throws NoSuchAlgorithmException {
@@ -266,10 +272,7 @@ public class UsersAuthentication extends AuthenticationAspectAbstract implements
 
 	@Override
 	public void startup() {
-		// REGISTER MYSELF AS EVENT LISTENER FROM OBJECTCONTEXT
-		Controller.getInstance().registerListener(SessionListener.class, this);
-		Controller.getInstance().registerListener(UserObjectEventListener.class, this);
-		Controller.getInstance().registerListener(UserObjectPermissionListener.class, this);
+
 		super.startup();
 	}
 
@@ -315,9 +318,6 @@ public class UsersAuthentication extends AuthenticationAspectAbstract implements
 		this.singleSessionPerUser = singleSessionPerUser;
 	}
 
-	public void onAfterActionExecution(Object iContent, SchemaClassElement iAction, Object returnedValue) {
-	}
-
 	public Object onAfterFieldRead(Object iContent, SchemaField iField, Object iCurrentValue) {
 		if (iCurrentValue instanceof Collection<?>) {
 			Iterator<?> iter = ((Collection<?>) iCurrentValue).iterator();
@@ -352,14 +352,6 @@ public class UsersAuthentication extends AuthenticationAspectAbstract implements
 		return iCurrentValue;
 	}
 
-	public boolean onBeforeActionExecution(Object iContent, SchemaClassElement iAction) {
-		return true;
-	}
-
-	public Object onException(Object iContent, SchemaClassElement iElement, Throwable iThrowed) {
-		return null;
-	}
-
 	public Object onBeforeFieldRead(Object iContent, SchemaField iField, Object iCurrentValue) {
 		return IGNORED;
 	}
@@ -367,13 +359,4 @@ public class UsersAuthentication extends AuthenticationAspectAbstract implements
 	public Object onBeforeFieldWrite(Object iContent, SchemaField iField, Object iCurrentValue) {
 		return iCurrentValue;
 	}
-
-	public void onFieldRefresh(SessionInfo iSession, Object iContent, SchemaField iField) {
-
-	}
-
-	public int getPriority() {
-		return 0;
-	}
-
 }

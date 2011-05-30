@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.romaframework.aspect.persistence.QueryByFilter;
 import org.romaframework.core.repository.PersistenceAspectRepository;
-import org.romaframework.module.admin.domain.Realm;
 import org.romaframework.module.users.domain.BaseProfile;
+import org.romaframework.module.users.domain.Realm;
 
 /**
  * Repository class for BaseGroup entity. By default it extends the PersistenceAspectRepository class that delegates the execution

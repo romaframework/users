@@ -19,7 +19,6 @@ package org.romaframework.module.users.domain;
 import java.io.Serializable;
 
 import org.romaframework.aspect.core.annotation.CoreClass;
-import org.romaframework.module.admin.domain.Realm;
 
 @CoreClass(orderFields = "name notes")
 public class BaseGroup extends AbstractAccount implements Serializable {

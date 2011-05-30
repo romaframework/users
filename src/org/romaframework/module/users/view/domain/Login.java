@@ -37,13 +37,12 @@ import org.romaframework.aspect.view.annotation.ViewField;
 import org.romaframework.aspect.view.screen.Screen;
 import org.romaframework.aspect.view.screen.config.ScreenManager;
 import org.romaframework.core.Roma;
-import org.romaframework.core.flow.ObjectContext;
 import org.romaframework.frontend.RomaFrontend;
 import org.romaframework.frontend.domain.message.Message;
 import org.romaframework.frontend.domain.message.MessageResponseListener;
-import org.romaframework.module.admin.domain.Realm;
 import org.romaframework.module.users.UsersAuthentication;
 import org.romaframework.module.users.domain.BaseAccount;
+import org.romaframework.module.users.domain.Realm;
 import org.romaframework.module.users.listener.DefaultLoginListener;
 
 /**
@@ -130,7 +129,7 @@ public class Login implements MessageResponseListener {
 	}
 
 	@Persistence(mode = PersistenceConstants.MODE_TX)
-	@ValidationAction(validation = AnnotationConstants.TRUE)
+	@ValidationAction(validate = AnnotationConstants.TRUE)
 	@ViewAction(submit = AnnotationConstants.TRUE, render = ViewConstants.RENDER_BUTTON)
 	public void login() {
 		if (userName == null || userName.length() == 0)
@@ -210,7 +209,7 @@ public class Login implements MessageResponseListener {
 		for (Locale locale : Locale.getAvailableLocales()) {
 			if (locale.getDisplayLanguage().equals(iLanguage)) {
 				Roma.session().setActiveLocale(locale);
-				ObjectContext.getInstance().fieldChanged(this);
+				Roma.fieldChanged(this);
 				break;
 			}
 		}

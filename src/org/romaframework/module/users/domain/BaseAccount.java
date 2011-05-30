@@ -18,6 +18,7 @@ package org.romaframework.module.users.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import org.romaframework.aspect.authentication.AuthenticationAspect;
@@ -25,11 +26,6 @@ import org.romaframework.aspect.core.annotation.AnnotationConstants;
 import org.romaframework.aspect.session.SessionAccount;
 import org.romaframework.aspect.view.annotation.ViewField;
 import org.romaframework.core.Roma;
-import org.romaframework.module.admin.InfoHelper;
-import org.romaframework.module.admin.domain.CustomizableEntry;
-import org.romaframework.module.admin.domain.Info;
-import org.romaframework.module.admin.domain.Realm;
-import org.romaframework.module.users.UsersInfoConstants;
 
 /**
  * Class that represents an account
@@ -38,22 +34,18 @@ import org.romaframework.module.users.UsersInfoConstants;
  */
 public class BaseAccount extends AbstractAccount implements SessionAccount, Serializable, Cloneable {
 
-	/**
-	 * 
-	 */
-	private static final long	serialVersionUID	= -2197776437029602641L;
-
-	private static final String	LAST_PASSWORD_UPDATE_TIME	= "password.last_password_update";
+	private static final long		serialVersionUID	= -2197776437029602641L;
 
 	protected BaseProfile				profile;
 	protected Date							signedOn;
 	protected Date							lastModified;
+	protected Date							lastPasswordUpdate;
 
 	@ViewField(visible = AnnotationConstants.FALSE)
 	protected String						userIdentification;
 
 	protected String						notes;
-	protected Info							status;
+	protected BaseAccountStatus	status;
 
 	protected Boolean						changePasswordNextLogin;
 	protected String						email;
@@ -61,6 +53,7 @@ public class BaseAccount extends AbstractAccount implements SessionAccount, Seri
 
 	@ViewField(render = "password")
 	protected String						password;
+	protected List<String>			oldPasswords;
 
 	public BaseAccount() {
 	}
@@ -70,11 +63,10 @@ public class BaseAccount extends AbstractAccount implements SessionAccount, Seri
 	}
 
 	public BaseAccount(String name, String password, BaseProfile iProfile) {
-		this(name, password, iProfile, InfoHelper.getInstance().getInfo(UsersInfoConstants.ACCOUNT_CATEGORY_NAME,
-				UsersInfoConstants.STATUS_ACTIVE));
+		this(name, password, iProfile, null);
 	}
 
-	public BaseAccount(String name, String password, BaseProfile iProfile, Info iStatus) {
+	public BaseAccount(String name, String password, BaseProfile iProfile, BaseAccountStatus iStatus) {
 		this.name = name;
 		setPassword(password);
 		status = iStatus;
@@ -88,7 +80,7 @@ public class BaseAccount extends AbstractAccount implements SessionAccount, Seri
 		realm = iRealm;
 	}
 
-	public BaseAccount(Realm iRealm, String name, String password, BaseProfile iProfile, Info iStatus) {
+	public BaseAccount(Realm iRealm, String name, String password, BaseProfile iProfile, BaseAccountStatus iStatus) {
 		this(name, password, iProfile, iStatus);
 		realm = iRealm;
 	}
@@ -135,23 +127,12 @@ public class BaseAccount extends AbstractAccount implements SessionAccount, Seri
 	}
 
 	@ViewField(visible = AnnotationConstants.FALSE)
-	public Date getLastModifiedPassword() {
-		CustomizableEntry entry = getConfiguration(LAST_PASSWORD_UPDATE_TIME);
-		if (entry != null) {
-			return entry.getDateTimeValue();
-		}
-		return null;
+	public Date getLastPasswordUpdate() {
+		return lastPasswordUpdate;
 	}
 
-	public void setLastModifiedPassword(Date date) {
-		CustomizableEntry entry = getConfiguration(LAST_PASSWORD_UPDATE_TIME);
-		if (entry != null) {
-			entry.setDateTimeValue(date);
-		} else {
-			entry = new CustomizableEntry(LAST_PASSWORD_UPDATE_TIME, CustomizableEntry.TYPE_DATETIME, null);
-			entry.setDateTimeValue(date);
-			getConfiguration().put(LAST_PASSWORD_UPDATE_TIME, entry);
-		}
+	public void setLastPasswordUpdate(Date date) {
+		this.lastPasswordUpdate = date;
 	}
 
 	public Date getSignedOn() {
@@ -162,11 +143,11 @@ public class BaseAccount extends AbstractAccount implements SessionAccount, Seri
 		this.signedOn = signedOn;
 	}
 
-	public Info getStatus() {
+	public BaseAccountStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(Info status) {
+	public void setStatus(BaseAccountStatus status) {
 		this.status = status;
 	}
 
@@ -263,9 +244,17 @@ public class BaseAccount extends AbstractAccount implements SessionAccount, Seri
 		return true;
 	}
 
+	public List<String> getOldPasswords() {
+		return oldPasswords;
+	}
+
+	public void setOldPasswords(List<String> oldPasswords) {
+		this.oldPasswords = oldPasswords;
+	}
+
 	@Override
 	public Object clone() throws CloneNotSupportedException {
 		return super.clone();
 	}
-	
+
 }

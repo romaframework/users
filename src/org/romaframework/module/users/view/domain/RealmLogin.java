@@ -1,13 +1,12 @@
 package org.romaframework.module.users.view.domain;
 
 import org.romaframework.aspect.core.annotation.CoreClass;
-import org.romaframework.aspect.view.ViewAspect;
 import org.romaframework.aspect.view.ViewCallback;
 import org.romaframework.aspect.view.annotation.ViewClass;
 import org.romaframework.aspect.view.feature.ViewFieldFeatures;
 import org.romaframework.core.Roma;
-import org.romaframework.module.admin.RealmHelper;
-import org.romaframework.module.admin.domain.Realm;
+import org.romaframework.module.users.RealmHelper;
+import org.romaframework.module.users.domain.Realm;
 
 @CoreClass(orderFields = "realmName userName userPassword")
 @ViewClass(label = "Login", render = "popup", layout = "popup")
@@ -39,7 +38,7 @@ public class RealmLogin extends Login implements ViewCallback {
 
 		realmName = realm != null ? realm.getName() : "";
 		Roma.fieldChanged(this, "realmName");
-		Roma.setFieldFeature(this, ViewAspect.ASPECT_NAME, "realmName", ViewFieldFeatures.ENABLED, realm == null);
+		Roma.setFeature(this,"realmName", ViewFieldFeatures.ENABLED, realm == null);
 	}
 
 	@Override

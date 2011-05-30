@@ -9,7 +9,6 @@ import java.util.Map;
 import org.romaframework.aspect.core.annotation.AnnotationConstants;
 import org.romaframework.aspect.i18n.I18NHelper;
 import org.romaframework.aspect.persistence.PersistenceAspect;
-import org.romaframework.aspect.view.ViewAspect;
 import org.romaframework.aspect.view.ViewCallback;
 import org.romaframework.aspect.view.ViewConstants;
 import org.romaframework.aspect.view.annotation.ViewField;
@@ -83,8 +82,8 @@ public class CustomProfilingSettings implements ViewCallback {
 	}
 
 	private void addListable(SchemaClassElement element) {
-		if ((Boolean) element.getFeature(ViewAspect.ASPECT_NAME, ViewElementFeatures.VISIBLE)) {
-			String layout = (String) element.getFeature(ViewAspect.ASPECT_NAME, ViewElementFeatures.LAYOUT);
+		if ((Boolean) element.getFeature(ViewElementFeatures.VISIBLE)) {
+			String layout = (String) element.getFeature( ViewElementFeatures.LAYOUT);
 			if (layout != null && ViewConstants.LAYOUT_EXPAND.equals(layout)) {
 				if (element instanceof SchemaField)
 					addSchemaClass(((SchemaField) element).getType());

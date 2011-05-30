@@ -24,7 +24,6 @@ import java.util.TreeMap;
 
 import org.romaframework.core.domain.type.RealmAware;
 import org.romaframework.frontend.domain.crud.CRUDHelper;
-import org.romaframework.module.admin.domain.Realm;
 import org.romaframework.module.users.view.domain.baseprofile.BaseProfileSelect;
 
 public class BaseProfile implements Serializable, RealmAware, Principal {

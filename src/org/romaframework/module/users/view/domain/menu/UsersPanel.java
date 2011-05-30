@@ -23,9 +23,8 @@ import org.romaframework.aspect.flow.annotation.FlowAction;
 import org.romaframework.aspect.view.ViewCallback;
 import org.romaframework.core.Roma;
 import org.romaframework.frontend.domain.message.MessageOk;
-import org.romaframework.module.admin.domain.Realm;
-import org.romaframework.module.admin.view.domain.menu.AbstractMenuPanel;
 import org.romaframework.module.users.domain.BaseAccount;
+import org.romaframework.module.users.domain.Realm;
 import org.romaframework.module.users.view.domain.activitylog.ActivityLogMain;
 import org.romaframework.module.users.view.domain.baseaccount.BaseAccountMain;
 import org.romaframework.module.users.view.domain.basegroup.BaseGroupMain;
@@ -34,7 +33,7 @@ import org.romaframework.module.users.view.domain.configuration.ConfigurationBas
 import org.romaframework.module.users.view.domain.realm.RealmAdminMain;
 
 @CoreClass(orderActions = "accounts profiles groups activityLogs realms")
-public class UsersPanel extends AbstractMenuPanel implements ViewCallback {
+public class UsersPanel implements ViewCallback {
 
 	private boolean	disableRealmAccountCreation;
 

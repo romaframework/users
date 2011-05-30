@@ -21,8 +21,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.TreeMap;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 
 import org.romaframework.aspect.core.annotation.AnnotationConstants;
 import org.romaframework.aspect.core.annotation.CoreClass;
@@ -41,7 +41,7 @@ import org.romaframework.core.schema.SchemaField;
 import org.romaframework.core.schema.SchemaManager;
 import org.romaframework.frontend.RomaFrontend;
 import org.romaframework.frontend.domain.crud.CRUDInstance;
-import org.romaframework.module.admin.RealmHelper;
+import org.romaframework.module.users.RealmHelper;
 import org.romaframework.module.users.domain.BaseFunction;
 import org.romaframework.module.users.domain.BaseProfile;
 import org.romaframework.module.users.view.domain.basefunction.BaseFunctionListable;

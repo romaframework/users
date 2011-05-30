@@ -21,11 +21,8 @@ import org.romaframework.aspect.logging.LoggingConstants;
 import org.romaframework.aspect.persistence.PersistenceAspect;
 import org.romaframework.aspect.persistence.QueryByFilter;
 import org.romaframework.core.Roma;
-import org.romaframework.module.admin.InfoHelper;
-import org.romaframework.module.admin.RealmHelper;
-import org.romaframework.module.admin.domain.Info;
-import org.romaframework.module.admin.domain.InfoCategory;
 import org.romaframework.module.users.domain.ActivityLog;
+import org.romaframework.module.users.domain.ActivityLogCategory;
 
 /**
  * Is logs the event using the ActivityLog of the users module
@@ -35,49 +32,40 @@ import org.romaframework.module.users.domain.ActivityLog;
  */
 public class DBLogger extends AbstractLogger {
 
-  public DBLogger(LoggingAspect loggingAspect) {
-    super(loggingAspect);
-  }
+	public DBLogger(LoggingAspect loggingAspect) {
+		super(loggingAspect);
+	}
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see org.romaframework.aspect.logging.Logger#getModes()
-   */
-  public String[] getModes() {
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.romaframework.aspect.logging.Logger#getModes()
+	 */
+	public String[] getModes() {
 
-    String[] modes = { LoggingConstants.MODE_DB };
-    return modes;
-  }
+		String[] modes = { LoggingConstants.MODE_DB };
+		return modes;
+	}
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see org.romaframework.aspect.logging.Logger#print(int, java.lang.String, java.lang.String)
-   */
-  public void print(int level, String category, String message) {
-    PersistenceAspect db = Roma.context().persistence();
-    String categoryName = ActivityLog.LOG_CATEGORY_NAME;
-    QueryByFilter filter = new QueryByFilter(Info.class);
-    filter.setStrategy(PersistenceAspect.STRATEGY_DETACHING);
-    filter.addItem("text", QueryByFilter.FIELD_EQUALS, category);
-    filter.addItem("category.name", QueryByFilter.FIELD_EQUALS, categoryName);
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.romaframework.aspect.logging.Logger#print(int, java.lang.String, java.lang.String)
+	 */
+	public void print(int level, String category, String message) {
+		PersistenceAspect db = Roma.context().persistence();
+		QueryByFilter filter = new QueryByFilter(ActivityLogCategory.class);
+		filter.setStrategy(PersistenceAspect.STRATEGY_DETACHING);
+		filter.addItem("name", QueryByFilter.FIELD_EQUALS, category);
 
-    Info info = db.queryOne(filter);
+		ActivityLogCategory activityLogCategory = db.queryOne(filter);
+		if (activityLogCategory == null) {
+			activityLogCategory = db.createObject(new ActivityLogCategory(category), PersistenceAspect.STRATEGY_DETACHING);
+		}
+		ActivityLog log = new ActivityLog(level, activityLogCategory, message);
 
-    if (info == null) {
-      InfoCategory iCat = InfoHelper.getInstance().getInfoCategory(categoryName);
-      if (iCat == null) {
-        iCat = new InfoCategory(RealmHelper.getCurrentRealm(), categoryName, categoryName);
-      }
+		db.createObject(log);
 
-      info = new Info(iCat, category);
-    }
-
-    ActivityLog log = new ActivityLog(level, info, message);
-
-    db.createObject(log);
-
-  }
+	}
 
 }

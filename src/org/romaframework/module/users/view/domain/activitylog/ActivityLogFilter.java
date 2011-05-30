@@ -21,76 +21,74 @@ import java.util.List;
 
 import org.romaframework.aspect.core.annotation.AnnotationConstants;
 import org.romaframework.aspect.core.annotation.CoreClass;
-import org.romaframework.aspect.view.ViewAspect;
 import org.romaframework.aspect.view.ViewCallback;
 import org.romaframework.aspect.view.ViewConstants;
 import org.romaframework.aspect.view.annotation.ViewClass;
 import org.romaframework.aspect.view.annotation.ViewField;
-import org.romaframework.aspect.view.feature.ViewElementFeatures;
-import org.romaframework.core.flow.ObjectContext;
+import org.romaframework.aspect.view.feature.ViewFieldFeatures;
+import org.romaframework.core.Roma;
 import org.romaframework.frontend.domain.entity.ComposedEntityInstance;
-import org.romaframework.module.admin.RealmHelper;
-import org.romaframework.module.admin.domain.Realm;
+import org.romaframework.module.users.RealmHelper;
 import org.romaframework.module.users.domain.ActivityLog;
+import org.romaframework.module.users.domain.Realm;
 
 @CoreClass(entity = ActivityLog.class, orderFields = "realms rangeFrom rangeTo entity")
 @ViewClass(label = "")
 public class ActivityLogFilter extends ComposedEntityInstance<ActivityLog> implements ViewCallback {
 
-  @ViewField(render = ViewConstants.RENDER_SELECT, selectionField = "selectedRealm")
-  protected List<Realm> realms;
+	@ViewField(render = ViewConstants.RENDER_SELECT, selectionField = "selectedRealm")
+	protected List<Realm>	realms;
 
-  @ViewField(visible = AnnotationConstants.FALSE)
-  protected Realm       selectedRealm;
+	@ViewField(visible = AnnotationConstants.FALSE)
+	protected Realm				selectedRealm;
 
-  private Date          rangeFrom;
-  private Date          rangeTo;
+	private Date					rangeFrom;
+	private Date					rangeTo;
 
-  public ActivityLogFilter() {
-    super(new ActivityLog());
-  }
+	public ActivityLogFilter() {
+		super(new ActivityLog());
+	}
 
-  public ActivityLogFilter(ActivityLog iActivityLog) {
-    super(iActivityLog);
-  }
+	public ActivityLogFilter(ActivityLog iActivityLog) {
+		super(iActivityLog);
+	}
 
-  public void onShow() {
-    realms = RealmHelper.getRealms();
-    selectedRealm = RealmHelper.getCurrentRealm();
+	public void onShow() {
+		realms = RealmHelper.getRealms();
+		selectedRealm = RealmHelper.getCurrentRealm();
 
-    ObjectContext.getInstance().fieldChanged(this, "realms");
-    ObjectContext.getInstance().setFieldFeature(this, ViewAspect.ASPECT_NAME, "realms", ViewElementFeatures.VISIBLE,
-        selectedRealm == null);
-  }
+		Roma.fieldChanged(this, "realms");
+		Roma.setFeature(this, "realms", ViewFieldFeatures.VISIBLE, selectedRealm == null);
+	}
 
-  public Date getRangeFrom() {
-    return rangeFrom;
-  }
+	public Date getRangeFrom() {
+		return rangeFrom;
+	}
 
-  public void setRangeFrom(Date from) {
-    rangeFrom = from;
-  }
+	public void setRangeFrom(Date from) {
+		rangeFrom = from;
+	}
 
-  public Date getRangeTo() {
-    return rangeTo;
-  }
+	public Date getRangeTo() {
+		return rangeTo;
+	}
 
-  public void setRangeTo(Date to) {
-    rangeTo = to;
-  }
+	public void setRangeTo(Date to) {
+		rangeTo = to;
+	}
 
-  public Realm getSelectedRealm() {
-    return selectedRealm;
-  }
+	public Realm getSelectedRealm() {
+		return selectedRealm;
+	}
 
-  public void setSelectedRealm(Realm selectedRealm) {
-    this.selectedRealm = selectedRealm;
-  }
+	public void setSelectedRealm(Realm selectedRealm) {
+		this.selectedRealm = selectedRealm;
+	}
 
-  public List<Realm> getRealms() {
-    return realms;
-  }
+	public List<Realm> getRealms() {
+		return realms;
+	}
 
-  public void onDispose() {
-  }
+	public void onDispose() {
+	}
 }
