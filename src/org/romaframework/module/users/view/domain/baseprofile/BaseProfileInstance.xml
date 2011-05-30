@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class xmlns="http://www.romaframework.org/xml/roma" xmlns:xsd="http://www.w3.org/2001/XMLSchema-instance"
+	xsd:schemaLocation="http://www.romaframework.org/xml/roma http://www.romaframework.org/schema/v2/roma.xsd">
+	<aspects>
+		<view>
+			<form>
+				<area name="main" type="column">
+					<area name="fields" type="grid" size="6" />
+					<area name="boxes" type="row">
+						<area name="left" type="row">
+							<area name="classes" type="column" />
+							<area name="members" type="column" />
+						</area>
+						<area name="commands" type="column" />
+						<area name="right" type="column" align="top">
+							<area name="functions" type="column" />
+						</area>
+					</area>
+					<area name="actions" type="row" />
+				</area>
+			</form>
+		</view>
+	</aspects>
+	<fields>
+		<field name="entity">
+			<class>
+				<fields>
+					<field name="realm">
+						<aspects>
+							<view render="label" />
+						</aspects>
+					</field>
+					<field name="name">
+						<aspects>
+							<view required="true" />
+						</aspects>
+					</field>
+					<field name="mode">
+						<aspects>
+							<view visible="false" />
+						</aspects>
+					</field>
+					<field name="notes">
+						<aspects>
+							<view render="textarea" />
+						</aspects>
+					</field>
+					<field name="functions">
+						<aspects>
+							<view visible="false" />
+						</aspects>
+					</field>
+				</fields>
+			</class>
+		</field>
+		<field name="availableClassNames">
+			<aspects>
+				<view layout="form://classes" />
+			</aspects>
+		</field>
+		<field name="availableMembers">
+			<aspects>
+				<view layout="form://members" />
+			</aspects>
+		</field>
+		<field name="functions">
+			<aspects>
+				<view layout="form://functions" />
+			</aspects>
+		</field>
+	</fields>
+	<actions>
+		<action name="add">
+			<aspects>
+				<view layout="form://commands" />
+			</aspects>
+		</action>
+		<action name="remove">
+			<aspects>
+				<view layout="form://commands" />
+			</aspects>
+		</action>
+	</actions>
+</class>

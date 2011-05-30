@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class xmlns="http://www.romaframework.org/xml/roma" xmlns:xsd="http://www.w3.org/2001/XMLSchema-instance"
+	xsd:schemaLocation="http://www.romaframework.org/xml/roma http://www.romaframework.org/schema/v2/roma.xsd">
+	<aspects>
+		<view>
+			<form>
+				<area name="main" type="column" align="top right">
+					<area name="fields" type="grid" size="8" align="top left" />
+					<area name="actions" type="row" align="top left" />
+				</area>
+			</form>
+		</view>
+	</aspects>
+	<fields>
+		<field name="entity">
+			<aspects>
+				<view layout="expand" />
+			</aspects>
+			<class>
+				<fields>
+					<field name="realm">
+						<aspects>
+							<view visible="false" />
+						</aspects>
+					</field>
+					<field name="functions">
+						<aspects>
+							<view visible="false" />
+						</aspects>
+					</field>
+					<field name="mode">
+						<aspects>
+							<view visible="false" />
+						</aspects>
+					</field>
+					<field name="notes">
+						<aspects>
+							<view render="text"></view>
+						</aspects>
+					</field>
+				</fields>
+			</class>
+		</field>
+	</fields>
+</class>

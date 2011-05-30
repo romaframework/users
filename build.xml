@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="compile" name="users">
+	<property name="project.path" value="../.." />
+	<property name="project.version" value="1.1.0" />
+	<property name="project.category" value="modules" />
+	<property name="project.depends.jar" value="roma-core.jar" />
+	<property name="project.depends.prj" value="modules/core modules/admin" />
+	<property name="project.build" value="build" />
+
+	<import file="${project.path}/common/default-build.xml" />
+
+	<path id="project.classpath">
+		<pathelement location="${project.build}" />
+		<fileset dir="${global.dist}/modules/core/lib" includes="**/*.jar" />
+		<fileset dir="${global.dist}/modules/admin/lib" includes="**.jar" />
+		<fileset dir="${global.dist}/modules/frontend/lib" includes="**/*.jar" />
+		<fileset dir="${global.dist}/modules/persistence-datanucleus/lib" includes="**/*.jar" />
+	</path>
+
+	<target name="clean">
+		<delete dir="${project.build}" />
+	</target>
+
+	<target name="compile">
+		<antcall target="generic-ant.compile" />
+	</target>
+</project>

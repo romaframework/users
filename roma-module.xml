@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties PUBLIC "JAVA PROPERTIES" "http://www.romaframework.org/schema/properties.dtd">
+<properties>
+  <comment>USERS module to handle accounts, groups, profiling, application log, and much more</comment>
+	<entry key="name">USERS module</entry>
+	<entry key="version">2.2.0</entry>
+	<entry key="depends.module.admin">2.2.0</entry>	
+	<entry key="repository">romaframework</entry>
+</properties>

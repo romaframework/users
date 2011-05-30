@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<stylesheet xmlns="http://www.nextapp.com/products/echo2"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.romaframework.org/schema/echo2-stylesheet.xsd">
+
+	<!-- ******************** -->
+	<!-- USERS MODULE STYLES -->
+	<!-- ******************** -->
+	<style name="Login" base-name="Object" type="nextapp.echo2.app.WindowPane">
+		<properties>
+			<property name="width" value="290px" />
+			<property name="height" value="190px" />
+			<property name="closable" value="false" />
+		</properties>
+	</style>
+	<style name="Login" base-name="Object" type="nextapp.echo2.app.Row">
+		<properties>
+			<property name="alignment">
+				<alignment horizontal="center" vertical="top" />
+			</property>
+		</properties>
+	</style>
+	<style name="Login.login" base-name="Object" type="nextapp.echo2.app.Button">
+		<properties>
+			<property type="nextapp.echo2.app.ResourceImageReference"
+				name="icon">
+				<resource-image-reference
+					resource="/@project.package-path@/view/image/login.gif" />
+			</property>
+		</properties>
+	</style>
+	<style name="BaseProfile" base-name="Object" type="echopointng.TextAreaEx">
+		<properties>
+			<property name="height" value="20px" />
+		</properties>
+	</style>
+	<style name="BaseProfile" base-name="Object" type="nextapp.echo2.app.ListBox">
+		<properties>
+			<property name="width" value="300px" />
+			<property name="height" value="300px" />
+		</properties>
+	</style>
+	<style name="BaseProfileUpdate" base-name="Object"
+		type="org.romaframework.aspect.view.echo2.component.DynaComponent">
+		<properties>
+			<property name="orientation" value="horizontal" />
+		</properties>
+	</style>
+	<style name="BaseFunction" base-name="Object"
+		type="nextapp.echo2.app.WindowPane">
+		<properties>
+			<property name="width" value="350px" />
+			<property name="height" value="150px" />
+		</properties>
+	</style>
+	<style name="BaseFunction" base-name="Object"
+		type="nextapp.echo2.app.text.TextComponent">
+		<properties>
+			<property name="width" value="220px" />
+		</properties>
+	</style>
+	<style name="BaseAccount" base-name="Object" type="echopointng.TextAreaEx">
+		<properties>
+			<property name="width" value="430px" />
+			<property name="height" value="150px" />
+		</properties>
+	</style>
+	<style name="BaseAccountInstance.bottomPanel" base-name="Object"
+		type="nextapp.echo2.app.Row">
+		<properties>
+			<property name="cellSpacing" value="20px" />
+		</properties>
+	</style>
+	<style name="BaseGroup" base-name="Object" type="echopointng.TextAreaEx">
+		<properties>
+			<property name="width" value="430px" />
+			<property name="height" value="180px" />
+		</properties>
+	</style>
+	<style name="BaseGroupInstance.row" base-name="Object"
+		type="nextapp.echo2.app.Row">
+		<properties>
+			<property name="cellSpacing" value="20px" />
+		</properties>
+	</style>
+	<style name="PrincipalSelectorWindow" base-name="Object"
+		type="nextapp.echo2.app.WindowPane">
+		<properties>
+			<property name="width" value="900px" />
+			<property name="height" value="500px" />
+		</properties>
+	</style>
+
+	<style name="CustomProfilingSettings" base-name="Object"
+		type="nextapp.echo2.app.WindowPane">
+		<properties>
+			<property name="width" value="400px" />
+			<property name="height" value="370px" />
+		</properties>
+	</style>
+</stylesheet>
