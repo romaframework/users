@@ -1,27 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project basedir="." default="compile" name="users">
-	<property name="project.path" value="../.." />
-	<property name="project.version" value="1.1.0" />
-	<property name="project.category" value="modules" />
-	<property name="project.depends.jar" value="roma-core.jar" />
-	<property name="project.depends.prj" value="modules/core modules/admin" />
-	<property name="project.build" value="build" />
+<project basedir="." default="compile" name="roma-users">
+	<get src="https://github.com/Roma-Framework/core/raw/master/roma-build.xml" dest="roma-build.xml" skipexisting="true" />
+	<import file="roma-build.xml" />
 
-	<import file="${project.path}/common/default-build.xml" />
 
-	<path id="project.classpath">
-		<pathelement location="${project.build}" />
-		<fileset dir="${global.dist}/modules/core/lib" includes="**/*.jar" />
-		<fileset dir="${global.dist}/modules/admin/lib" includes="**.jar" />
-		<fileset dir="${global.dist}/modules/frontend/lib" includes="**/*.jar" />
-		<fileset dir="${global.dist}/modules/persistence-datanucleus/lib" includes="**/*.jar" />
-	</path>
+	<target depends="compile" name="persistence-compile">
 
-	<target name="clean">
-		<delete dir="${project.build}" />
+		<path id="enhancement.classpath">
+			<fileset dir="${project.lib}" includes="**/*.jar" />
+			<pathelement location="${project.build.src}" />
+		</path>
+		<taskdef classname="org.datanucleus.enhancer.tools.EnhancerTask" classpathref="enhancement.classpath" name="datanucleusenhancer" />
+		<datanucleusenhancer classpathref="enhancement.classpath" failonerror="true" verbose="true" detachlistener="true">
+			<jvmarg line="-Dlog4j.configuration=file:src/datanucleus-log4j.properties" />
+		</datanucleusenhancer>
 	</target>
 
-	<target name="compile">
-		<antcall target="generic-ant.compile" />
-	</target>
+
 </project>

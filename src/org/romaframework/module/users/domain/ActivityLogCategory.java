@@ -4,6 +4,10 @@ public class ActivityLogCategory {
 
 	private String	name;
 
+	public ActivityLogCategory() {
+		this(null);
+	}
+
 	public ActivityLogCategory(String name) {
 		super();
 		this.name = name;

@@ -48,6 +48,14 @@ public class UsersApplicationInstaller extends ApplicationInstaller {
 	protected BaseProfile				pBasic;
 	protected BaseAccountStatus	defStatus;
 
+	public void startup() {
+		install();
+		executeOnce();
+	}
+
+	public UsersApplicationInstaller() {
+	}
+
 	@Override
 	public synchronized boolean install() {
 
