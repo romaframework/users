@@ -15,7 +15,6 @@
  */
 package org.romaframework.module.security.users;
 
-import java.lang.annotation.Annotation;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
@@ -35,7 +34,6 @@ import org.romaframework.core.schema.SchemaClass;
 import org.romaframework.core.schema.SchemaClassElement;
 import org.romaframework.core.schema.SchemaEvent;
 import org.romaframework.core.schema.SchemaField;
-import org.romaframework.core.schema.xmlannotations.XmlEventAnnotation;
 import org.romaframework.module.users.domain.AbstractAccount;
 import org.romaframework.module.users.domain.BaseAccount;
 import org.romaframework.module.users.domain.BaseGroup;
@@ -57,7 +55,7 @@ public class UsersSecurityAspect extends SecurityAspectAbstract {
 		return null;
 	}
 
-	public void configEvent(SchemaEvent event, Annotation eventAnnotation, Annotation genericAnnotation, XmlEventAnnotation node) {
+	public void configEvent(SchemaEvent event) {
 	}
 
 	private BaseAccount getAccount() {
