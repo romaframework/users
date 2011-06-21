@@ -1,34 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<class xmlns="http://www.romaframework.org/xml/roma"
-	xmlns:xsd="http://www.w3.org/2001/XMLSchema-instance"
+<class xmlns="http://www.romaframework.org/xml/roma" xmlns:xsd="http://www.w3.org/2001/XMLSchema-instance"
 	xsd:schemaLocation="http://www.romaframework.org/xml/roma http://www.romaframework.org/schema/v2/roma.xsd">
 	<aspects>
 		<view columns="2" />
 	</aspects>
 	<fields>
-		<field name="entity">
+		<field name="realm">
 			<aspects>
-				<view layout="expand" />
+				<view visible="false" />
 			</aspects>
-			<class>
-				<fields>
-					<field name="realm">
-						<aspects>
-							<view visible="false" />
-						</aspects>
-					</field>
-					<field name="accountList">
-						<aspects>
-							<view visible="false" />
-						</aspects>
-					</field>
-					<field name="notes">
-						<aspects>
-							<view render="text"></view>
-						</aspects>
-					</field>
-				</fields>
-			</class>
+		</field>
+		<field name="accountList">
+			<aspects>
+				<view visible="false" />
+			</aspects>
+		</field>
+		<field name="notes">
+			<aspects>
+				<view render="text"></view>
+			</aspects>
 		</field>
 	</fields>
 </class>

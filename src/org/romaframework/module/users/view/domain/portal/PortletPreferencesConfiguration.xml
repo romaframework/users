@@ -23,7 +23,7 @@
 	<fields>
 		<field name="entity">
 			<aspects>
-				<view visible="false" />
+				<core expand="false"/>
 			</aspects>
 		</field>
 	</fields>

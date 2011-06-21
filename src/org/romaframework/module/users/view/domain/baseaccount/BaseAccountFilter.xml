@@ -2,7 +2,7 @@
 <class xmlns="http://www.romaframework.org/xml/roma" xmlns:xsd="http://www.w3.org/2001/XMLSchema-instance"
 	xsd:schemaLocation="http://www.romaframework.org/xml/core http://www.romaframework.org/schema/v2/roma.xsd">
 	<aspects>
-		<view>
+		<view explicitElements="true">
 			<form>
 				<area name="main" type="column" align="top right">
 					<area name="fields" type="grid" size="8" align="top left" />
@@ -12,37 +12,18 @@
 		</view>
 	</aspects>
 	<fields>
-		<field name="entity">
-			<class>
-				<aspects>
-					<view explicitElements="true" />
-				</aspects>
-				<fields>
-					<field name="groups">
-						<aspects>
-							<view visible="false" />
-						</aspects>
-					</field>
-					<field name="realm">
-						<aspects>
-							<view visible="false" />
-						</aspects>
-					</field>
-					<field name="name" />
-					<field name="statuses">
-						<aspects>
-							<view label="$status"></view>
-						</aspects>
-					</field>
-					<field name="profile" />
+		<field name="name" />
+		<field name="statuses">
+			<aspects>
+				<view label="$status"></view>
+			</aspects>
+		</field>
+		<field name="profile" />
 
-					<field name="notes">
-						<aspects>
-							<view render="text"></view>
-						</aspects>
-					</field>
-				</fields>
-			</class>
+		<field name="notes">
+			<aspects>
+				<view render="text"></view>
+			</aspects>
 		</field>
 	</fields>
 </class>

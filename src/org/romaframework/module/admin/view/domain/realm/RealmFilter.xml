@@ -6,13 +6,5 @@
 		<view columns="2" />
 	</aspects>
 	<fields>
-		<field name="entity">
-			<aspects>
-				<view layout="expand" />
-			</aspects>
-			<class>
-				<fields></fields>
-			</class>
-		</field>
 	</fields>
 </class>

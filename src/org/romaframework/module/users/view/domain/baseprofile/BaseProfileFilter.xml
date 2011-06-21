@@ -12,34 +12,25 @@
 		</view>
 	</aspects>
 	<fields>
-		<field name="entity">
+		<field name="realm">
 			<aspects>
-				<view layout="expand" />
+				<view visible="false" />
 			</aspects>
-			<class>
-				<fields>
-					<field name="realm">
-						<aspects>
-							<view visible="false" />
-						</aspects>
-					</field>
-					<field name="functions">
-						<aspects>
-							<view visible="false" />
-						</aspects>
-					</field>
-					<field name="mode">
-						<aspects>
-							<view visible="false" />
-						</aspects>
-					</field>
-					<field name="notes">
-						<aspects>
-							<view render="text"></view>
-						</aspects>
-					</field>
-				</fields>
-			</class>
+		</field>
+		<field name="functions">
+			<aspects>
+				<view visible="false" />
+			</aspects>
+		</field>
+		<field name="mode">
+			<aspects>
+				<view visible="false" />
+			</aspects>
+		</field>
+		<field name="notes">
+			<aspects>
+				<view render="text"></view>
+			</aspects>
 		</field>
 	</fields>
 </class>

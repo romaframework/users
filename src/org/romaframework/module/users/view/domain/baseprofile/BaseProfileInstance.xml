@@ -22,36 +22,30 @@
 		</view>
 	</aspects>
 	<fields>
-		<field name="entity">
-			<class>
-				<fields>
-					<field name="realm">
-						<aspects>
-							<view render="label" />
-						</aspects>
-					</field>
-					<field name="name">
-						<aspects>
-							<view required="true" />
-						</aspects>
-					</field>
-					<field name="mode">
-						<aspects>
-							<view visible="false" />
-						</aspects>
-					</field>
-					<field name="notes">
-						<aspects>
-							<view render="textarea" />
-						</aspects>
-					</field>
-					<field name="functions">
-						<aspects>
-							<view visible="false" />
-						</aspects>
-					</field>
-				</fields>
-			</class>
+		<field name="realm">
+			<aspects>
+				<view render="label" />
+			</aspects>
+		</field>
+		<field name="name">
+			<aspects>
+				<view required="true" />
+			</aspects>
+		</field>
+		<field name="mode">
+			<aspects>
+				<view visible="false" />
+			</aspects>
+		</field>
+		<field name="notes">
+			<aspects>
+				<view render="textarea" />
+			</aspects>
+		</field>
+		<field name="functions">
+			<aspects>
+				<view visible="false" />
+			</aspects>
 		</field>
 		<field name="availableClassNames">
 			<aspects>

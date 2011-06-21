@@ -17,65 +17,58 @@
 		</view>
 	</aspects>
 	<fields>
-		<field name="entity">
-			<class>
-				<fields>
-					<field name="realm">
-						<aspects>
-							<view enabled="false" />
-						</aspects>
-					</field>
-					<field name="groups">
-						<aspects>
-							<view visible="false" />
-						</aspects>
-					</field>
-					<field name="name" />
-					<field name="profile">
-						<aspects>
-							<validation required="true" />
-						</aspects>
-					</field>
-					<field name="signedOn">
-						<aspects>
-							<view enabled="false" />
-						</aspects>
-					</field>
-					<field name="lastModified">
-						<aspects>
-							<view enabled="false" />
-						</aspects>
-					</field>
-					<field name="email">
-						<aspects>
-							<view
-								match="^[_a-z0-9-]+(\.?[_a-z0-9-]*)*@?[a-z0-9-]*(\.?[a-z0-9-]*)*$" />
-						</aspects>
-					</field>
-					<field name="changePasswordNextLogin" />
-					<field name="password">
-						<aspects>
-							<view visible="false" />
-						</aspects>
-					</field>
-					<field name="status">
-						<aspects>
-							<view visible="false" />
-							<reporting visible="true" />
-						</aspects>
-					</field>
-					<field name="configuration">
-						<aspects>
-							<view visible="false" />
-						</aspects>
-					</field>
-					<field name="notes">
-						<aspects>
-							<view render="textarea" />
-						</aspects>
-					</field>
-				</fields>
-			</class>
+		<field name="realm">
+			<aspects>
+				<view enabled="false" />
+			</aspects>
+		</field>
+		<field name="groups">
+			<aspects>
+				<view visible="false" />
+			</aspects>
+		</field>
+		<field name="name" />
+		<field name="profile">
+			<aspects>
+				<validation required="true" />
+			</aspects>
+		</field>
+		<field name="signedOn">
+			<aspects>
+				<view enabled="false" />
+			</aspects>
+		</field>
+		<field name="lastModified">
+			<aspects>
+				<view enabled="false" />
+			</aspects>
+		</field>
+		<field name="email">
+			<aspects>
+				<validation match="^[_a-z0-9-]+(\.?[_a-z0-9-]*)*@?[a-z0-9-]*(\.?[a-z0-9-]*)*$" />
+			</aspects>
+		</field>
+		<field name="changePasswordNextLogin" />
+		<field name="password">
+			<aspects>
+				<view visible="false" />
+			</aspects>
+		</field>
+		<field name="status">
+			<aspects>
+				<view visible="false" />
+				<reporting visible="true" />
+			</aspects>
+		</field>
+		<field name="configuration">
+			<aspects>
+				<view visible="false" />
+			</aspects>
+		</field>
+		<field name="notes">
+			<aspects>
+				<view render="textarea" />
+			</aspects>
 		</field>
 		<field name="password">
 			<aspects>
