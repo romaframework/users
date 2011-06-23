@@ -42,6 +42,12 @@
 	<bean id="BaseAccountRepository"
 		class="org.romaframework.module.users.repository.BaseAccountRepository"
 		singleton="true" />
+	<bean id="BaseAccountStatusRepository"
+		class="org.romaframework.module.users.repository.BaseAccountStatusRepository"
+		singleton="true" />
+	<bean id="ActivityLogCategoryRepository"
+		class="org.romaframework.module.users.repository.ActivityLogCategoryRepository"
+		singleton="true" />
 	<bean id="BaseProfileRepository"
 		class="org.romaframework.module.users.repository.BaseProfileRepository"
 		singleton="true" />

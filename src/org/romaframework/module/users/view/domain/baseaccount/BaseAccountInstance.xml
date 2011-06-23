@@ -49,20 +49,10 @@
 			</aspects>
 		</field>
 		<field name="changePasswordNextLogin" />
-		<field name="password">
-			<aspects>
-				<view visible="false" />
-			</aspects>
-		</field>
 		<field name="status">
 			<aspects>
 				<view visible="false" />
 				<reporting visible="true" />
-			</aspects>
-		</field>
-		<field name="configuration">
-			<aspects>
-				<view visible="false" />
 			</aspects>
 		</field>
 		<field name="notes">

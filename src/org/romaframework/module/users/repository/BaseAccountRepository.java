@@ -78,11 +78,6 @@ public class BaseAccountRepository extends PersistenceAspectRepository<BaseAccou
 	@Override
 	public BaseAccount update(BaseAccount object) {
 		BaseAccount account = super.update(object);
-
-		// String name = entity.getName();
-		// super.save();
-		// entity = Roma.component(BaseAccountRepository.class).findByName(name);
-
 		SessionInfo sess = RomaFrontend.session().getActiveSessionInfo();
 		if (sess != null && sess.getAccount() != null && sess.getAccount().equals(account))
 			// I'M UPDATING THE CURRENT ACCOUNT: REPLACE IT WITH THE NEW ONE

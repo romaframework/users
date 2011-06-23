@@ -53,6 +53,8 @@ public class BaseAccount extends AbstractAccount implements SessionAccount, Seri
 
 	@ViewField(render = "password")
 	protected String						password;
+
+	@ViewField(visible = AnnotationConstants.FALSE)
 	protected List<String>			oldPasswords;
 
 	public BaseAccount() {

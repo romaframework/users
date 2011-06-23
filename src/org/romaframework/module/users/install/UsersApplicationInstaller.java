@@ -21,8 +21,10 @@ import java.util.Date;
 import java.util.HashMap;
 
 import org.romaframework.aspect.persistence.PersistenceAspect;
+import org.romaframework.aspect.persistence.QueryByFilter;
 import org.romaframework.core.Roma;
 import org.romaframework.core.install.ApplicationInstaller;
+import org.romaframework.core.repository.PersistenceAspectRepository;
 import org.romaframework.module.users.ActivityLogCategories;
 import org.romaframework.module.users.UsersAuthentication;
 import org.romaframework.module.users.UsersHelper;
@@ -33,6 +35,10 @@ import org.romaframework.module.users.domain.BaseAccountStatus;
 import org.romaframework.module.users.domain.BaseFunction;
 import org.romaframework.module.users.domain.BaseProfile;
 import org.romaframework.module.users.domain.Realm;
+import org.romaframework.module.users.repository.ActivityLogCategoryRepository;
+import org.romaframework.module.users.repository.ActivityLogRepository;
+import org.romaframework.module.users.repository.BaseAccountRepository;
+import org.romaframework.module.users.repository.BaseAccountStatusRepository;
 
 public class UsersApplicationInstaller extends ApplicationInstaller {
 
@@ -48,20 +54,20 @@ public class UsersApplicationInstaller extends ApplicationInstaller {
 	protected BaseProfile				pBasic;
 	protected BaseAccountStatus	defStatus;
 
-	public void startup() {
-		install();
-		executeOnce();
-	}
-
 	public UsersApplicationInstaller() {
 	}
 
 	@Override
-	public synchronized boolean install() {
+	public boolean checkInstall() {
+		return Roma.component(BaseAccountRepository.class).countByCriteria(new QueryByFilter(BaseAccount.class)) == 0;
+	}
+
+	@Override
+	public synchronized void install() {
 
 		PersistenceAspect db = Roma.context().persistence();
 
-		createInfos(db);
+		createStatuses(db);
 		createProfiles();
 		try {
 			createAccounts();
@@ -69,23 +75,23 @@ public class UsersApplicationInstaller extends ApplicationInstaller {
 			e.printStackTrace();
 		}
 
-		return true;
 	}
 
-	@Override
-	public synchronized boolean install(Object obj) {
+	public synchronized void install(Object obj) {
 		realm = (Realm) obj;
-		return install();
+		install();
 	}
 
-	protected void createInfos(PersistenceAspect db) {
+	protected void createStatuses(PersistenceAspect db) {
 
-		defStatus = db.createObject(new BaseAccountStatus(UsersInfoConstants.STATUS_ACTIVE), PersistenceAspect.STRATEGY_DETACHING);
-		db.createObject(new BaseAccountStatus(UsersInfoConstants.STATUS_UNACTIVE));
-		db.createObject(new BaseAccountStatus(UsersInfoConstants.STATUS_SUSPENDED));
-		db.createObject(new ActivityLogCategory(ActivityLogCategories.CATEGORY_SYSTEM));
-		db.createObject(new ActivityLogCategory(ActivityLogCategories.CATEGORY_LOGIN));
-		db.createObject(new ActivityLogCategory(ActivityLogCategories.CATEGORY_ADMIN));
+		BaseAccountStatusRepository repoStatus = Roma.component(BaseAccountStatusRepository.class);
+		defStatus = repoStatus.create(new BaseAccountStatus(UsersInfoConstants.STATUS_ACTIVE), PersistenceAspect.STRATEGY_DETACHING);
+		repoStatus.create(new BaseAccountStatus(UsersInfoConstants.STATUS_UNACTIVE));
+		repoStatus.create(new BaseAccountStatus(UsersInfoConstants.STATUS_SUSPENDED));
+		ActivityLogCategoryRepository repoCategory = Roma.component(ActivityLogCategoryRepository.class);
+		repoCategory.create(new ActivityLogCategory(ActivityLogCategories.CATEGORY_SYSTEM));
+		repoCategory.create(new ActivityLogCategory(ActivityLogCategories.CATEGORY_LOGIN));
+		repoCategory.create(new ActivityLogCategory(ActivityLogCategories.CATEGORY_ADMIN));
 	}
 
 	protected void createAccounts() throws NoSuchAlgorithmException {

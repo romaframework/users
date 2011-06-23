@@ -23,7 +23,6 @@ import java.util.List;
 
 import org.romaframework.aspect.authentication.AuthenticationAspect;
 import org.romaframework.aspect.core.annotation.AnnotationConstants;
-import org.romaframework.aspect.core.annotation.CoreClass;
 import org.romaframework.aspect.persistence.PersistenceAspect;
 import org.romaframework.aspect.persistence.QueryByFilter;
 import org.romaframework.aspect.validation.CustomValidation;
@@ -40,10 +39,10 @@ import org.romaframework.module.users.domain.AbstractAccount;
 import org.romaframework.module.users.domain.BaseAccount;
 import org.romaframework.module.users.domain.BaseAccountStatus;
 import org.romaframework.module.users.domain.BaseGroup;
+import org.romaframework.module.users.repository.BaseAccountStatusRepository;
 import org.romaframework.module.users.view.domain.AccountManagementUtility;
 import org.romaframework.module.users.view.domain.basegroup.BaseGroupSelectBox;
 
-@CoreClass(entity = BaseAccount.class)
 public class BaseAccountInstance extends CRUDInstance<BaseAccount> implements CustomValidation {
 	private List<BaseAccountStatus>	statuses;
 
@@ -62,11 +61,8 @@ public class BaseAccountInstance extends CRUDInstance<BaseAccount> implements Cu
 	@Override
 	public void onShow() {
 		super.onShow();
-		QueryByFilter qbf = new QueryByFilter(BaseAccountStatus.class);
-		qbf.setStrategy(PersistenceAspect.STRATEGY_DETACHING);
-		statuses = Roma.context().persistence().query(qbf);
+		statuses = Roma.component(BaseAccountStatusRepository.class).getAll();
 		Roma.fieldChanged(this, "statuses");
-
 	}
 
 	@Override
@@ -123,7 +119,7 @@ public class BaseAccountInstance extends CRUDInstance<BaseAccount> implements Cu
 
 	public void validate() throws ValidationException {
 		MultiValidationException exs = new MultiValidationException();
-		if (!getPassword().equals(confirmPassword)) {
+		if (getPassword()!=null && !getPassword().equals(confirmPassword)) {
 			exs.addException(new ValidationException(this, "confirmPassword", "$change.error", null));
 		}
 
@@ -178,7 +174,6 @@ public class BaseAccountInstance extends CRUDInstance<BaseAccount> implements Cu
 	@Override
 	public void save() {
 		entity.setPassword(password);
-		AccountManagementUtility.isPasswordUnused(getEntity(), entity.getPassword());
 		super.save();
 		if (logoutAfterSave) {
 			ObjectContext.getInstance().logout();
