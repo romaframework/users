@@ -46,7 +46,7 @@ import org.romaframework.module.users.domain.BaseFunction;
 import org.romaframework.module.users.domain.BaseProfile;
 import org.romaframework.module.users.view.domain.basefunction.BaseFunctionListable;
 
-@CoreClass(orderFields = "entity availableClassNames availableMembers functions", entity = BaseProfile.class)
+@CoreClass(orderFields = "entity availableClassNames availableMembers functions")
 public class BaseProfileInstance extends CRUDInstance<BaseProfile> implements CustomValidation, ViewCallback {
 	private static final String						DEF_HOME_PAGE	= "HomePage";
 

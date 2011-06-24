@@ -24,7 +24,6 @@ import org.romaframework.aspect.persistence.PersistenceAspect;
 import org.romaframework.aspect.persistence.QueryByFilter;
 import org.romaframework.core.Roma;
 import org.romaframework.core.install.ApplicationInstaller;
-import org.romaframework.core.repository.PersistenceAspectRepository;
 import org.romaframework.module.users.ActivityLogCategories;
 import org.romaframework.module.users.UsersAuthentication;
 import org.romaframework.module.users.UsersHelper;
@@ -36,7 +35,6 @@ import org.romaframework.module.users.domain.BaseFunction;
 import org.romaframework.module.users.domain.BaseProfile;
 import org.romaframework.module.users.domain.Realm;
 import org.romaframework.module.users.repository.ActivityLogCategoryRepository;
-import org.romaframework.module.users.repository.ActivityLogRepository;
 import org.romaframework.module.users.repository.BaseAccountRepository;
 import org.romaframework.module.users.repository.BaseAccountStatusRepository;
 

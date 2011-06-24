@@ -32,7 +32,7 @@ import org.romaframework.module.users.RealmHelper;
 import org.romaframework.module.users.domain.ActivityLog;
 import org.romaframework.module.users.domain.Realm;
 
-@CoreClass(entity = ActivityLog.class, orderFields = "realms rangeFrom rangeTo entity")
+@CoreClass(orderFields = "realms rangeFrom rangeTo entity")
 @ViewClass(label = "")
 public class ActivityLogFilter extends ComposedEntityInstance<ActivityLog> implements ViewCallback {
 

@@ -19,7 +19,6 @@ package org.romaframework.module.users.view.domain.baseprofile;
 import java.util.List;
 
 import org.romaframework.aspect.core.annotation.AnnotationConstants;
-import org.romaframework.aspect.core.annotation.CoreClass;
 import org.romaframework.aspect.view.ViewCallback;
 import org.romaframework.aspect.view.ViewConstants;
 import org.romaframework.aspect.view.annotation.ViewClass;
@@ -31,7 +30,6 @@ import org.romaframework.module.users.RealmHelper;
 import org.romaframework.module.users.domain.BaseProfile;
 import org.romaframework.module.users.domain.Realm;
 
-@CoreClass(entity = BaseProfile.class)
 @ViewClass(label = "")
 public class BaseProfileFilter extends ComposedEntityInstance<BaseProfile> implements ViewCallback {
 

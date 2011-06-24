@@ -22,7 +22,6 @@ import java.util.Set;
 
 import org.romaframework.aspect.authentication.AuthenticationAspect;
 import org.romaframework.aspect.core.annotation.AnnotationConstants;
-import org.romaframework.aspect.core.annotation.CoreClass;
 import org.romaframework.aspect.persistence.PersistenceAspect;
 import org.romaframework.aspect.persistence.QueryByFilter;
 import org.romaframework.aspect.persistence.QueryByFilterItemGroup;
@@ -39,7 +38,6 @@ import org.romaframework.module.users.domain.BaseAccount;
 import org.romaframework.module.users.domain.BaseGroup;
 import org.romaframework.module.users.domain.Realm;
 
-@CoreClass(entity = BaseAccount.class)
 @ViewClass(label = "")
 public class BaseAccountFilter extends CRUDFilter<BaseAccount> implements ViewCallback {
 

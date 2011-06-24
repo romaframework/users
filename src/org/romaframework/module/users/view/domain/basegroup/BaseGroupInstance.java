@@ -16,14 +16,12 @@
 
 package org.romaframework.module.users.view.domain.basegroup;
 
-import org.romaframework.aspect.core.annotation.CoreClass;
 import org.romaframework.frontend.domain.crud.CRUDHelper;
 import org.romaframework.frontend.domain.crud.CRUDInstance;
 import org.romaframework.module.users.RealmHelper;
 import org.romaframework.module.users.domain.BaseGroup;
 import org.romaframework.module.users.view.domain.account.AccountSelect;
 
-@CoreClass(entity = BaseGroup.class)
 public class BaseGroupInstance extends CRUDInstance<BaseGroup> {
 
 	public void onAccountListAdd() {

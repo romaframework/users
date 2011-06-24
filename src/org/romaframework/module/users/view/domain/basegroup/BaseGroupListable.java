@@ -16,11 +16,9 @@
 
 package org.romaframework.module.users.view.domain.basegroup;
 
-import org.romaframework.aspect.core.annotation.CoreClass;
 import org.romaframework.frontend.domain.entity.ComposedEntityInstance;
 import org.romaframework.module.users.domain.BaseGroup;
 
-@CoreClass(entity = BaseGroup.class)
 public class BaseGroupListable extends ComposedEntityInstance<BaseGroup> {
   public BaseGroupListable(BaseGroup iEntity) {
     super(iEntity);

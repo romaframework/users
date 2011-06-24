@@ -16,13 +16,11 @@
 
 package org.romaframework.module.users.view.domain.activitylog;
 
-import org.romaframework.aspect.core.annotation.CoreClass;
 import org.romaframework.aspect.validation.CustomValidation;
 import org.romaframework.aspect.validation.ValidationException;
 import org.romaframework.frontend.domain.crud.CRUDInstance;
 import org.romaframework.module.users.domain.ActivityLog;
 
-@CoreClass(entity = ActivityLog.class)
 public class ActivityLogInstance extends CRUDInstance<ActivityLog> implements CustomValidation {
   public ActivityLogInstance(ActivityLog iActivityLog) {
     super(iActivityLog);

@@ -18,11 +18,9 @@ package org.romaframework.module.users.view.domain.basefunction;
 
 import java.util.Map;
 
-import org.romaframework.aspect.core.annotation.CoreClass;
 import org.romaframework.frontend.domain.entity.ComposedEntityInstance;
 import org.romaframework.module.users.domain.BaseFunction;
 
-@CoreClass(entity = BaseFunction.class)
 public class BaseFunctionListable extends ComposedEntityInstance<BaseFunction> {
 	protected Map.Entry<String, BaseFunction>	entry;
 

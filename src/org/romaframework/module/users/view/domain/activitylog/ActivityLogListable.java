@@ -16,11 +16,9 @@
 
 package org.romaframework.module.users.view.domain.activitylog;
 
-import org.romaframework.aspect.core.annotation.CoreClass;
 import org.romaframework.frontend.domain.entity.ComposedEntityInstance;
 import org.romaframework.module.users.domain.ActivityLog;
 
-@CoreClass(entity = ActivityLog.class)
 public class ActivityLogListable extends ComposedEntityInstance<ActivityLog> {
   public ActivityLogListable(ActivityLog iEntity) {
     super(iEntity);

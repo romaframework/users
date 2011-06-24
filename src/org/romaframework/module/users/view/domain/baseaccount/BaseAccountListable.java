@@ -16,12 +16,10 @@
 
 package org.romaframework.module.users.view.domain.baseaccount;
 
-import org.romaframework.aspect.core.annotation.CoreClass;
 import org.romaframework.frontend.domain.entity.ComposedEntityInstance;
 import org.romaframework.module.users.domain.BaseAccount;
 import org.romaframework.module.users.domain.Realm;
 
-@CoreClass(entity = BaseAccount.class)
 public class BaseAccountListable extends ComposedEntityInstance<BaseAccount> {
   public BaseAccountListable(BaseAccount iEntity) {
     super(iEntity);

@@ -16,11 +16,9 @@
 
 package org.romaframework.module.users.view.domain.baseprofile;
 
-import org.romaframework.aspect.core.annotation.CoreClass;
 import org.romaframework.frontend.domain.entity.ComposedEntityInstance;
 import org.romaframework.module.users.domain.BaseProfile;
 
-@CoreClass(entity = BaseProfile.class)
 public class BaseProfileListable extends ComposedEntityInstance<BaseProfile> {
   public BaseProfileListable(BaseProfile iEntity) {
     super(iEntity);
