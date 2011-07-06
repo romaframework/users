@@ -1,20 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project basedir="." default="compile" name="roma-users">
-	<get src="https://github.com/Roma-Framework/core/raw/master/roma-build.xml" dest="roma-build.xml" skipexisting="true" />
+	<get src="https://github.com/romaframework/core/raw/master/roma-build.xml" dest="roma-build.xml" skipexisting="true" />
 	<import file="roma-build.xml" />
-
-
-	<target depends="compile" name="persistence-compile">
-
-		<path id="enhancement.classpath">
-			<fileset dir="${project.lib}" includes="**/*.jar" />
-			<pathelement location="${project.build.src}" />
-		</path>
-		<taskdef classname="org.datanucleus.enhancer.tools.EnhancerTask" classpathref="enhancement.classpath" name="datanucleusenhancer" />
-		<datanucleusenhancer classpathref="enhancement.classpath" failonerror="true" verbose="true" detachlistener="true">
-			<jvmarg line="-Dlog4j.configuration=file:src/datanucleus-log4j.properties" />
-		</datanucleusenhancer>
-	</target>
-
 
 </project>
