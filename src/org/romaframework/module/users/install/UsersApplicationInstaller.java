@@ -56,8 +56,8 @@ public class UsersApplicationInstaller extends ApplicationInstaller {
 	}
 
 	@Override
-	public boolean checkInstall() {
-		return Roma.component(BaseAccountRepository.class).countByCriteria(new QueryByFilter(BaseAccount.class)) == 0;
+	public boolean alreadyInstalled() {
+		return Roma.component(BaseAccountRepository.class).countByCriteria(new QueryByFilter(BaseAccount.class)) != 0;
 	}
 
 	@Override
