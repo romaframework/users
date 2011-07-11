@@ -6,9 +6,9 @@
 		<conf name="wizard" />
 	</configurations>
 	<publications>
-		<artifact name="roma-users-web" ext="jar" type="jar"></artifact>
-		<artifact name="roma-users-web-test" ext="jar" type="jar" conf="test"></artifact>
-		<artifact name="roma-users-web-wizard" ext="jar" type="zip" conf="wizard"></artifact>
+		<artifact name="roma-users" ext="jar" type="jar"></artifact>
+		<artifact name="roma-users-test" ext="jar" type="jar" conf="test"></artifact>
+		<artifact name="roma-users-wizard" ext="zip" type="zip" conf="wizard"></artifact>
 	</publications>
 	<dependencies>
 		<dependency org="org.romaframework" name="roma-frontend" rev="latest.integration" />
