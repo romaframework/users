@@ -66,8 +66,7 @@ public class UsersAuthentication extends AuthenticationAspectAbstract implements
 		Controller.getInstance().registerListener(UserObjectPermissionListener.class, this);
 	}
 
-	public Object authenticate(final Object iContext, final String iUserName, final String iUserPasswd, final Map<String, String> iParameters)
-			throws AuthenticationException {
+	public Object authenticate(final Object iContext, final String iUserName, final String iUserPasswd, final Map<String, String> iParameters) throws AuthenticationException {
 		BaseAccountRepository repository = Roma.repository(BaseAccount.class);
 
 		QueryByFilter filter = new QueryByFilter(BaseAccount.class);
@@ -237,21 +236,21 @@ public class UsersAuthentication extends AuthenticationAspectAbstract implements
 		if (!status.equals(STATUS_UP))
 			return true;
 
-		return allow(iField.getEntity().getSchemaClass().getName() + "." + iField.getName());
+		return allow(iField.getFullName());
 	}
 
 	public boolean allowAction(SchemaAction iAction) {
 		if (!status.equals(STATUS_UP))
 			return true;
 
-		return allow(iAction.getEntity().getSchemaClass().getName() + "." + iAction.getName());
+		return allow(iAction.getFullName());
 	}
 
 	public boolean allowEvent(SchemaEvent iEvent) {
 		if (!status.equals(STATUS_UP))
 			return true;
 
-		return allow(iEvent.getEntity().getSchemaClass().getName() + "." + iEvent.getEventSignature());
+		return allow(iEvent.getFullName());
 	}
 
 	public BaseProfile getCurrentProfile() {

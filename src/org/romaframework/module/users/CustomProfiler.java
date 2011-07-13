@@ -63,7 +63,7 @@ public class CustomProfiler implements UserObjectPermissionListener {
 	}
 
 	public boolean allowAction(SchemaAction action) {
-		return allow(action.getEntity().getName() + "." + action.getName());
+		return allow(action.getFullName());
 	}
 
 	public boolean allowClass(SchemaClass clazz) {
@@ -71,11 +71,11 @@ public class CustomProfiler implements UserObjectPermissionListener {
 	}
 
 	public boolean allowEvent(SchemaEvent event) {
-		return allow(event.getEntity().getName() + "." + event.getName());
+		return allow(event.getFullName());
 	}
 
 	public boolean allowField(SchemaField field) {
-		return allow(field.getEntity().getName() + "." + field.getName());
+		return allow(field.getFullName());
 	}
 
 	public void setCustomProfiling(CustomProfiling profiling) {
