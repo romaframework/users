@@ -37,7 +37,6 @@ import org.romaframework.aspect.view.annotation.ViewField;
 import org.romaframework.aspect.view.screen.Screen;
 import org.romaframework.aspect.view.screen.config.ScreenManager;
 import org.romaframework.core.Roma;
-import org.romaframework.frontend.RomaFrontend;
 import org.romaframework.frontend.domain.message.Message;
 import org.romaframework.frontend.domain.message.MessageResponseListener;
 import org.romaframework.module.users.UsersAuthentication;
@@ -81,7 +80,7 @@ public class Login implements MessageResponseListener {
 
 		// ROMA TUTORIAL: SET INITIAL SCREEN
 		Screen screen = Roma.component(ScreenManager.class).getScreen(iScreenName);
-		RomaFrontend.view().setScreen(screen);
+		Roma.view().setScreen(screen);
 	}
 
 	public Login(String iUser, String iPassword) {
@@ -105,7 +104,6 @@ public class Login implements MessageResponseListener {
 	 */
 	protected void onSuccess() {
 		getListener().onSuccess();
-		RomaFrontend.view().close(this);
 	}
 
 	/**
@@ -163,7 +161,7 @@ public class Login implements MessageResponseListener {
 	private void showChangePassword() {
 		ChangePassword changePw = new ChangePassword((BaseAccount) authManager.getCurrentAccount(), this);
 		changePw.setOldPassword(userPassword);
-		RomaFrontend.flow().forward(changePw, "screen:popup");
+		Roma.flow().forward(changePw, "screen:popup");
 	}
 
 	public void responseMessage(Message iMessage, Object iResponse) {

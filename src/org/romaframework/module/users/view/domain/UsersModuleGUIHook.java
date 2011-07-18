@@ -23,7 +23,6 @@ import org.romaframework.aspect.core.annotation.CoreClass.LOADING_MODE;
 import org.romaframework.aspect.hook.annotation.HookAction;
 import org.romaframework.aspect.hook.annotation.HookScope;
 import org.romaframework.core.Roma;
-import org.romaframework.frontend.RomaFrontend;
 import org.romaframework.frontend.domain.ControlPanel;
 import org.romaframework.frontend.domain.message.Message;
 import org.romaframework.frontend.domain.message.MessageResponseListener;
@@ -45,7 +44,7 @@ public class UsersModuleGUIHook implements MessageResponseListener {
 
 	@HookAction(hookBeforeAction = "ModifiableOrderMemberWrapper.add", scope = HookScope.APPLICATION)
 	public void showSecurityPrincipalSelector(ModifiableOrderMemberWrapper<?> iObject) {
-		RomaFrontend.flow().forward(new SecurityPrincipalSelectorWindow(this, iObject));
+		Roma.flow().forward(new SecurityPrincipalSelectorWindow(this, iObject));
 	}
 
 	public void responseMessage(Message iMessage, Object iResponse) {

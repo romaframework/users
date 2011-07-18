@@ -5,7 +5,6 @@ import org.romaframework.core.Roma;
 import org.romaframework.core.exception.ConfigurationException;
 import org.romaframework.core.exception.UserException;
 import org.romaframework.core.flow.ObjectContext;
-import org.romaframework.frontend.RomaFrontend;
 import org.romaframework.module.users.domain.BaseAccount;
 
 public class DefaultLoginListener implements LoginListener {
@@ -19,8 +18,8 @@ public class DefaultLoginListener implements LoginListener {
 		if (homePage == null)
 			throw new ConfigurationException("$Login.homepage.error");
 		Object toDisplay = ObjectContext.getInstance().getObject(homePage);
-		RomaFrontend.flow().clearHistory();
-		RomaFrontend.flow().forward(toDisplay);
+		Roma.flow().clearHistory();
+		Roma.flow().forward(toDisplay);
 	}
 
 }

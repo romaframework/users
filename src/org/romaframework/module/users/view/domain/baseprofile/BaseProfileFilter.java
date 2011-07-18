@@ -19,6 +19,7 @@ package org.romaframework.module.users.view.domain.baseprofile;
 import java.util.List;
 
 import org.romaframework.aspect.core.annotation.AnnotationConstants;
+import org.romaframework.aspect.view.SelectionMode;
 import org.romaframework.aspect.view.ViewCallback;
 import org.romaframework.aspect.view.ViewConstants;
 import org.romaframework.aspect.view.annotation.ViewClass;
@@ -52,7 +53,7 @@ public class BaseProfileFilter extends ComposedEntityInstance<BaseProfile> imple
 		Roma.setFeature(this, "realm", ViewFieldFeatures.VISIBLE, selectedRealm == null);
 	}
 
-	@ViewField(label = "Mode", render = "select", selectionField = "entity.mode", selectionMode = ViewFieldFeatures.SELECTION_MODE_INDEX)
+	@ViewField(label = "Mode", render = "select", selectionField = "entity.mode", selectionMode = SelectionMode.SELECTION_MODE_INDEX)
 	public String[] getModes() {
 		return BaseProfileHelper.MODES;
 	}

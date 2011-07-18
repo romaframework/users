@@ -30,16 +30,15 @@ import org.romaframework.aspect.reporting.annotation.ReportingField;
 import org.romaframework.aspect.session.SessionInfo;
 import org.romaframework.aspect.validation.CustomValidation;
 import org.romaframework.aspect.validation.ValidationException;
+import org.romaframework.aspect.view.SelectionMode;
 import org.romaframework.aspect.view.ViewCallback;
 import org.romaframework.aspect.view.ViewConstants;
 import org.romaframework.aspect.view.annotation.ViewField;
-import org.romaframework.aspect.view.feature.ViewFieldFeatures;
 import org.romaframework.core.Roma;
 import org.romaframework.core.schema.SchemaAction;
 import org.romaframework.core.schema.SchemaClass;
 import org.romaframework.core.schema.SchemaField;
 import org.romaframework.core.schema.SchemaManager;
-import org.romaframework.frontend.RomaFrontend;
 import org.romaframework.frontend.domain.crud.CRUDInstance;
 import org.romaframework.module.users.RealmHelper;
 import org.romaframework.module.users.domain.BaseFunction;
@@ -70,7 +69,7 @@ public class BaseProfileInstance extends CRUDInstance<BaseProfile> implements Cu
 	@ViewField(selectionField = "selectedFunction", enabled = AnnotationConstants.FALSE, render = ViewConstants.RENDER_TABLEEDIT)
 	protected List<BaseFunctionListable>	functions			= new ArrayList<BaseFunctionListable>();
 
-	@ViewField(label = "Mode", render = "select", selectionField = "entity.mode", selectionMode = ViewFieldFeatures.SELECTION_MODE_INDEX)
+	@ViewField(label = "Mode", render = "select", selectionField = "entity.mode", selectionMode = SelectionMode.SELECTION_MODE_INDEX)
 	@ReportingField(visible = AnnotationConstants.FALSE)
 	public String[] getModes() {
 		return BaseProfileHelper.MODES;
@@ -122,7 +121,7 @@ public class BaseProfileInstance extends CRUDInstance<BaseProfile> implements Cu
 		super.save();
 
 		// UPDATE ALL IN-MEMORY USERS ACCOUNT
-		Collection<SessionInfo> activeSessions = RomaFrontend.session().getSessionInfos();
+		Collection<SessionInfo> activeSessions = Roma.session().getSessionInfos();
 
 		synchronized (activeSessions) {
 			for (SessionInfo s : activeSessions) {

@@ -19,7 +19,6 @@ import org.romaframework.core.schema.SchemaAction;
 import org.romaframework.core.schema.SchemaClassDefinition;
 import org.romaframework.core.schema.SchemaClassElement;
 import org.romaframework.core.schema.SchemaField;
-import org.romaframework.frontend.RomaFrontend;
 import org.romaframework.module.users.CustomProfiler;
 import org.romaframework.module.users.domain.CustomFunction;
 import org.romaframework.module.users.domain.CustomProfiling;
@@ -105,7 +104,7 @@ public class CustomProfilingSettings implements ViewCallback {
 	}
 
 	public void cancel() {
-		RomaFrontend.flow().back();
+		Roma.flow().back();
 	}
 
 	public void save() {
@@ -117,7 +116,7 @@ public class CustomProfilingSettings implements ViewCallback {
 		}
 		profiling = Roma.repository(CustomProfiling.class).update(profiling, PersistenceAspect.STRATEGY_DETACHING);
 		Roma.component(CustomProfiler.class).setCustomProfiling(profiling);
-		Object back = RomaFrontend.flow().back();
+		Object back = Roma.flow().back();
 		if (back instanceof Refreshable)
 			((Refreshable) back).refresh();
 	}

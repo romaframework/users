@@ -30,7 +30,7 @@ public class UsersModulePagePanel implements PagePanel {
 			new ClassDynaLink("Application logs", ActivityLogMain.class) };
 
 	@FlowAction(next = ControlPanelMain.class)
-	public void onIcon() {
+	public void onIconClick() {
 	}
 
 	public String getIcon() {

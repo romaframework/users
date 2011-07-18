@@ -25,7 +25,6 @@ import org.romaframework.aspect.persistence.PersistenceAspect;
 import org.romaframework.aspect.view.ViewConstants;
 import org.romaframework.aspect.view.annotation.ViewField;
 import org.romaframework.core.Roma;
-import org.romaframework.frontend.RomaFrontend;
 import org.romaframework.frontend.domain.message.MessageOk;
 import org.romaframework.frontend.domain.message.MessageResponseListener;
 import org.romaframework.frontend.domain.page.Page;
@@ -81,15 +80,15 @@ public class ChangePassword extends Page {
 		if (oldPassword != null)
 			cypherOldPassword = Roma.aspect(AuthenticationAspect.class).encryptPassword(oldPassword);
 		if (cypherOldPassword == null || !cypherOldPassword.equals(account.getPassword())) {
-			RomaFrontend.flow().forward(new MessageOk("error", "", null, "$ChangePassword.oldPassword.error"), "screen:popup");
+			Roma.flow().forward(new MessageOk("error", "", null, "$ChangePassword.oldPassword.error"), "screen:popup");
 			return;
 		}
 		if (!AccountManagementUtility.isPasswordMathedRegExpression(password)) {
-			RomaFrontend.flow().forward(new MessageOk("error", "", null, "$ChangePassword.invalidPassword.error"), "screen:popup");
+			Roma.flow().forward(new MessageOk("error", "", null, "$ChangePassword.invalidPassword.error"), "screen:popup");
 			return;
 		}
 		if (!AccountManagementUtility.isPasswordUnused(account, password)) {
-			RomaFrontend.flow().forward(new MessageOk("error", "", null, "$ChangePassword.alreadyUsed.error"), "screen:popup");
+			Roma.flow().forward(new MessageOk("error", "", null, "$ChangePassword.alreadyUsed.error"), "screen:popup");
 			return;
 		}
 

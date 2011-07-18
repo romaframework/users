@@ -8,7 +8,6 @@ import org.romaframework.aspect.persistence.QueryByFilter;
 import org.romaframework.aspect.session.SessionInfo;
 import org.romaframework.core.Roma;
 import org.romaframework.core.repository.PersistenceAspectRepository;
-import org.romaframework.frontend.RomaFrontend;
 import org.romaframework.module.users.RealmHelper;
 import org.romaframework.module.users.UsersInfoConstants;
 import org.romaframework.module.users.domain.ActivityLog;
@@ -78,7 +77,7 @@ public class BaseAccountRepository extends PersistenceAspectRepository<BaseAccou
 	@Override
 	public BaseAccount update(BaseAccount object) {
 		BaseAccount account = super.update(object);
-		SessionInfo sess = RomaFrontend.session().getActiveSessionInfo();
+		SessionInfo sess = Roma.session().getActiveSessionInfo();
 		if (sess != null && sess.getAccount() != null && sess.getAccount().equals(account))
 			// I'M UPDATING THE CURRENT ACCOUNT: REPLACE IT WITH THE NEW ONE
 			sess.setAccount(account);
