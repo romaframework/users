@@ -22,11 +22,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.romaframework.core.domain.type.RealmAware;
 import org.romaframework.frontend.domain.crud.CRUDHelper;
 import org.romaframework.module.users.view.domain.baseprofile.BaseProfileSelect;
 
-public class BaseProfile implements Serializable, RealmAware, Principal {
+public class BaseProfile implements Serializable, Principal {
 
 	private static final long	serialVersionUID	= 2147431210150249521L;
 
