@@ -16,64 +16,19 @@
 
 package org.romaframework.module.users.view.domain.basegroup;
 
-import java.util.List;
-
-import org.romaframework.aspect.core.annotation.AnnotationConstants;
-import org.romaframework.aspect.view.ViewCallback;
-import org.romaframework.aspect.view.ViewConstants;
 import org.romaframework.aspect.view.annotation.ViewClass;
-import org.romaframework.aspect.view.annotation.ViewField;
-import org.romaframework.aspect.view.feature.ViewFieldFeatures;
-import org.romaframework.core.Roma;
 import org.romaframework.frontend.domain.entity.ComposedEntityInstance;
-import org.romaframework.module.users.RealmHelper;
 import org.romaframework.module.users.domain.BaseGroup;
-import org.romaframework.module.users.domain.Realm;
 
 @ViewClass(label = "")
-public class BaseGroupFilter extends ComposedEntityInstance<BaseGroup> implements ViewCallback {
-
-	@ViewField(render = ViewConstants.RENDER_SELECT, selectionField = "selectedRealm")
-	private List<Realm>	realm	= RealmHelper.getRealms();
-
-	@ViewField(visible = AnnotationConstants.FALSE)
-	private Realm				selectedRealm;
+public class BaseGroupFilter extends ComposedEntityInstance<BaseGroup> {
 
 	public BaseGroupFilter() {
-		this(new BaseGroup(RealmHelper.getCurrentRealm()));
+		this(new BaseGroup());
 	}
 
 	public BaseGroupFilter(BaseGroup iBaseGroup) {
 		super(iBaseGroup);
-		selectedRealm = entity.getRealm();
 	}
 
-	public void onShow() {
-		Roma.setFeature(this, "realm", ViewFieldFeatures.ENABLED, selectedRealm == null);
-	}
-
-	/**
-	 * @return the realm
-	 */
-	public List<Realm> getRealm() {
-		return realm;
-	}
-
-	/**
-	 * @return the selected
-	 */
-	public Realm getSelectedRealm() {
-		return selectedRealm;
-	}
-
-	/**
-	 * @param selected
-	 *          the selected to set
-	 */
-	public void setSelectedRealm(Realm selected) {
-		selectedRealm = selected;
-	}
-
-	public void onDispose() {
-	}
 }

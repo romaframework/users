@@ -16,26 +16,16 @@
 
 package org.romaframework.module.users.view.domain.menu;
 
-import org.romaframework.aspect.authentication.AuthenticationAspect;
 import org.romaframework.aspect.core.annotation.CoreClass;
-import org.romaframework.aspect.flow.FlowAspect;
 import org.romaframework.aspect.flow.annotation.FlowAction;
-import org.romaframework.aspect.view.ViewCallback;
-import org.romaframework.core.Roma;
-import org.romaframework.frontend.domain.message.MessageOk;
-import org.romaframework.module.users.domain.BaseAccount;
-import org.romaframework.module.users.domain.Realm;
 import org.romaframework.module.users.view.domain.activitylog.ActivityLogMain;
 import org.romaframework.module.users.view.domain.baseaccount.BaseAccountMain;
 import org.romaframework.module.users.view.domain.basegroup.BaseGroupMain;
 import org.romaframework.module.users.view.domain.baseprofile.BaseProfileMain;
 import org.romaframework.module.users.view.domain.configuration.ConfigurationBaseAccount;
-import org.romaframework.module.users.view.domain.realm.RealmAdminMain;
 
-@CoreClass(orderActions = "accounts profiles groups activityLogs realms")
-public class UsersPanel implements ViewCallback {
-
-	private boolean	disableRealmAccountCreation;
+@CoreClass(orderActions = "accounts profiles groups activityLogs")
+public class UsersPanel {
 
 	@FlowAction(next = BaseAccountMain.class, position = "screen://body")
 	public void accounts() {
@@ -57,33 +47,4 @@ public class UsersPanel implements ViewCallback {
 	public void activityLogs() {
 	}
 
-	public void realms() {
-		if (disableRealmAccountCreation) {
-			Roma.aspect(FlowAspect.class).forward(new MessageOk("", "Function Disabled", null, "Function Disabled!"));
-		} else {
-			Roma.aspect(FlowAspect.class).forward(new RealmAdminMain(), "screen://body");
-		}
-	}
-
-	public void onDispose() {
-
-	}
-
-	public void onShow() {
-		AuthenticationAspect aAsp = Roma.aspect(AuthenticationAspect.class);
-
-		BaseAccount account = (BaseAccount) aAsp.getCurrentAccount();
-
-		disableRealmAccountCreation = false;
-
-		if (account != null) {
-			Realm realm = (Realm) aAsp.getCurrentRealm();
-			if (realm != null) {
-				disableRealmAccountCreation = true;
-			}
-		} else {
-			disableRealmAccountCreation = true;
-		}
-
-	}
 }

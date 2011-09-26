@@ -42,21 +42,13 @@ public class BaseProfileMain extends CRUDMain<BaseProfileListable> {
 	@Override
 	public void showAll() {
 		QueryByFilter query = new QueryByFilter(BaseProfile.class);
-		BaseProfileFilter filter = getFilter();
-
-		if (filter.getSelectedRealm() != null)
-			query.addItem("realm", QueryByFilter.FIELD_EQUALS, filter.getSelectedRealm());
-
 		searchByFilter(query);
 	}
 
 	@Override
 	public void search() {
 		QueryByFilter addFilter = new QueryByFilter(BaseProfile.class);
-		if (filter.getSelectedRealm() != null)
-			addFilter.addItem("realm", QueryByFilter.FIELD_EQUALS, filter.getSelectedRealm());
 
-		addFilter.addOrder("realm");
 		addFilter.addOrder("name");
 
 		searchByExample(addFilter);

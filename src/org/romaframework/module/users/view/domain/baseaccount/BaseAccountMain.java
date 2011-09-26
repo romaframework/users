@@ -60,11 +60,6 @@ public class BaseAccountMain extends CRUDMain<BaseAccount> {
 	@Override
 	public void showAll() {
 		QueryByFilter query = new QueryByFilter(BaseAccount.class);
-		BaseAccountFilter filter = getFilter();
-
-		if (filter.getSelectedRealm() != null)
-			query.addItem("realm", QueryByFilter.FIELD_EQUALS, filter.getSelectedRealm());
-
 		searchByFilter(query);
 	}
 

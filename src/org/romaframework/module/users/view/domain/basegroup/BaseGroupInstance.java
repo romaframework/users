@@ -18,7 +18,6 @@ package org.romaframework.module.users.view.domain.basegroup;
 
 import org.romaframework.frontend.domain.crud.CRUDHelper;
 import org.romaframework.frontend.domain.crud.CRUDInstance;
-import org.romaframework.module.users.RealmHelper;
 import org.romaframework.module.users.domain.BaseGroup;
 import org.romaframework.module.users.view.domain.account.AccountSelect;
 
@@ -31,7 +30,7 @@ public class BaseGroupInstance extends CRUDInstance<BaseGroup> {
 	@Override
 	public void onCreate() {
 
-		BaseGroup newGroup = new BaseGroup(RealmHelper.getCurrentRealm());
+		BaseGroup newGroup = new BaseGroup();
 
 		setEntity(newGroup);
 

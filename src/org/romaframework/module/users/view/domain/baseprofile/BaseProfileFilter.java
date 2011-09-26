@@ -16,41 +16,21 @@
 
 package org.romaframework.module.users.view.domain.baseprofile;
 
-import java.util.List;
-
-import org.romaframework.aspect.core.annotation.AnnotationConstants;
 import org.romaframework.aspect.view.SelectionMode;
-import org.romaframework.aspect.view.ViewCallback;
-import org.romaframework.aspect.view.ViewConstants;
 import org.romaframework.aspect.view.annotation.ViewClass;
 import org.romaframework.aspect.view.annotation.ViewField;
-import org.romaframework.aspect.view.feature.ViewFieldFeatures;
-import org.romaframework.core.Roma;
 import org.romaframework.frontend.domain.entity.ComposedEntityInstance;
-import org.romaframework.module.users.RealmHelper;
 import org.romaframework.module.users.domain.BaseProfile;
-import org.romaframework.module.users.domain.Realm;
 
 @ViewClass(label = "")
-public class BaseProfileFilter extends ComposedEntityInstance<BaseProfile> implements ViewCallback {
-
-	@ViewField(render = ViewConstants.RENDER_SELECT, selectionField = "selectedRealm")
-	private List<Realm>	realm	= RealmHelper.getRealms();
-
-	@ViewField(visible = AnnotationConstants.FALSE)
-	private Realm				selectedRealm;
+public class BaseProfileFilter extends ComposedEntityInstance<BaseProfile> {
 
 	public BaseProfileFilter() {
-		super(new BaseProfile(RealmHelper.getCurrentRealm()));
-		selectedRealm = entity.getRealm();
+		super(new BaseProfile());
 	}
 
 	public BaseProfileFilter(BaseProfile iProfile) {
 		super(iProfile);
-	}
-
-	public void onShow() {
-		Roma.setFeature(this, "realm", ViewFieldFeatures.VISIBLE, selectedRealm == null);
 	}
 
 	@ViewField(label = "Mode", render = "select", selectionField = "entity.mode", selectionMode = SelectionMode.SELECTION_MODE_INDEX)
@@ -58,28 +38,4 @@ public class BaseProfileFilter extends ComposedEntityInstance<BaseProfile> imple
 		return BaseProfileHelper.MODES;
 	}
 
-	/**
-	 * @return the realm
-	 */
-	public List<Realm> getRealm() {
-		return realm;
-	}
-
-	/**
-	 * @return the selected
-	 */
-	public Realm getSelectedRealm() {
-		return selectedRealm;
-	}
-
-	/**
-	 * @param selected
-	 *          the selected to set
-	 */
-	public void setSelectedRealm(Realm selected) {
-		selectedRealm = selected;
-	}
-
-	public void onDispose() {
-	}
 }

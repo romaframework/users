@@ -9,7 +9,6 @@ public class ActivityLogCategory {
 	}
 
 	public ActivityLogCategory(String name) {
-		super();
 		this.name = name;
 	}
 

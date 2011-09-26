@@ -33,7 +33,6 @@ import org.romaframework.module.users.domain.BaseAccount;
 import org.romaframework.module.users.domain.BaseAccountStatus;
 import org.romaframework.module.users.domain.BaseFunction;
 import org.romaframework.module.users.domain.BaseProfile;
-import org.romaframework.module.users.domain.Realm;
 import org.romaframework.module.users.repository.ActivityLogCategoryRepository;
 import org.romaframework.module.users.repository.BaseAccountRepository;
 import org.romaframework.module.users.repository.BaseAccountStatusRepository;
@@ -46,7 +45,6 @@ public class UsersApplicationInstaller extends AbstractApplicationInstaller {
 	public static final String	ACCOUNT_USER					= "user";
 	public static final String	ACCOUNT_SEPARATOR			= ".";
 
-	protected Realm							realm;
 	protected BaseProfile				pAnonymous;
 	protected BaseProfile				pAdmin;
 	protected BaseProfile				pBasic;
@@ -76,7 +74,6 @@ public class UsersApplicationInstaller extends AbstractApplicationInstaller {
 	}
 
 	public synchronized void install(Object obj) {
-		realm = (Realm) obj;
 		install();
 	}
 
@@ -93,28 +90,18 @@ public class UsersApplicationInstaller extends AbstractApplicationInstaller {
 	}
 
 	protected void createAccounts() throws NoSuchAlgorithmException {
-		BaseAccount aAdmin = new BaseAccount(realm);
-		if (realm == null) {
-			aAdmin.setName(ACCOUNT_ADMIN);
-			aAdmin.setPassword(ACCOUNT_ADMIN);
-		} else {
-			aAdmin.setName(ACCOUNT_ADMIN + ACCOUNT_SEPARATOR + realm);
-			aAdmin.setPassword(ACCOUNT_ADMIN + ACCOUNT_SEPARATOR + realm);
-		}
+		BaseAccount aAdmin = new BaseAccount();
+		aAdmin.setName(ACCOUNT_ADMIN);
+		aAdmin.setPassword(ACCOUNT_ADMIN);
 		aAdmin.setSignedOn(new Date());
 		aAdmin.setStatus(defStatus);
 		aAdmin.setLastModified(aAdmin.getSignedOn());
 		aAdmin.setProfile(pAdmin);
 
 		UsersHelper.getInstance().setAccount(aAdmin);
-		BaseAccount uUser = new BaseAccount(realm);
-		if (realm == null) {
-			uUser.setName(ACCOUNT_USER);
-			uUser.setPassword(ACCOUNT_USER);
-		} else {
-			uUser.setName(ACCOUNT_USER + ACCOUNT_SEPARATOR + realm);
-			uUser.setPassword(ACCOUNT_USER + ACCOUNT_SEPARATOR + realm);
-		}
+		BaseAccount uUser = new BaseAccount();
+		uUser.setName(ACCOUNT_USER);
+		uUser.setPassword(ACCOUNT_USER);
 		uUser.setSignedOn(new Date());
 		uUser.setStatus(defStatus);
 		uUser.setLastModified(uUser.getSignedOn());
@@ -124,7 +111,7 @@ public class UsersApplicationInstaller extends AbstractApplicationInstaller {
 	}
 
 	protected void createProfiles() {
-		pAnonymous = new BaseProfile(realm);
+		pAnonymous = new BaseProfile();
 		pAnonymous.setName(UsersAuthentication.ANONYMOUS_PROFILE_NAME);
 		pAnonymous.setHomePage("HomePage");
 		pAnonymous.setFunctions(new HashMap<String, BaseFunction>());
@@ -132,38 +119,15 @@ public class UsersApplicationInstaller extends AbstractApplicationInstaller {
 		UsersHelper.getInstance().setProfile(pAnonymous);
 
 		pAdmin = new BaseProfile();
-		if (realm == null) {
-			pAdmin.setName(PROFILE_ADMINISTRATOR);
-		} else {
-			pAdmin.setName(PROFILE_ADMINISTRATOR + ACCOUNT_SEPARATOR + realm);
-		}
+		pAdmin.setName(PROFILE_ADMINISTRATOR);
 		pAdmin.setHomePage("HomePageAdmin");
 		pAdmin.setMode(BaseProfile.MODE_ALLOW_ALL_BUT);
 		UsersHelper.getInstance().setProfile(pAdmin);
 
 		pBasic = new BaseProfile();
-		if (realm == null) {
-			pBasic.setName(PROFILE_BASIC);
-		} else {
-			pBasic.setName(PROFILE_BASIC + ACCOUNT_SEPARATOR + realm);
-		}
+		pBasic.setName(PROFILE_BASIC);
 		pBasic.setHomePage("HomePage");
 		pBasic.setMode(BaseProfile.MODE_ALLOW_ALL_BUT);
 		UsersHelper.getInstance().setProfile(pBasic);
-	}
-
-	/**
-	 * @return the realm
-	 */
-	public Realm getRealm() {
-		return realm;
-	}
-
-	/**
-	 * @param realm
-	 *          the realm to set
-	 */
-	public void setRealm(Realm realm) {
-		this.realm = realm;
 	}
 }

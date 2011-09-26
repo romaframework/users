@@ -35,7 +35,6 @@ import org.romaframework.core.Roma;
 import org.romaframework.core.flow.ObjectContext;
 import org.romaframework.frontend.domain.crud.CRUDInstance;
 import org.romaframework.module.users.UsersInfoConstants;
-import org.romaframework.module.users.domain.AbstractAccount;
 import org.romaframework.module.users.domain.BaseAccount;
 import org.romaframework.module.users.domain.BaseAccountStatus;
 import org.romaframework.module.users.domain.BaseGroup;
@@ -67,13 +66,7 @@ public class BaseAccountInstance extends CRUDInstance<BaseAccount> implements Cu
 
 	@Override
 	public void onCreate() {
-		AbstractAccount account = (AbstractAccount) Roma.aspect(AuthenticationAspect.class).getCurrentAccount();
-		BaseAccount newAccount;
-		if (account != null) {
-			newAccount = new BaseAccount(account.getRealm());
-		} else {
-			newAccount = new BaseAccount(null);
-		}
+		BaseAccount newAccount =new BaseAccount();
 		setEntity(newAccount);
 		getEntity().setSignedOn(new Date());
 		getEntity().setLastModified(new Date());

@@ -37,7 +37,6 @@ import org.romaframework.core.schema.SchemaAction;
 import org.romaframework.core.schema.SchemaClass;
 import org.romaframework.core.schema.SchemaEvent;
 import org.romaframework.core.schema.SchemaField;
-import org.romaframework.module.users.domain.AbstractAccount;
 import org.romaframework.module.users.domain.BaseAccount;
 import org.romaframework.module.users.domain.BaseAccountStatus;
 import org.romaframework.module.users.domain.BaseFunction;
@@ -66,11 +65,10 @@ public class UsersAuthentication extends AuthenticationAspectAbstract implements
 		Controller.getInstance().registerListener(UserObjectPermissionListener.class, this);
 	}
 
-	public Object authenticate(final Object iContext, final String iUserName, final String iUserPasswd, final Map<String, String> iParameters) throws AuthenticationException {
+	public Object authenticate(final String iUserName, final String iUserPasswd, final Map<String, String> iParameters) throws AuthenticationException {
 		BaseAccountRepository repository = Roma.repository(BaseAccount.class);
 
 		QueryByFilter filter = new QueryByFilter(BaseAccount.class);
-		filter.addItem("profile.realm", QueryByFilter.FIELD_EQUALS, iContext);
 		filter.addItem("name", QueryByFilter.FIELD_EQUALS, iUserName);
 		filter.setMode(PersistenceAspect.FULL_MODE_LOADING);
 		filter.setStrategy(PersistenceAspect.STRATEGY_DETACHING);
@@ -298,15 +296,6 @@ public class UsersAuthentication extends AuthenticationAspectAbstract implements
 		}
 
 		return anonymousProfile;
-	}
-
-	public Object getCurrentRealm() {
-		AbstractAccount account = (AbstractAccount) getCurrentAccount();
-		if (account != null) {
-			return account.getRealm();
-		} else {
-			return null;
-		}
 	}
 
 	public boolean isSingleSessionPerUser() {

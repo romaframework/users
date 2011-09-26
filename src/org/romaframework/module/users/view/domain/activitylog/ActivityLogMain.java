@@ -25,7 +25,6 @@ import org.romaframework.aspect.core.annotation.CoreField;
 import org.romaframework.aspect.persistence.QueryByFilter;
 import org.romaframework.frontend.domain.crud.CRUDMain;
 import org.romaframework.module.users.domain.ActivityLog;
-import org.romaframework.module.users.domain.Realm;
 
 public class ActivityLogMain extends CRUDMain<ActivityLogListable> {
 
@@ -47,10 +46,6 @@ public class ActivityLogMain extends CRUDMain<ActivityLogListable> {
 	@Override
 	public void showAll() {
 		QueryByFilter query = new QueryByFilter(ActivityLog.class);
-		ActivityLogFilter filter = getFilter();
-
-		if (filter.getSelectedRealm() != null)
-			query.addItem("account.realm", QueryByFilter.FIELD_EQUALS, filter.getSelectedRealm());
 		query.addOrder("when", QueryByFilter.ORDER_DESC);
 
 		searchByFilter(query);
@@ -66,12 +61,6 @@ public class ActivityLogMain extends CRUDMain<ActivityLogListable> {
 
 		if (filter.getEntity().getAccount() != null)
 			dynaFilter.addItem("account", QueryByFilter.FIELD_EQUALS, filter.getEntity().getAccount());
-		else {
-			Realm realm = filter.getSelectedRealm();
-			if (realm != null)
-				// RESTRICT SEARCH ONLY IN ACCOUNTS OF CURRENT REALM)
-				dynaFilter.addItem("account.realm", QueryByFilter.FIELD_EQUALS, realm);
-		}
 
 		if (filter.getEntity().getNotes() != null && filter.getEntity().getNotes().length() > 0)
 			dynaFilter.addItem("notes", QueryByFilter.FIELD_LIKE, filter.getEntity().getNotes());

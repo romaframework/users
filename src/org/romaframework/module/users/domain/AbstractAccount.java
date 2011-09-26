@@ -18,9 +18,6 @@ package org.romaframework.module.users.domain;
 
 import java.security.Principal;
 
-import org.romaframework.aspect.core.annotation.AnnotationConstants;
-import org.romaframework.aspect.view.annotation.ViewField;
-
 /**
  * Base abstract class representing an account in the system. Current direct implementations are BaseAccount and BaseGroup. This
  * generalization allows to assign privileges to a single account or to a group of it.
@@ -29,9 +26,6 @@ import org.romaframework.aspect.view.annotation.ViewField;
  * 
  */
 public abstract class AbstractAccount implements Principal {
-
-	@ViewField(visible = AnnotationConstants.FALSE)
-	protected Realm		realm;
 
 	protected String	name;
 
@@ -48,21 +42,6 @@ public abstract class AbstractAccount implements Principal {
 	 */
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	/**
-	 * @return the space
-	 */
-	public Realm getRealm() {
-		return realm;
-	}
-
-	/**
-	 * @param realm
-	 *          the realm to set
-	 */
-	public void setRealm(Realm realm) {
-		this.realm = realm;
 	}
 
 }

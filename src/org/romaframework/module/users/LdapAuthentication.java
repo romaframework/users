@@ -85,10 +85,10 @@ public class LdapAuthentication extends UsersAuthentication {
 	protected List<String>	returnedAttributes;
 
 	@Override
-	public Object authenticate(Object iContext, String iUserName, String iUserPasswd, Map<String, String> iParameters) throws AuthenticationException {
+	public Object authenticate(String iUserName, String iUserPasswd, Map<String, String> iParameters) throws AuthenticationException {
 
 		if (nonLdapUsers != null && nonLdapUsers.contains(iUserName)) {
-			return super.authenticate(iContext, iUserName, iUserPasswd, iParameters);
+			return super.authenticate(iUserName, iUserPasswd, iParameters);
 		}
 
 		Map<?, ?> authenticationResult = authenticateLdap(iUserName, iUserPasswd);

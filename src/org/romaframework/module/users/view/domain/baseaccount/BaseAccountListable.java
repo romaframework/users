@@ -18,16 +18,10 @@ package org.romaframework.module.users.view.domain.baseaccount;
 
 import org.romaframework.frontend.domain.entity.ComposedEntityInstance;
 import org.romaframework.module.users.domain.BaseAccount;
-import org.romaframework.module.users.domain.Realm;
 
 public class BaseAccountListable extends ComposedEntityInstance<BaseAccount> {
   public BaseAccountListable(BaseAccount iEntity) {
     super(iEntity);
   }
 
-  public Realm getRealm() {
-    if (entity.getProfile() != null)
-      return entity.getProfile().getRealm();
-    return null;
-  }
 }

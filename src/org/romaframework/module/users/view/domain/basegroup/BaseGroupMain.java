@@ -55,11 +55,6 @@ public class BaseGroupMain extends CRUDMain<BaseGroupListable> {
 	@Override
 	public void showAll() {
 		QueryByFilter query = new QueryByFilter(BaseGroup.class);
-		BaseGroupFilter filter = getFilter();
-
-		if (filter.getSelectedRealm() != null)
-			query.addItem("realm", QueryByFilter.FIELD_EQUALS, filter.getSelectedRealm());
-
 		searchByFilter(query);
 	}
 
@@ -67,9 +62,6 @@ public class BaseGroupMain extends CRUDMain<BaseGroupListable> {
 	public void search() {
 		QueryByFilter query = new QueryByFilter(BaseGroup.class);
 		BaseGroupFilter filter = getFilter();
-
-		if (filter.getSelectedRealm() != null)
-			query.addItem("realm", QueryByFilter.FIELD_EQUALS, filter.getSelectedRealm());
 
 		if (filter.getEntity().getName() != null)
 			query.addItem("name", QueryByFilter.FIELD_EQUALS, filter.getEntity().getName());

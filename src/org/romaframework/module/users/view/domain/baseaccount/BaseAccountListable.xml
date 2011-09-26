@@ -5,7 +5,6 @@
 		<view explicitElements="true" />
 	</aspects>
 	<fields>
-		<field name="realm" />
 		<field name="name" />
 		<field name="profile" />
 		<field name="group" />

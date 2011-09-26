@@ -41,7 +41,6 @@ import org.romaframework.frontend.domain.message.Message;
 import org.romaframework.frontend.domain.message.MessageResponseListener;
 import org.romaframework.module.users.UsersAuthentication;
 import org.romaframework.module.users.domain.BaseAccount;
-import org.romaframework.module.users.domain.Realm;
 import org.romaframework.module.users.listener.DefaultLoginListener;
 
 /**
@@ -126,6 +125,7 @@ public class Login implements MessageResponseListener {
 		return AuthenticationAspectAbstract.DEF_ALGORITHM;
 	}
 
+
 	@Persistence(mode = PersistenceConstants.MODE_TX)
 	@ValidationAction(validate = AnnotationConstants.TRUE)
 	@ViewAction(submit = AnnotationConstants.TRUE, render = ViewConstants.RENDER_BUTTON)
@@ -133,18 +133,10 @@ public class Login implements MessageResponseListener {
 		if (userName == null || userName.length() == 0)
 			return;
 
-		login(null);
-	}
-
-	@Persistence(mode = PersistenceConstants.MODE_TX)
-	public void login(Realm iRealm) {
-		if (userName == null || userName.length() == 0)
-			return;
-
 		try {
 			Map<String, String> params = new HashMap<String, String>();
 			params.put(UsersAuthentication.PAR_ALGORITHM, getAlgorithm());
-			BaseAccount account = (BaseAccount) authManager.authenticate(iRealm, userName, userPassword, params);
+			BaseAccount account = (BaseAccount) authManager.authenticate(userName, userPassword, params);
 			if (AccountManagementUtility.isPasswordExpired(account)) {
 				showChangePassword();
 			} else {

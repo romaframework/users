@@ -17,11 +17,6 @@
 		</view>
 	</aspects>
 	<fields>
-		<field name="realm">
-			<aspects>
-				<view enabled="false" />
-			</aspects>
-		</field>
 		<field name="groups">
 			<aspects>
 				<view visible="false" />

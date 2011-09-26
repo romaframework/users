@@ -18,10 +18,6 @@
 		<property name="passwordMaxNumber" value="" />
 	</bean>
 
-	<bean id="UsersModuleGUIHook"
-		class="org.romaframework.module.users.view.domain.UsersModuleGUIHook"
-		singleton="true" depends-on="UsersModule"></bean>
-
 	<bean id="UsersSecurityAspect"
 		class="org.romaframework.module.security.users.UsersSecurityAspect"
 		singleton="true" />
@@ -33,9 +29,6 @@
 		</constructor-arg>
 	</bean>
 
-	<bean id="RealmRepository"
-		class="org.romaframework.module.users.repository.RealmRepository"
-		singleton="true" />
 	<bean id="ActivityLogRepository"
 		class="org.romaframework.module.users.repository.ActivityLogRepository"
 		singleton="true" />

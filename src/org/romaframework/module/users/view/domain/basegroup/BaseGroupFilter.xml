@@ -5,11 +5,6 @@
 		<view columns="2" />
 	</aspects>
 	<fields>
-		<field name="realm">
-			<aspects>
-				<view visible="false" />
-			</aspects>
-		</field>
 		<field name="accountList">
 			<aspects>
 				<view visible="false" />

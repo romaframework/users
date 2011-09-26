@@ -12,11 +12,6 @@
 		</view>
 	</aspects>
 	<fields>
-		<field name="realm">
-			<aspects>
-				<view visible="false" />
-			</aspects>
-		</field>
 		<field name="functions">
 			<aspects>
 				<view visible="false" />

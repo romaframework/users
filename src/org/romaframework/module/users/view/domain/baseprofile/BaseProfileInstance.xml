@@ -22,11 +22,6 @@
 		</view>
 	</aspects>
 	<fields>
-		<field name="realm">
-			<aspects>
-				<view render="label" />
-			</aspects>
-		</field>
 		<field name="name">
 			<aspects>
 				<view required="true" />

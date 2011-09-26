@@ -60,9 +60,6 @@ public class BaseAccount extends AbstractAccount implements SessionAccount, Seri
 	public BaseAccount() {
 	}
 
-	public BaseAccount(Realm iRealm) {
-		realm = iRealm;
-	}
 
 	public BaseAccount(String name, String password, BaseProfile iProfile) {
 		this(name, password, iProfile, null);
@@ -77,15 +74,6 @@ public class BaseAccount extends AbstractAccount implements SessionAccount, Seri
 		lastModified = signedOn;
 	}
 
-	public BaseAccount(Realm iRealm, String name, String password, BaseProfile iProfile) {
-		this(name, password, iProfile);
-		realm = iRealm;
-	}
-
-	public BaseAccount(Realm iRealm, String name, String password, BaseProfile iProfile, BaseAccountStatus iStatus) {
-		this(name, password, iProfile, iStatus);
-		realm = iRealm;
-	}
 
 	@Override
 	public String toString() {
@@ -220,7 +208,6 @@ public class BaseAccount extends AbstractAccount implements SessionAccount, Seri
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((realm == null) ? 0 : realm.hashCode());
 		return result;
 	}
 
@@ -237,11 +224,6 @@ public class BaseAccount extends AbstractAccount implements SessionAccount, Seri
 			if (other.name != null)
 				return false;
 		} else if (!name.equals(other.name))
-			return false;
-		if (realm == null) {
-			if (other.realm != null)
-				return false;
-		} else if (!realm.equals(other.realm))
 			return false;
 		return true;
 	}

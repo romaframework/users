@@ -17,30 +17,15 @@
 package org.romaframework.module.users.view.domain.activitylog;
 
 import java.util.Date;
-import java.util.List;
 
-import org.romaframework.aspect.core.annotation.AnnotationConstants;
 import org.romaframework.aspect.core.annotation.CoreClass;
-import org.romaframework.aspect.view.ViewCallback;
-import org.romaframework.aspect.view.ViewConstants;
 import org.romaframework.aspect.view.annotation.ViewClass;
-import org.romaframework.aspect.view.annotation.ViewField;
-import org.romaframework.aspect.view.feature.ViewFieldFeatures;
-import org.romaframework.core.Roma;
 import org.romaframework.frontend.domain.entity.ComposedEntityInstance;
-import org.romaframework.module.users.RealmHelper;
 import org.romaframework.module.users.domain.ActivityLog;
-import org.romaframework.module.users.domain.Realm;
 
-@CoreClass(orderFields = "realms rangeFrom rangeTo entity")
+@CoreClass(orderFields = " rangeFrom rangeTo entity")
 @ViewClass(label = "")
-public class ActivityLogFilter extends ComposedEntityInstance<ActivityLog> implements ViewCallback {
-
-	@ViewField(render = ViewConstants.RENDER_SELECT, selectionField = "selectedRealm")
-	protected List<Realm>	realms;
-
-	@ViewField(visible = AnnotationConstants.FALSE)
-	protected Realm				selectedRealm;
+public class ActivityLogFilter extends ComposedEntityInstance<ActivityLog>  {
 
 	private Date					rangeFrom;
 	private Date					rangeTo;
@@ -53,13 +38,6 @@ public class ActivityLogFilter extends ComposedEntityInstance<ActivityLog> imple
 		super(iActivityLog);
 	}
 
-	public void onShow() {
-		realms = RealmHelper.getRealms();
-		selectedRealm = RealmHelper.getCurrentRealm();
-
-		Roma.fieldChanged(this, "realms");
-		Roma.setFeature(this, "realms", ViewFieldFeatures.VISIBLE, selectedRealm == null);
-	}
 
 	public Date getRangeFrom() {
 		return rangeFrom;
@@ -77,18 +55,4 @@ public class ActivityLogFilter extends ComposedEntityInstance<ActivityLog> imple
 		rangeTo = to;
 	}
 
-	public Realm getSelectedRealm() {
-		return selectedRealm;
-	}
-
-	public void setSelectedRealm(Realm selectedRealm) {
-		this.selectedRealm = selectedRealm;
-	}
-
-	public List<Realm> getRealms() {
-		return realms;
-	}
-
-	public void onDispose() {
-	}
 }

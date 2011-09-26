@@ -3,23 +3,16 @@
 <jdo>
 	<package name="org.romaframework.module.users.domain">
 
-		<class name="Realm" detachable="true">
-			<field name="name" />
-			<field name="description" />
-		</class>
-
 		<class name="BaseAccountStatus" detachable="true">
 			<field name="name" />
 		</class>
 
 		<class name="AbstractAccount" detachable="true">
 			<inheritance strategy="new-table"></inheritance>
-			<field name="realm"  />
 			<field name="name" indexed="true">
 				<column length="64" />
 			</field>
 			<unique>
-				<field name="realm" />
 				<field name="name" />
 			</unique>
 		</class>
@@ -45,7 +38,6 @@
 		</class>
 
 		<class name="BaseProfile" detachable="true">
-			<field name="realm"  />
 			<field name="name">
 				<column length="64" />
 			</field>
@@ -57,7 +49,6 @@
 				<key mapped-by="name" />
 			</field>
 			<unique>
-				<field name="realm" />
 				<field name="name" />
 			</unique>
 		</class>

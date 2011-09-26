@@ -40,7 +40,6 @@ import org.romaframework.core.schema.SchemaClass;
 import org.romaframework.core.schema.SchemaField;
 import org.romaframework.core.schema.SchemaManager;
 import org.romaframework.frontend.domain.crud.CRUDInstance;
-import org.romaframework.module.users.RealmHelper;
 import org.romaframework.module.users.domain.BaseFunction;
 import org.romaframework.module.users.domain.BaseProfile;
 import org.romaframework.module.users.view.domain.basefunction.BaseFunctionListable;
@@ -87,7 +86,7 @@ public class BaseProfileInstance extends CRUDInstance<BaseProfile> implements Cu
 	@Override
 	public void onCreate() {
 		BaseProfile newProfile;
-		newProfile = new BaseProfile(RealmHelper.getCurrentRealm());
+		newProfile = new BaseProfile();
 		setEntity(newProfile);
 		getEntity().setMode(BaseProfile.MODE_ALLOW_ALL_BUT);
 		getEntity().setFunctions(new TreeMap<String, BaseFunction>());

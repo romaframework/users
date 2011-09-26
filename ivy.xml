@@ -2,11 +2,12 @@
 	xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd">
 	<info organisation="org.romaframework" module="roma-users" revision="2.9" />
 	<configurations defaultconfmapping="*->*,!sources,!javadoc,!optional">
+		<conf name="compile" />
 		<conf name="test" />
 		<conf name="wizard" />
 	</configurations>
 	<publications>
-		<artifact name="roma-users" ext="jar" type="jar"></artifact>
+		<artifact name="roma-users" ext="jar" type="jar" conf="compile"></artifact>
 		<artifact name="roma-users-test" ext="jar" type="jar" conf="test"></artifact>
 		<artifact name="roma-users-wizard" ext="zip" type="zip" conf="wizard"></artifact>
 	</publications>

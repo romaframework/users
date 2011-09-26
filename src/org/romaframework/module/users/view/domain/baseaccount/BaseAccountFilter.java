@@ -21,39 +21,25 @@ import java.util.List;
 import java.util.Set;
 
 import org.romaframework.aspect.authentication.AuthenticationAspect;
-import org.romaframework.aspect.core.annotation.AnnotationConstants;
 import org.romaframework.aspect.persistence.PersistenceAspect;
 import org.romaframework.aspect.persistence.QueryByFilter;
 import org.romaframework.aspect.persistence.QueryByFilterItemGroup;
-import org.romaframework.aspect.view.ViewCallback;
-import org.romaframework.aspect.view.ViewConstants;
 import org.romaframework.aspect.view.annotation.ViewClass;
-import org.romaframework.aspect.view.annotation.ViewField;
-import org.romaframework.aspect.view.feature.ViewFieldFeatures;
 import org.romaframework.core.Roma;
 import org.romaframework.frontend.domain.crud.CRUDFilter;
 import org.romaframework.frontend.domain.wrapper.SelectWrapper;
-import org.romaframework.module.users.RealmHelper;
 import org.romaframework.module.users.domain.BaseAccount;
 import org.romaframework.module.users.domain.BaseGroup;
-import org.romaframework.module.users.domain.Realm;
 
 @ViewClass(label = "")
-public class BaseAccountFilter extends CRUDFilter<BaseAccount> implements ViewCallback {
-
-	@ViewField(render = ViewConstants.RENDER_SELECT, selectionField = "selectedRealm")
-	private List<Realm>									realm		= RealmHelper.getRealms();
-
-	@ViewField(visible = AnnotationConstants.FALSE)
-	private Realm												selectedRealm;
+public class BaseAccountFilter extends CRUDFilter<BaseAccount> {
 
 	protected SelectWrapper<BaseGroup>	groups	= loadGroupList();
 
 	protected BaseGroup									selectedGroup;
 
 	public BaseAccountFilter() {
-		super(new BaseAccount(RealmHelper.getCurrentRealm()));
-		selectedRealm = entity.getRealm();
+		super(new BaseAccount());
 	}
 
 	public BaseAccountFilter(BaseAccount iAccount) {
@@ -80,35 +66,6 @@ public class BaseAccountFilter extends CRUDFilter<BaseAccount> implements ViewCa
 		return result;
 	}
 
-	public void onShow() {
-		Roma.setFeature(this, "realm", ViewFieldFeatures.VISIBLE, selectedRealm == null);
-	}
-
-	/**
-	 * @return the realm
-	 */
-	public List<Realm> getRealm() {
-		return realm;
-	}
-
-	/**
-	 * @return the selected
-	 */
-	public Realm getSelectedRealm() {
-		return selectedRealm;
-	}
-
-	/**
-	 * @param selected
-	 *          the selected to set
-	 */
-	public void setSelectedRealm(Realm selected) {
-		selectedRealm = selected;
-	}
-
-	public void onDispose() {
-	}
-
 	public BaseGroup getSelectedGroup() {
 		return selectedGroup;
 	}
@@ -126,10 +83,6 @@ public class BaseAccountFilter extends CRUDFilter<BaseAccount> implements ViewCa
 		QueryByFilter query = super.getAdditionalFilter();
 		if (query == null) {
 			query = new QueryByFilter(BaseAccount.class);
-		}
-
-		if (getSelectedRealm() != null) {
-			query.addItem("realm", QueryByFilter.FIELD_EQUALS, getSelectedRealm());
 		}
 
 		if (getSelectedGroup() != null) {

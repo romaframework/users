@@ -29,7 +29,6 @@ public class BaseProfile implements Serializable, Principal {
 
 	private static final long	serialVersionUID	= 2147431210150249521L;
 
-	protected Realm											realm;
 
 	protected String										name;
 	protected BaseProfile								parent;
@@ -44,14 +43,6 @@ public class BaseProfile implements Serializable, Principal {
 	public BaseProfile() {
 	}
 
-	public BaseProfile(Realm iSpace) {
-		realm = iSpace;
-	}
-
-	public BaseProfile(Realm iSpace, String iName, BaseProfile iParent, byte iMode, String iHomePage) {
-		this(iName, iParent, iMode, iHomePage);
-		realm = iSpace;
-	}
 
 	public BaseProfile(String iName, BaseProfile iParent, byte iMode, String iHomePage) {
 		name = iName;
@@ -139,18 +130,11 @@ public class BaseProfile implements Serializable, Principal {
 		return this;
 	}
 
-	/**
-	 * @return the space
-	 */
-	public Realm getRealm() {
-		return realm;
-	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((realm == null) ? 0 : realm.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
@@ -165,12 +149,6 @@ public class BaseProfile implements Serializable, Principal {
 			return false;
 
 		final BaseProfile other = (BaseProfile) obj;
-
-		if (realm == null) {
-			if (other.realm != null)
-				return false;
-		} else if (!realm.equals(other.realm))
-			return false;
 
 		if (name == null) {
 			if (other.name != null)

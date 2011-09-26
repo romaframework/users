@@ -24,15 +24,11 @@ import org.romaframework.aspect.core.annotation.CoreClass;
 public class BaseGroup extends AbstractAccount implements Serializable {
 
 	private static final long	serialVersionUID	= 6786088888101803520L;
-	
-	protected String	notes;
+
+	protected String					notes;
 
 	public BaseGroup() {
 
-	}
-
-	public BaseGroup(Realm iSpace) {
-		realm = iSpace;
 	}
 
 	@Override
@@ -47,8 +43,9 @@ public class BaseGroup extends AbstractAccount implements Serializable {
 
 	@Override
 	public int hashCode() {
-		int code = realm != null ? realm.hashCode() : 0;
-		return code + name.hashCode();
+		if (name == null)
+			return super.hashCode();
+		return name.hashCode();
 	}
 
 	@Override
