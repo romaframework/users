@@ -23,6 +23,7 @@ import org.romaframework.aspect.core.annotation.CoreClass;
 import org.romaframework.aspect.flow.FlowAspect;
 import org.romaframework.aspect.persistence.PersistenceAspect;
 import org.romaframework.aspect.view.ViewConstants;
+import org.romaframework.aspect.view.annotation.ViewAction;
 import org.romaframework.aspect.view.annotation.ViewField;
 import org.romaframework.core.Roma;
 import org.romaframework.frontend.domain.message.MessageOk;
@@ -58,6 +59,7 @@ public class ChangePassword extends Page {
 		listener = iListener;
 	}
 
+	@ViewAction(render=ViewConstants.RENDER_BUTTON)
 	public void cancel() {
 		back();
 	}
@@ -67,6 +69,7 @@ public class ChangePassword extends Page {
 	 * 
 	 * @throws NoSuchAlgorithmException
 	 */
+	@ViewAction(render=ViewConstants.RENDER_BUTTON)
 	public void change() throws NoSuchAlgorithmException {
 		if (password == null && confirmPassword == null)
 			return;
