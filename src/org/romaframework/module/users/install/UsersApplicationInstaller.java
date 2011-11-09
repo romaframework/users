@@ -115,19 +115,19 @@ public class UsersApplicationInstaller extends AbstractApplicationInstaller {
 		pAnonymous.setName(UsersAuthentication.ANONYMOUS_PROFILE_NAME);
 		pAnonymous.setHomePage("HomePage");
 		pAnonymous.setFunctions(new HashMap<String, BaseFunction>());
-		pAnonymous.setMode(BaseProfile.MODE_ALLOW_ALL_BUT);
+		pAnonymous.setMode(BaseProfile.Mode.ALLOW_ALL_BUT);
 		UsersHelper.getInstance().setProfile(pAnonymous);
 
 		pAdmin = new BaseProfile();
 		pAdmin.setName(PROFILE_ADMINISTRATOR);
 		pAdmin.setHomePage("HomePageAdmin");
-		pAdmin.setMode(BaseProfile.MODE_ALLOW_ALL_BUT);
+		pAdmin.setMode(BaseProfile.Mode.ALLOW_ALL_BUT);
 		UsersHelper.getInstance().setProfile(pAdmin);
 
 		pBasic = new BaseProfile();
 		pBasic.setName(PROFILE_BASIC);
 		pBasic.setHomePage("HomePage");
-		pBasic.setMode(BaseProfile.MODE_ALLOW_ALL_BUT);
+		pBasic.setMode(BaseProfile.Mode.ALLOW_ALL_BUT);
 		UsersHelper.getInstance().setProfile(pBasic);
 	}
 }

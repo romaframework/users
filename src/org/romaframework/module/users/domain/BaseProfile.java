@@ -29,10 +29,23 @@ public class BaseProfile implements Serializable, Principal {
 
 	private static final long	serialVersionUID	= 2147431210150249521L;
 
+	public enum Mode {
+		ALLOW_ALL_BUT("Allow all but"), DENY_ALL_BUT("Deny all but");
+		private String	label;
+
+		private Mode(String label) {
+			this.label = label;
+		}
+
+		@Override
+		public String toString() {
+			return label;
+		}
+	};
 
 	protected String										name;
 	protected BaseProfile								parent;
-	protected Byte											mode;
+	protected Mode											mode;
 	protected Map<String, BaseFunction>	functions;
 	protected String										homePage;
 	protected String										notes;
@@ -43,8 +56,7 @@ public class BaseProfile implements Serializable, Principal {
 	public BaseProfile() {
 	}
 
-
-	public BaseProfile(String iName, BaseProfile iParent, byte iMode, String iHomePage) {
+	public BaseProfile(String iName, BaseProfile iParent, Mode iMode, String iHomePage) {
 		name = iName;
 		parent = iParent;
 		mode = iMode;
@@ -62,12 +74,12 @@ public class BaseProfile implements Serializable, Principal {
 		return name;
 	}
 
-	public Byte getMode() {
+	public Mode getMode() {
 		return mode;
 	}
 
-	public BaseProfile setMode(Byte iInheritMode) {
-		mode = iInheritMode == null || iInheritMode == -1 ? null : iInheritMode;
+	public BaseProfile setMode(Mode iInheritMode) {
+		mode = iInheritMode;
 		return this;
 	}
 
@@ -129,7 +141,6 @@ public class BaseProfile implements Serializable, Principal {
 		this.homePage = homePage;
 		return this;
 	}
-
 
 	@Override
 	public int hashCode() {

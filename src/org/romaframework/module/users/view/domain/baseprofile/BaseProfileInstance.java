@@ -42,6 +42,7 @@ import org.romaframework.core.schema.SchemaManager;
 import org.romaframework.frontend.domain.crud.CRUDInstance;
 import org.romaframework.module.users.domain.BaseFunction;
 import org.romaframework.module.users.domain.BaseProfile;
+import org.romaframework.module.users.domain.BaseProfile.Mode;
 import org.romaframework.module.users.view.domain.basefunction.BaseFunctionListable;
 
 @CoreClass(orderFields = "entity availableClassNames availableMembers functions")
@@ -68,10 +69,10 @@ public class BaseProfileInstance extends CRUDInstance<BaseProfile> implements Cu
 	@ViewField(selectionField = "selectedFunction", enabled = AnnotationConstants.FALSE, render = ViewConstants.RENDER_TABLEEDIT)
 	protected List<BaseFunctionListable>	functions			= new ArrayList<BaseFunctionListable>();
 
-	@ViewField(label = "Mode", render = "select", selectionField = "entity.mode", selectionMode = SelectionMode.SELECTION_MODE_INDEX)
+	@ViewField(label = "Mode", render = ViewConstants.RENDER_SELECT, selectionField = "entity.mode", selectionMode = SelectionMode.SELECTION_MODE_INDEX)
 	@ReportingField(visible = AnnotationConstants.FALSE)
-	public String[] getModes() {
-		return BaseProfileHelper.MODES;
+	public Mode[] getModes() {
+		return BaseProfile.Mode.values();
 	}
 
 	public List<BaseFunctionListable> getFunctions() {
@@ -88,7 +89,7 @@ public class BaseProfileInstance extends CRUDInstance<BaseProfile> implements Cu
 		BaseProfile newProfile;
 		newProfile = new BaseProfile();
 		setEntity(newProfile);
-		getEntity().setMode(BaseProfile.MODE_ALLOW_ALL_BUT);
+		getEntity().setMode(BaseProfile.Mode.ALLOW_ALL_BUT);
 		getEntity().setFunctions(new TreeMap<String, BaseFunction>());
 		getEntity().setHomePage(DEF_HOME_PAGE);
 	}
@@ -169,7 +170,7 @@ public class BaseProfileInstance extends CRUDInstance<BaseProfile> implements Cu
 				funcName = funcName.substring(0, funcName.length() - 2);
 		}
 
-		boolean allowFunction = getEntity().getMode() == null || getEntity().getMode().byteValue() == BaseProfile.MODE_DENY_ALL_BUT;
+		boolean allowFunction = getEntity().getMode() == null || getEntity().getMode()== BaseProfile.Mode.DENY_ALL_BUT;
 
 		getEntity().addFunction(funcName, allowFunction);
 
@@ -226,4 +227,6 @@ public class BaseProfileInstance extends CRUDInstance<BaseProfile> implements Cu
 	public void setSelectedFunction(BaseFunction selectedFunction) {
 		this.selectedFunction = selectedFunction;
 	}
+	
+
 }

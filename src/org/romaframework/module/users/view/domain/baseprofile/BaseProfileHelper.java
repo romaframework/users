@@ -1,6 +1,7 @@
 package org.romaframework.module.users.view.domain.baseprofile;
 
 public class BaseProfileHelper {
+	
   public static final byte     MODE_ALLOW_ALL_BUT_VALUE = 0;
   public static final byte     MODE_DENY_ALL_BUT_VALUE  = 1;
 

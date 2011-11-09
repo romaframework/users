@@ -25,6 +25,7 @@ import org.romaframework.core.Roma;
 import org.romaframework.module.users.domain.BaseAccount;
 import org.romaframework.module.users.domain.BaseAccountStatus;
 import org.romaframework.module.users.domain.BaseProfile;
+import org.romaframework.module.users.domain.BaseProfile.Mode;
 import org.romaframework.module.users.repository.BaseProfileRepository;
 
 /**
@@ -59,7 +60,7 @@ public class UsersHelper {
 		return Roma.context().persistence().queryOne(query);
 	}
 
-	public BaseProfile setProfile(String iName, byte iMode) {
+	public BaseProfile setProfile(String iName, Mode iMode) {
 		BaseProfile profile = new BaseProfile(iName, null, iMode, "HomePage");
 		return setProfile(profile);
 	}

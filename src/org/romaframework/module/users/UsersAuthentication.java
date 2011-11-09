@@ -41,6 +41,7 @@ import org.romaframework.module.users.domain.BaseAccount;
 import org.romaframework.module.users.domain.BaseAccountStatus;
 import org.romaframework.module.users.domain.BaseFunction;
 import org.romaframework.module.users.domain.BaseProfile;
+import org.romaframework.module.users.domain.BaseProfile.Mode;
 import org.romaframework.module.users.repository.BaseAccountRepository;
 import org.romaframework.module.users.view.domain.AccountManagementUtility;
 
@@ -181,14 +182,14 @@ public class UsersAuthentication extends AuthenticationAspectAbstract implements
 			profile = profile.getParent();
 		}
 
-		Byte mode;
+		Mode mode;
 		if (userProfile.getParent() != null) {
 			// GET AS INITIAL MODE THE ROOT MODE
 			mode = profiles.get(profiles.size() - 1).getMode();
 		} else
 			mode = userProfile.getMode();
 
-		boolean allowed = mode != null && mode == BaseProfile.MODE_ALLOW_ALL_BUT;
+		boolean allowed = mode != null && mode == BaseProfile.Mode.ALLOW_ALL_BUT;
 		BaseFunction function;
 
 		// BROWSE ALL PROFILES CHECKING FOR THE FUNCTION. IT STARTS FROM CURRENT
