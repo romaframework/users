@@ -7,7 +7,7 @@
 				<area name="main" type="column">
 					<area name="row" type="row">
 						<area name="leftPanel" type="column">
-							<area name="fields" type="grid" size="6" />
+							<area name="fields" type="form" size="3" />
 							<area name="notes" type="column" />
 						</area>
 						<area name="configuration" type="column" />

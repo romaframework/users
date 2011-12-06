@@ -5,7 +5,7 @@
 		<view explicitElements="true">
 			<form>
 				<area name="main" type="column" align="top right">
-					<area name="fields" type="grid" size="8" align="top left" />
+					<area name="fields" type="form" size="4" align="top left" />
 					<area name="actions" type="row" align="top left" />
 				</area>
 			</form>
