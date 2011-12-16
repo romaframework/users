@@ -27,23 +27,23 @@ import org.romaframework.module.users.view.domain.configuration.ConfigurationBas
 @CoreClass(orderActions = "accounts profiles groups activityLogs")
 public class UsersPanel {
 
-	@FlowAction(next = BaseAccountMain.class, position = "screen://body")
+	@FlowAction(next = BaseAccountMain.class, position = "body")
 	public void accounts() {
 	}
 
-	@FlowAction(next = BaseProfileMain.class, position = "screen://body")
+	@FlowAction(next = BaseProfileMain.class, position = "body")
 	public void profiles() {
 	}
 
-	@FlowAction(next = BaseGroupMain.class, position = "screen://body")
+	@FlowAction(next = BaseGroupMain.class, position = "body")
 	public void groups() {
 	}
 
-	@FlowAction(next = ConfigurationBaseAccount.class, position = "screen://body")
+	@FlowAction(next = ConfigurationBaseAccount.class, position = "body")
 	public void configuration() {
 	}
 	
-	@FlowAction(next = ActivityLogMain.class, position = "screen://body")
+	@FlowAction(next = ActivityLogMain.class, position = "body")
 	public void activityLogs() {
 	}
 

@@ -68,7 +68,7 @@ public class BaseAccountMain extends CRUDMain<BaseAccount> {
 		if (selection == null || selection.length == 0)
 			return;
 
-		((FlowAspect) Roma.aspect(FlowAspect.ASPECT_NAME)).forward(new BaseProfileAssegnee(this), "screen:popup");
+		Roma.flow().popup(new BaseProfileAssegnee(this));
 	}
 
 	public void assignToGroup() {
@@ -76,7 +76,7 @@ public class BaseAccountMain extends CRUDMain<BaseAccount> {
 		if (selection == null || selection.length == 0)
 			return;
 
-		((FlowAspect) Roma.aspect(FlowAspect.ASPECT_NAME)).forward(new BaseGroupAssegnee(this), "screen:popup");
+		Roma.flow().forward(new BaseGroupAssegnee(this));
 	}
 
 	@SuppressWarnings("unchecked")

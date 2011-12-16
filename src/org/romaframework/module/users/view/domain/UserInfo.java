@@ -39,7 +39,7 @@ public class UserInfo implements ViewCallback {
 
 	public void changePassword() {
 		if (changePasswordForm != null) {
-			Roma.aspect(FlowAspect.class).forward(changePasswordForm);
+			Roma.aspect(FlowAspect.class).popup(changePasswordForm);
 		}
 	}
 

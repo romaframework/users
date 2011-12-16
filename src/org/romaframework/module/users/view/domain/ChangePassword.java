@@ -75,7 +75,7 @@ public class ChangePassword extends Page {
 			return;
 
 		if (password == null || confirmPassword == null || !password.equals(confirmPassword)) {
-			Roma.aspect(FlowAspect.class).forward(new MessageOk("error", "", null, "$ChangePassword.change.error"));
+			Roma.aspect(FlowAspect.class).popup(new MessageOk("error", "", null, "$ChangePassword.change.error"));
 			return;
 		}
 
@@ -83,15 +83,15 @@ public class ChangePassword extends Page {
 		if (oldPassword != null)
 			cypherOldPassword = Roma.aspect(AuthenticationAspect.class).encryptPassword(oldPassword);
 		if (cypherOldPassword == null || !cypherOldPassword.equals(account.getPassword())) {
-			Roma.flow().forward(new MessageOk("error", "", null, "$ChangePassword.oldPassword.error"), "screen:popup");
+			Roma.flow().popup(new MessageOk("error", "", null, "$ChangePassword.oldPassword.error"));
 			return;
 		}
 		if (!AccountManagementUtility.isPasswordMathedRegExpression(password)) {
-			Roma.flow().forward(new MessageOk("error", "", null, "$ChangePassword.invalidPassword.error"), "screen:popup");
+			Roma.flow().popup(new MessageOk("error", "", null, "$ChangePassword.invalidPassword.error"));
 			return;
 		}
 		if (!AccountManagementUtility.isPasswordUnused(account, password)) {
-			Roma.flow().forward(new MessageOk("error", "", null, "$ChangePassword.alreadyUsed.error"), "screen:popup");
+			Roma.flow().popup(new MessageOk("error", "", null, "$ChangePassword.alreadyUsed.error"));
 			return;
 		}
 
@@ -114,7 +114,7 @@ public class ChangePassword extends Page {
 					- Math.round((new Date()).getTime() / AccountManagementUtility.DAY_MILLISECONDS);
 			mess += Roma.i18n().resolveString(ChangePassword.class, "message.account", scadenza);
 		}
-		Roma.aspect(FlowAspect.class).forward(new MessageOk("CHANGE PASSWORD", "", null, mess), "screen:popup");
+		Roma.flow().popup(new MessageOk("CHANGE PASSWORD", "", null, mess));
 		back();
 		// WAKE UP LISTENER
 		if (listener != null)

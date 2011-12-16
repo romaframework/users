@@ -281,17 +281,15 @@ public class PortletPreferencesConfiguration extends ComposedEntityInstance<Port
 	}
 
 	protected void back() {
-		Roma.aspect(FlowAspect.class).back();
+		Roma.flow().back();
 	}
 
 	private void showNoContainerSelectedMessage() {
-		Roma.aspect(FlowAspect.class).forward(
-				new MessageOk("trackingModifyError", "Errore di selezione", null, "$PortletPreferencesConfiguration.noContainerSelected.error"), "screen:popup");
+		Roma.flow().popup(new MessageOk("trackingModifyError", "Errore di selezione", null, "$PortletPreferencesConfiguration.noContainerSelected.error"));
 	}
 
 	private void showNoPortletSelectedMessage() {
-		Roma.aspect(FlowAspect.class).forward(
-				new MessageOk("trackingModifyError", "Errore di selezione", null, "$PortletPreferencesConfiguration.noPortletSelected.error"), "screen:popup");
+		Roma.flow().popup(new MessageOk("trackingModifyError", "Errore di selezione", null, "$PortletPreferencesConfiguration.noPortletSelected.error"));
 	}
 
 	public List<String> getSelectedPortlets() {

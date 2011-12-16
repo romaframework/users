@@ -153,7 +153,7 @@ public class Login implements MessageResponseListener {
 	private void showChangePassword() {
 		ChangePassword changePw = new ChangePassword((BaseAccount) authManager.getCurrentAccount(), this);
 		changePw.setOldPassword(userPassword);
-		Roma.flow().forward(changePw, "screen:popup");
+		Roma.flow().popup(changePw);
 	}
 
 	public void responseMessage(Message iMessage, Object iResponse) {
