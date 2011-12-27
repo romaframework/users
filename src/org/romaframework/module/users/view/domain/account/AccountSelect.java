@@ -39,8 +39,8 @@ public class AccountSelect extends ContainerPage implements Bindable {
 	protected SchemaField	sourceField;
 
 	public AccountSelect() {
-		innerPages.put((Roma.i18n()).getString("AccountSelect.baseaccount.label"), new BaseAccountSelect());
-		innerPages.put((Roma.i18n()).getString("AccountSelect.basegroup.label"), new BaseGroupSelect());
+		innerPages.put((Roma.i18n()).get("AccountSelect.baseaccount.label"), new BaseAccountSelect());
+		innerPages.put((Roma.i18n()).get("AccountSelect.basegroup.label"), new BaseGroupSelect());
 	}
 
 	@ViewField(visible = AnnotationConstants.FALSE)
@@ -54,11 +54,9 @@ public class AccountSelect extends ContainerPage implements Bindable {
 	}
 
 	public void setSource(Object iSourceObject, String iSourceFieldName) {
-		BaseAccountSelect companies = (BaseAccountSelect) innerPages.get((Roma.i18n())
-				.getString("AccountSelect.baseaccount.label"));
+		BaseAccountSelect companies = (BaseAccountSelect) innerPages.get((Roma.i18n()).get("AccountSelect.baseaccount.label"));
 		companies.setSource(iSourceObject, iSourceFieldName);
-		BaseGroupSelect individuals = (BaseGroupSelect) innerPages.get((Roma.i18n())
-				.getString("AccountSelect.basegroup.label"));
+		BaseGroupSelect individuals = (BaseGroupSelect) innerPages.get((Roma.i18n()).get("AccountSelect.basegroup.label"));
 		individuals.setSource(iSourceObject, iSourceFieldName);
 		sourceObject = iSourceObject;
 
@@ -67,8 +65,7 @@ public class AccountSelect extends ContainerPage implements Bindable {
 		sourceField = cls.getField(iSourceFieldName);
 
 		if (sourceField == null)
-			throw new CRUDException("Cannot find field name " + iSourceObject.getClass().getSimpleName() + "." + iSourceFieldName
-					+ ". Check class definition");
+			throw new CRUDException("Cannot find field name " + iSourceObject.getClass().getSimpleName() + "." + iSourceFieldName + ". Check class definition");
 	}
 
 	public void close() {
