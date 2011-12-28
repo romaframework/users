@@ -7,11 +7,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.romaframework.aspect.core.annotation.AnnotationConstants;
-import org.romaframework.aspect.i18n.I18NHelper;
+import org.romaframework.aspect.i18n.I18NType;
 import org.romaframework.aspect.persistence.PersistenceAspect;
 import org.romaframework.aspect.view.ViewCallback;
 import org.romaframework.aspect.view.ViewConstants;
 import org.romaframework.aspect.view.annotation.ViewField;
+import org.romaframework.aspect.view.feature.ViewClassFeatures;
 import org.romaframework.aspect.view.feature.ViewElementFeatures;
 import org.romaframework.core.Roma;
 import org.romaframework.core.config.Refreshable;
@@ -82,7 +83,7 @@ public class CustomProfilingSettings implements ViewCallback {
 
 	private void addListable(SchemaClassElement element) {
 		if ((Boolean) element.getFeature(ViewElementFeatures.VISIBLE)) {
-			String layout = (String) element.getFeature( ViewElementFeatures.LAYOUT);
+			String layout = (String) element.getFeature(ViewElementFeatures.LAYOUT);
 			if (layout != null && ViewConstants.LAYOUT_EXPAND.equals(layout)) {
 				if (element instanceof SchemaField)
 					addSchemaClass(((SchemaField) element).getType());
@@ -91,7 +92,7 @@ public class CustomProfilingSettings implements ViewCallback {
 				if (labelAssoc.get(element.getName()) != null) {
 					label = labelAssoc.get(element.getName());
 				} else {
-					label = I18NHelper.getLabel(element);
+					label = Roma.i18n().get(element, I18NType.LABEL, ViewClassFeatures.LABEL);
 				}
 
 				String functionName = element.getEntity().getName() + "." + element.getName();

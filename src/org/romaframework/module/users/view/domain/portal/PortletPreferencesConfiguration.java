@@ -114,7 +114,7 @@ public class PortletPreferencesConfiguration extends ComposedEntityInstance<Port
 		selectedPortletSelected = null;
 		List<Class<?>> portletSchemas = Roma.component(SchemaClassResolver.class).getLanguageClassByInheritance(PortalPage.class);
 		for (Class<?> schema : portletSchemas) {
-			String classLabel = Roma.i18n().getString(schema.getSimpleName() + ".label");
+			String classLabel = Roma.i18n().get(schema.getSimpleName() + ".label");
 			if (classLabel == null || classLabel.equals(""))
 				classLabel = schema.getSimpleName();
 			classNamesMapper.put(classLabel, schema.getSimpleName());
@@ -171,7 +171,7 @@ public class PortletPreferencesConfiguration extends ComposedEntityInstance<Port
 		containers.clear();
 		List<Class<?>> containerSchemas = Roma.component(SchemaClassResolver.class).getLanguageClassByInheritance(PortalPageContainer.class);
 		for (Class<?> schema : containerSchemas) {
-			String containerName = Roma.i18n().getString(schema.getSimpleName() + ".label");
+			String containerName = Roma.i18n().get(schema.getSimpleName() + ".label");
 			if (containerName == null || containerName.equals(""))
 				containerName = schema.getSimpleName();
 			classNamesMapper.put(containerName, schema.getSimpleName());

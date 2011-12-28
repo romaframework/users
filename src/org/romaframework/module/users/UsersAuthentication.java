@@ -75,7 +75,7 @@ public class UsersAuthentication extends AuthenticationAspectAbstract implements
 		filter.setStrategy(PersistenceAspect.STRATEGY_DETACHING);
 		BaseAccount account = repository.findFirstByCriteria(filter);
 		if (account == null) {
-			String iMessage = Roma.i18n().resolveString("$UsersAuthentication.accountNotFound.label", iUserName);
+			String iMessage = Roma.i18n().get("UsersAuthentication.accountNotFound.label", iUserName);
 
 			// TODO:REMOVE THIS STATEMENT EXIST ONLY FOR BACKWARD COMPATIBILITY
 			if (iMessage == null)
@@ -85,7 +85,7 @@ public class UsersAuthentication extends AuthenticationAspectAbstract implements
 		}
 		try {
 			if (!checkPassword(account.getPassword(), iUserPasswd)) {
-				String iMessage = Roma.i18n().resolveString("$UsersAuthentication.wrongPassword.label", iUserName);
+				String iMessage = Roma.i18n().get("UsersAuthentication.wrongPassword.label", iUserName);
 
 				// TODO:REMOVE THIS STATEMENT EXIST ONLY FOR BACKWARD
 				// COMPATIBILITY
@@ -109,7 +109,7 @@ public class UsersAuthentication extends AuthenticationAspectAbstract implements
 		byFilterAct.addItem("name", QueryByFilter.FIELD_EQUALS, UsersInfoConstants.STATUS_ACTIVE);
 		BaseAccountStatus accountStatus = Roma.context().persistence().queryOne(byFilterAct);
 		if (account.getStatus() == null || !account.getStatus().equals(accountStatus)) {
-			String iMessage = Roma.i18n().resolveString("$UsersAuthentication.accountDisabled.label", iUserName);
+			String iMessage = Roma.i18n().get("UsersAuthentication.accountDisabled.label", iUserName);
 
 			// TODO:REMOVE THIS STATEMENT EXIST ONLY FOR BACKWARD COMPATIBILITY
 			if (iMessage == null)

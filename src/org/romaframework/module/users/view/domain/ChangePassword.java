@@ -21,6 +21,7 @@ import java.util.Date;
 import org.romaframework.aspect.authentication.AuthenticationAspect;
 import org.romaframework.aspect.core.annotation.CoreClass;
 import org.romaframework.aspect.flow.FlowAspect;
+import org.romaframework.aspect.i18n.I18NType;
 import org.romaframework.aspect.persistence.PersistenceAspect;
 import org.romaframework.aspect.view.ViewConstants;
 import org.romaframework.aspect.view.annotation.ViewAction;
@@ -107,12 +108,12 @@ public class ChangePassword extends Page {
 		Integer passwordPeriod = Roma.component(UsersModule.class).getPasswordPeriod();
 		Integer accountPeriod = Roma.component(UsersModule.class).getAccountPeriod();
 		if (passwordPeriod != null) {
-			mess += Roma.i18n().resolveString(ChangePassword.class, "message.password", passwordPeriod);
+			mess += Roma.i18n().get(ChangePassword.class, "message.password",I18NType.LABEL, passwordPeriod);
 		}
 		if (accountPeriod != null) {
 			Integer scadenza = (Math.round((account.getLastModified().getTime()) / AccountManagementUtility.DAY_MILLISECONDS) + accountPeriod)
 					- Math.round((new Date()).getTime() / AccountManagementUtility.DAY_MILLISECONDS);
-			mess += Roma.i18n().resolveString(ChangePassword.class, "message.account", scadenza);
+			mess += Roma.i18n().get(this, "message.account", I18NType.LABEL,scadenza);
 		}
 		Roma.flow().popup(new MessageOk("CHANGE PASSWORD", "", null, mess));
 		back();
@@ -123,7 +124,7 @@ public class ChangePassword extends Page {
 
 	@ViewField(render = ViewConstants.RENDER_LABEL)
 	public String getMessage() {
-		return Roma.i18n().getString("ChangePassword.message.text");
+		return Roma.i18n().get("ChangePassword.message.text");
 	}
 
 	public String getPassword() {
