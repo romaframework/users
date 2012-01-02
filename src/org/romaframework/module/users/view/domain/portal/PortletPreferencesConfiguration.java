@@ -23,7 +23,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.romaframework.aspect.core.annotation.AnnotationConstants;
-import org.romaframework.aspect.flow.FlowAspect;
 import org.romaframework.aspect.persistence.PersistenceAspect;
 import org.romaframework.aspect.persistence.PersistenceConstants;
 import org.romaframework.aspect.persistence.annotation.Persistence;

@@ -21,7 +21,6 @@ import java.util.List;
 
 import org.romaframework.aspect.core.annotation.AnnotationConstants;
 import org.romaframework.aspect.core.annotation.CoreField;
-import org.romaframework.aspect.flow.FlowAspect;
 import org.romaframework.aspect.persistence.QueryByFilter;
 import org.romaframework.core.Roma;
 import org.romaframework.frontend.domain.crud.CRUDMain;
