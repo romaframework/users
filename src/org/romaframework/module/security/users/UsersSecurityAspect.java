@@ -26,6 +26,7 @@ import org.romaframework.aspect.security.SecurityAspectAbstract;
 import org.romaframework.aspect.security.exception.SecurityException;
 import org.romaframework.aspect.security.feature.SecurityActionFeatures;
 import org.romaframework.aspect.security.feature.SecurityClassFeatures;
+import org.romaframework.aspect.security.feature.SecurityEventFeatures;
 import org.romaframework.aspect.security.feature.SecurityFieldFeatures;
 import org.romaframework.aspect.view.feature.ViewFieldFeatures;
 import org.romaframework.core.Roma;
@@ -260,7 +261,7 @@ public class UsersSecurityAspect extends SecurityAspectAbstract {
 		if (iEvent == null)
 			return true;
 
-		String[] rule = iEvent.getFeature(SecurityActionFeatures.ROLES);
+		String[] rule = iEvent.getFeature(SecurityEventFeatures.ROLES);
 		if (rule == null) {
 			rule = iEvent.getEntity().getFeature(SecurityClassFeatures.EXECUTE_ROLES);
 		}
