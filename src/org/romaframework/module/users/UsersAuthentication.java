@@ -346,6 +346,6 @@ public class UsersAuthentication extends AuthenticationAspectAbstract implements
 	}
 
 	public Object onBeforeFieldWrite(Object iContent, SchemaField iField, Object iCurrentValue) {
-		return iCurrentValue;
+		return IGNORED;
 	}
 }

@@ -224,7 +224,7 @@ public class UsersSecurityAspect extends SecurityAspectAbstract {
 
 	public Object onBeforeFieldWrite(Object iContent, SchemaField iField, Object iCurrentValue) {
 		if (canWrite(iContent, iField)) {
-			return iCurrentValue;
+			return IGNORED;
 		}
 		Object result = iField.getValue(iContent);
 		Boolean enabled = (Boolean) iField.getFeature(ViewFieldFeatures.ENABLED);
