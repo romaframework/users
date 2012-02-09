@@ -49,7 +49,7 @@ public class BaseAccountFilter extends CRUDFilter<BaseAccount> {
 	private SelectWrapper<BaseGroup> loadGroupList() {
 
 		PersistenceAspect db = Roma.context().persistence();
-		Set<BaseGroup> userGroups = db.loadObject((BaseAccount) Roma.component(AuthenticationAspect.class).getCurrentAccount(),
+		Set<BaseGroup> userGroups = db.refreshObject((BaseAccount) Roma.component(AuthenticationAspect.class).getCurrentAccount(),
 				PersistenceAspect.FULL_MODE_LOADING, PersistenceAspect.STRATEGY_DETACHING).getGroups();
 
 		if (userGroups == null || userGroups.size() == 0) {
@@ -91,7 +91,7 @@ public class BaseAccountFilter extends CRUDFilter<BaseAccount> {
 			Set<BaseGroup> userGroups = Roma
 					.context()
 					.persistence()
-					.loadObject((BaseAccount) Roma.component(AuthenticationAspect.class).getCurrentAccount(), PersistenceAspect.FULL_MODE_LOADING,
+					.refreshObject((BaseAccount) Roma.component(AuthenticationAspect.class).getCurrentAccount(), PersistenceAspect.FULL_MODE_LOADING,
 							PersistenceAspect.STRATEGY_DETACHING).getGroups();
 			if (userGroups != null && userGroups.size() > 0) {
 				QueryByFilterItemGroup groupFilter = new QueryByFilterItemGroup(QueryByFilter.PREDICATE_OR);

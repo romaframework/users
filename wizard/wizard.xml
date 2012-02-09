@@ -52,7 +52,7 @@
 	</copy>
 
 	<!-- COPY IMAGES -->
-	<copy todir="${project.path}/WebContent/static/base/image/">
+	<copy todir="${project.path}/WebContent/static/themes/default/image/">
 		<fileset dir="images">
 			<include name="*" />
 		</fileset>

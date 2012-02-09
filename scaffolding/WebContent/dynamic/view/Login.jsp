@@ -32,6 +32,6 @@
 
 <div style="position:fixed; bottom: 20px; right: 20px;">
 <a href="http://www.romaframework.org"><img
-	src='<%=request.getContextPath()%>/static/base/image/poweredByRoma.jpg'
+	src='<%=request.getContextPath()%>/static/themes/default/image/poweredByRoma.jpg'
 	alt="Roma" border='0' />
 </a></div>
