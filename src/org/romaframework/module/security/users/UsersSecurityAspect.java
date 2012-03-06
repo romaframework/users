@@ -84,7 +84,7 @@ public class UsersSecurityAspect extends SecurityAspectAbstract {
 
 	public boolean canRead(Object obj, SchemaField iSchemaField, AbstractAccount account) {
 		String[] readRules = iSchemaField.getFeature(SecurityFieldFeatures.READ_ROLES);
-		if (readRules == null || readRules.equals("")) {
+		if (readRules == null || readRules.length == 0 || "".equals(readRules[0])) {
 			readRules = iSchemaField.getEntity().getFeature(SecurityClassFeatures.READ_ROLES);
 		}
 		return matchesRule(iSchemaField.toString(), account, readRules);
@@ -92,7 +92,7 @@ public class UsersSecurityAspect extends SecurityAspectAbstract {
 
 	public boolean canWrite(Object obj, SchemaField iSchemaField, AbstractAccount account) {
 		String[] readRules = iSchemaField.getFeature(SecurityFieldFeatures.WRITE_ROLES);
-		if (readRules == null || readRules.equals("")) {
+		if (readRules == null || readRules.length == 0 || "".equals(readRules[0])) {
 			readRules = iSchemaField.getEntity().getFeature(SecurityClassFeatures.WRITE_ROLES);
 		}
 		return matchesRule(iSchemaField.toString(), account, readRules);
@@ -100,7 +100,7 @@ public class UsersSecurityAspect extends SecurityAspectAbstract {
 
 	public boolean canExecute(Object obj, SchemaClassElement iSchemaAction, AbstractAccount account) {
 		String[] readRules = iSchemaAction.getFeature(SecurityActionFeatures.ROLES);
-		if (readRules == null || readRules.equals("")) {
+		if (readRules == null || readRules.length == 0 || "".equals(readRules[0])) {
 			readRules = iSchemaAction.getEntity().getFeature(SecurityClassFeatures.EXECUTE_ROLES);
 		}
 		return matchesRule(iSchemaAction.toString(), account, readRules);

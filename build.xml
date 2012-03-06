@@ -13,7 +13,7 @@
 		<pathelement path="build/src"/>
 	</path>
 	
-	<target name="persistence-compile">
+	<target name="persistence-compile" depends="compile">
 		<taskdef classname="org.datanucleus.enhancer.tools.EnhancerTask" classpathref="project.enhancement.classpath" name="datanucleusenhancer" />
 		
 		<datanucleusenhancer detachListener="true" classpathref="project.enhancement.classpath" dir="build/src" failonerror="true" verbose="true" >

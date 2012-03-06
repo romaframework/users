@@ -32,9 +32,7 @@ import org.romaframework.core.Roma;
  * 
  * @author Luca Garulli (luca.garulli--at--assetdata.it)
  */
-public class BaseAccount extends AbstractAccount implements SessionAccount, Serializable, Cloneable {
-
-	private static final long		serialVersionUID	= -2197776437029602641L;
+public class BaseAccount extends AbstractAccount implements SessionAccount, Cloneable {
 
 	protected BaseProfile				profile;
 	protected Date							signedOn;
