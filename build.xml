@@ -1,23 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project basedir="." default="compile" name="roma-users">
+<project basedir="." default="compile" name="roma-users" xmlns:ivy="antlib:org.apache.ivy.ant">
 	<property name="ivy.pom.name" value="Roma Users" />
 	<property name="ivy.pom.description" value="Roma Users module for authentication and profiling aspect implementation" />
 	<property name="ivy.pom.repo-name" value="users" />
 	<get src="https://github.com/romaframework/core/raw/master/roma-build.xml" dest="roma-build.xml" skipexisting="true" />
 	<import file="roma-build.xml" />
 
-
-	<path id="project.enhancement.classpath">
-		
-		<fileset dir="../persistence-datanucleus/lib" includes="**/*.jar" />
-		<pathelement path="build/src"/>
-	</path>
-	
-	<target name="persistence-compile" depends="compile">
+	<target name="persistence-compile" depends="install-ivy">
+		<property name="ivy.dep.file" value="ivy-datanucleus.xml" />
+		<antcall target="compile" />
+		<ivy:cachepath pathid="data.enhancement.classpath" />
+		<path id="project.enhancement.classpath">
+			<pathelement path="build/src" />
+			<path refid="data.enhancement.classpath" />
+		</path>
 		<taskdef classname="org.datanucleus.enhancer.tools.EnhancerTask" classpathref="project.enhancement.classpath" name="datanucleusenhancer" />
-		
-		<datanucleusenhancer detachListener="true" classpathref="project.enhancement.classpath" dir="build/src" failonerror="true" verbose="true" >
-			<jvmarg line="-Dlog4j.configuration=file:src/datanucleus-log4j.properties" />
+		<datanucleusenhancer detachListener="true" classpathref="project.enhancement.classpath" dir="build/src" failonerror="true" verbose="true">
 		</datanucleusenhancer>
 	</target>
 
