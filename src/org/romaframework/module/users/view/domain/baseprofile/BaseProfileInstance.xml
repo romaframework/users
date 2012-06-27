@@ -13,7 +13,7 @@
 						</area>
 						<area name="commands" type="column" />
 						<area name="right" type="column" align="top">
-							<area name="functions" type="column" />
+							<area name="functions" />
 						</area>
 					</area>
 					<area name="actions" type="row" />
@@ -37,36 +37,31 @@
 				<view render="textarea" />
 			</aspects>
 		</field>
-		<field name="functions">
-			<aspects>
-				<view visible="false" />
-			</aspects>
-		</field>
 		<field name="availableClassNames">
 			<aspects>
-				<view layout="form://classes" />
+				<view position="form://classes" />
 			</aspects>
 		</field>
 		<field name="availableMembers">
 			<aspects>
-				<view layout="form://members" />
+				<view position="form://members" />
 			</aspects>
 		</field>
 		<field name="functions">
 			<aspects>
-				<view layout="form://functions" />
+				<view position="form://functions" />
 			</aspects>
 		</field>
 	</fields>
 	<actions>
 		<action name="add">
 			<aspects>
-				<view layout="form://commands" />
+				<view position="form://commands" />
 			</aspects>
 		</action>
 		<action name="remove">
 			<aspects>
-				<view layout="form://commands" />
+				<view position="form://commands" />
 			</aspects>
 		</action>
 	</actions>

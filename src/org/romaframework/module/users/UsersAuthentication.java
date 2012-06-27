@@ -222,34 +222,52 @@ public class UsersAuthentication extends AuthenticationAspectAbstract implements
 
 		BaseProfile profile = getCurrentProfile();
 
-		return allow(profile, iClass.getName());
-	}
+		do {
+			if (!allow(profile, iClass.getName()))
+				return false;
+			iClass = iClass.getParent();
+		} while (iClass != null);
 
-	private boolean allow(String iFunctionName) {
-		BaseProfile profile = getCurrentProfile();
-		return allow(profile, iFunctionName);
-
+		return true;
 	}
 
 	public boolean allowField(SchemaField iField) {
 		if (!status.equals(STATUS_UP))
 			return true;
 
-		return allow(iField.getFullName());
+		BaseProfile profile = getCurrentProfile();
+
+		do {
+			if (!allow(profile, iField.getFullName()))
+				return false;
+			iField = iField.getParent();
+		} while (iField != null);
+
+		return true;
 	}
 
 	public boolean allowAction(SchemaAction iAction) {
 		if (!status.equals(STATUS_UP))
 			return true;
-
-		return allow(iAction.getFullName());
+		BaseProfile profile = getCurrentProfile();
+		do {
+			if (!allow(profile, iAction.getFullName()))
+				return false;
+			iAction = iAction.getParent();
+		} while (iAction != null);
+		return true;
 	}
 
 	public boolean allowEvent(SchemaEvent iEvent) {
 		if (!status.equals(STATUS_UP))
 			return true;
-
-		return allow(iEvent.getFullName());
+		BaseProfile profile = getCurrentProfile();
+		do {
+			if (!allow(profile, iEvent.getFullName()))
+				return false;
+			iEvent = iEvent.getParent();
+		} while (iEvent != null);
+		return true;
 	}
 
 	public BaseProfile getCurrentProfile() {

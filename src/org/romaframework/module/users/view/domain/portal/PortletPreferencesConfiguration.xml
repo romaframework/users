@@ -30,22 +30,22 @@
 	<actions>
 		<action name="add">
 			<aspects>
-				<view layout="form://commands" />
+				<view position="form://commands" />
 			</aspects>
 		</action>
 		<action name="addAll">
 			<aspects>
-				<view layout="form://commands" />
+				<view position="form://commands" />
 			</aspects>
 		</action>
 		<action name="remove">
 			<aspects>
-				<view layout="form://commands" />
+				<view position="form://commands" />
 			</aspects>
 		</action>
 		<action name="removeAll">
 			<aspects>
-				<view layout="form://commands" />
+				<view position="form://commands" />
 			</aspects>
 		</action>
 	</actions>
