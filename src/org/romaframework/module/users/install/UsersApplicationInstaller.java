@@ -53,12 +53,10 @@ public class UsersApplicationInstaller extends AbstractApplicationInstaller {
 	public UsersApplicationInstaller() {
 	}
 
-	@Override
 	public boolean alreadyInstalled() {
 		return Roma.component(BaseAccountRepository.class).countByCriteria(new QueryByFilter(BaseAccount.class)) != 0;
 	}
 
-	@Override
 	public synchronized void install() {
 
 		PersistenceAspect db = Roma.context().persistence();
