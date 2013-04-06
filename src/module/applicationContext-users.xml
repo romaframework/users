@@ -58,5 +58,8 @@
 
 	<bean name="CustomProfiler" class="org.romaframework.module.users.CustomProfiler"
 		lazy-init="true"></bean>
-
+	<bean id="ApplicationInstaller" class="org.romaframework.module.users.install.UsersApplicationInstaller" singleton="true" depends-on="UsersModule" />
+	<bean id="AuthenticationAspect" class="org.romaframework.module.users.UsersAuthentication" singleton="true" >
+		<property name="singleSessionPerUser" value="false"/>
+	</bean>
 </beans>

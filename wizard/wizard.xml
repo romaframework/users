@@ -11,9 +11,7 @@
 		<xmltask source="${project.path}/${project.ioc-path}/applicationContext-core.xml" dest="${project.path}/${project.ioc-path}/applicationContext-core.xml" preservetype="true" expandEntityReferences="false">
 			<remove path="/beans/bean[@id='AuthenticationAspect']" />
 			<insert path="/beans/bean[last()]" position="after">
-				<![CDATA[<bean id="AuthenticationAspect" class="org.romaframework.module.users.UsersAuthentication" singleton="true" >
-				<property name="singleSessionPerUser" value="false"/>
-			</bean>
+				<![CDATA[
 				]]>
 			</insert>
 	</xmltask>
