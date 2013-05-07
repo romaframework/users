@@ -56,9 +56,6 @@ public class UsersSecurityAspect extends SecurityAspectAbstract {
 		return null;
 	}
 
-	public void configEvent(SchemaEvent event) {
-	}
-
 	private BaseAccount getAccount() {
 		BaseAccount account = (BaseAccount) Roma.aspect(AuthenticationAspect.class).getCurrentAccount();
 		return account;

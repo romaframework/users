@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
-<beans default-autowire="no" default-dependency-check="none"
-	default-lazy-init="false">
+<beans default-autowire="no" default-dependency-check="none" default-lazy-init="false">
 
-	<bean id="UsersModule" class="org.romaframework.module.users.UsersModule"
-		singleton="true">
+	<bean id="UsersModule" class="org.romaframework.module.users.UsersModule" singleton="true">
 		<!--Password expiration in days -->
 		<property name="passwordPeriod" value="" />
 		<!--List of regxep used for validate password -->
-		<property name="passwordMatches" >
+		<property name="passwordMatches">
 			<list>
 			</list>
 		</property>
@@ -18,48 +16,35 @@
 		<property name="passwordMaxNumber" value="" />
 	</bean>
 
-	<bean id="UsersSecurityAspect"
-		class="org.romaframework.module.security.users.UsersSecurityAspect"
-		singleton="true" />
+	<bean id="UsersSecurityAspect" class="org.romaframework.module.security.users.UsersSecurityAspect" singleton="true" />
 
-	<bean id="DBLogger" class="org.romaframework.module.users.logger.DBLogger"
-		depends-on="LoggingAspect" singleton="true">
+	<bean id="DBLogger" class="org.romaframework.module.users.logger.DBLogger" depends-on="LoggingAspect" singleton="true">
 		<constructor-arg>
 			<ref bean="LoggingAspect" />
 		</constructor-arg>
 	</bean>
 
-	<bean id="ActivityLogRepository"
-		class="org.romaframework.module.users.repository.ActivityLogRepository"
+	<bean id="ActivityLogRepository" class="org.romaframework.module.users.repository.ActivityLogRepository"
 		singleton="true" />
-	<bean id="BaseAccountRepository"
-		class="org.romaframework.module.users.repository.BaseAccountRepository"
+	<bean id="BaseAccountRepository" class="org.romaframework.module.users.repository.BaseAccountRepository"
 		singleton="true" />
-	<bean id="BaseAccountStatusRepository"
-		class="org.romaframework.module.users.repository.BaseAccountStatusRepository"
+	<bean id="BaseAccountStatusRepository" class="org.romaframework.module.users.repository.BaseAccountStatusRepository"
 		singleton="true" />
-	<bean id="ActivityLogCategoryRepository"
-		class="org.romaframework.module.users.repository.ActivityLogCategoryRepository"
+	<bean id="ActivityLogCategoryRepository" class="org.romaframework.module.users.repository.ActivityLogCategoryRepository"
 		singleton="true" />
-	<bean id="BaseProfileRepository"
-		class="org.romaframework.module.users.repository.BaseProfileRepository"
+	<bean id="BaseProfileRepository" class="org.romaframework.module.users.repository.BaseProfileRepository"
 		singleton="true" />
-	<bean id="BaseGroupRepository"
-		class="org.romaframework.module.users.repository.BaseGroupRepository"
+	<bean id="BaseGroupRepository" class="org.romaframework.module.users.repository.BaseGroupRepository" singleton="true" />
+
+	<bean id="CustomProfilingRepository" class="org.romaframework.module.users.repository.CustomProfilingRepository"
 		singleton="true" />
 
-	<bean id="CustomProfilingRepository"
-		class="org.romaframework.module.users.repository.CustomProfilingRepository"
-		singleton="true" />
+	<bean id="CustomProfilingFactory" class="org.romaframework.module.users.factory.CustomProfilingFactory" singleton="true" />
 
-	<bean id="CustomProfilingFactory"
-		class="org.romaframework.module.users.factory.CustomProfilingFactory"
-		singleton="true" />
-
-	<bean name="CustomProfiler" class="org.romaframework.module.users.CustomProfiler"
-		lazy-init="true"></bean>
-	<bean id="ApplicationInstaller" class="org.romaframework.module.users.install.UsersApplicationInstaller" singleton="true" depends-on="UsersModule" />
-	<bean id="AuthenticationAspect" class="org.romaframework.module.users.UsersAuthentication" singleton="true" >
-		<property name="singleSessionPerUser" value="false"/>
+	<bean name="CustomProfiler" class="org.romaframework.module.users.CustomProfiler" lazy-init="true"></bean>
+	<bean id="ApplicationInstaller" class="org.romaframework.module.users.install.UsersApplicationInstaller" lazy-init="false"
+		singleton="true" depends-on="UsersModule" />
+	<bean id="AuthenticationAspect" class="org.romaframework.module.users.UsersAuthentication" singleton="true" lazy-init="false">
+		<property name="singleSessionPerUser" value="false"  />
 	</bean>
 </beans>
